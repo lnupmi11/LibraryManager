@@ -18,6 +18,7 @@ namespace LibraryManager.DAL.Entities
         public double Rating { get; set; }
         
         public int NumberOfPages { get; set; }
+
         private Book(){}
     }
 }

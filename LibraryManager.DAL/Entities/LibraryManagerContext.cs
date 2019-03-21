@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using LibraryManager.DAL.EntityConfigurations;
 
 namespace LibraryManager.DAL.Entities
 {
@@ -20,6 +21,12 @@ namespace LibraryManager.DAL.Entities
             : base(options)
         {
             Database.EnsureCreated();
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            new AuthorConfiguration().Initialize(builder,builder.Entity<Author>());
+            new BookConfiguration().Initialize(builder, builder.Entity<Book>());
         }
     }
 }
