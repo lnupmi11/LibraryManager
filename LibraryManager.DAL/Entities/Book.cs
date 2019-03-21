@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 
-namespace LibraryManager.Models
+namespace LibraryManager.DAL.Entities
 {
     public class Book
     {
