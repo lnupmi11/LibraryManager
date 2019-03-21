@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LibraryManager.DAL.Interfaces
 {
-    interface IUser
+    public interface IUser
     {
         int Id { get; set; }
 

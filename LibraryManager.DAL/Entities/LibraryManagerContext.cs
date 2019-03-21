@@ -6,7 +6,7 @@ using LibraryManager.DAL.EntityConfigurations;
 
 namespace LibraryManager.DAL.Entities
 {
-    public class LibraryManagerContext: DbContext
+    public sealed class LibraryManagerContext: DbContext
     {
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Author> Authors { get; set; }
@@ -16,6 +16,8 @@ namespace LibraryManager.DAL.Entities
         public DbSet<Language> Languages { get; set; }
         public DbSet<User> Users { get; set; }
 
+
+        public LibraryManagerContext() { }
 
         public LibraryManagerContext(DbContextOptions<LibraryManagerContext> options)
             : base(options)
