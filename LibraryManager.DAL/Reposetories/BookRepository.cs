@@ -26,6 +26,11 @@ namespace LibraryManager.DAL.Reposetories
             return _dbContext.Books.Find(id);
         }
 
+        public Book GetByName(string bookName)
+        {
+           return _dbContext.Books.Find(bookName);
+        }
+
         public void Create(Book item)
         {
             _dbContext.Add(item);
