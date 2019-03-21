@@ -5,72 +5,34 @@ namespace LibraryManager.Controllers
 {
     public class AuthorizationController : Controller
     {
-        // GET: Authorization
-        public ActionResult LogIn()
+        [HttpGet]
+        public IActionResult LogIn()
         {
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogIn(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(LogIn));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Authorization/Create
-        public ActionResult Create()
+        public IActionResult LogIn(string Login,string Password)
         {
             return View();
         }
 
-        // POST: Authorization/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [HttpGet]
+        public IActionResult SignIn()
         {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(LogIn));
-            }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
-
-        // GET: Authorization/Edit/5
-        public ActionResult Edit(int id)
+        
+        [HttpPost]
+        public IActionResult SignIn(string Login, string Password) //another data for signing up 
         {
             return View();
         }
 
-        // POST: Authorization/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpGet]
+        public IActionResult LogOut()
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(LogIn));
-            }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
     }
 }
