@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LibraryManager.DAL.Entities
 {
-    class Genre
+    public class Genre
     {
         public int Id { get; set; }
 

@@ -5,7 +5,7 @@ using LibraryManager.DAL.Interfaces;
 
 namespace LibraryManager.DAL.Entities
 {
-    class User: IUser
+    public class User: IUser
     {
         public int Id { get; set; }
 
@@ -20,5 +20,6 @@ namespace LibraryManager.DAL.Entities
         public IEnumerable<Book> Whishlist { get; set; }
         
         public IEnumerable<Book> ReadedBooksCollection { get; set; }
+        private User() { }
     }
 }

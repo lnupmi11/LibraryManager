@@ -5,7 +5,7 @@ using LibraryManager.DAL.Interfaces;
 
 namespace LibraryManager.DAL.Entities
 {
-    class Admin: IUser
+    public class Admin: IUser
     {
         public int Id { get; set; }
 
@@ -14,5 +14,7 @@ namespace LibraryManager.DAL.Entities
         public string Password { get; set; }
 
         public IEnumerable<string> ChangesHistoryCollection { get; set; }
+
+        private Admin() { }
     }
 }

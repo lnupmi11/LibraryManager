@@ -4,8 +4,9 @@ using System.Text;
 
 namespace LibraryManager.DAL.Entities
 {
-    class Language
+    public class Language
     {
         public string LanguageName { get; set; }
+        private Language() { }
     }
 }

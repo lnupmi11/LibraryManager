@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LibraryManager.DAL.Entities
 {
-    class LibraryManagerContext: DbContext
+    public class LibraryManagerContext: DbContext
     {
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Author> Authors { get; set; }

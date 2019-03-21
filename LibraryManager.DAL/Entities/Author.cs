@@ -10,5 +10,6 @@ namespace LibraryManager.DAL.Entities
         public string Lastname { get; set; }
         
         public int NumberOfWrittenBooks { get; set; }
+        private Author() { }
     }
 }
