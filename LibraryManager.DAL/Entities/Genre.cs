@@ -4,8 +4,10 @@ using System.Text;
 
 namespace LibraryManager.DAL.Entities
 {
-    class Language
+    class Genre
     {
-        public string LanguageName { get; set; }
+        public int Id { get; set; }
+
+        public string GenreName { get; set; }
     }
 }

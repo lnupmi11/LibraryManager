@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace LibraryManager.Models
+﻿namespace LibraryManager.DAL.Entities
 {
     public class Category
     {
-        /// <summary>
-        /// Category of the book
-        /// </summary>
+        public int Id { get; set; }
+
         public string CategoryName { get; set; }
     }
 }
