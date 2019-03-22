@@ -17,7 +17,7 @@ namespace LibraryManager.DAL.Entities
         
         public string LastName { get; set; }
         
-        public IEnumerable<Book> Whishlist { get; set; }
+        public IEnumerable<Book> WishList { get; set; }
         
         public IEnumerable<Book> ReadedBooksCollection { get; set; }
         private User() { }

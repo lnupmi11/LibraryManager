@@ -7,14 +7,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LibraryManager.DAL.EntityConfigurations
 {
-    public class AuthorConfiguration 
+    public class CategoryConfiguration
     {
-        public void Initialize(ModelBuilder builder, EntityTypeBuilder<Author> cfg)
+        public void Initialize(ModelBuilder builder, EntityTypeBuilder<Category> cfg)
         {
             cfg.Property(x => x.Id).IsRequired();
-            cfg.Property(x => x.NumberOfWrittenBooks).IsRequired();
-            cfg.Property(x => x.FirstName).HasMaxLength(100).IsRequired();
-            cfg.Property(x => x.LastName).HasMaxLength(100).IsRequired();
+            cfg.Property(x => x.CategoryName).IsRequired().HasMaxLength(50);
 
             Initialize(builder, cfg);
         }

@@ -29,6 +29,8 @@ namespace LibraryManager.DAL.Entities
         {
             new AuthorConfiguration().Initialize(builder,builder.Entity<Author>());
             new BookConfiguration().Initialize(builder, builder.Entity<Book>());
+            new UserConfiguration().Initialize(builder, builder.Entity<User>());
+            new CategoryConfiguration().Initialize(builder, builder.Entity<Category>());
         }
     }
 }
