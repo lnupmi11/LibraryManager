@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LibraryManager.DAL;
 
@@ -9,7 +7,7 @@ namespace LibraryManager.Controllers
 {
     public class LibraryController : Controller
     {
-        private UnitOfWork _unitOfWork;
+        private readonly UnitOfWork _unitOfWork;
 
         public LibraryController()
         {
@@ -19,7 +17,7 @@ namespace LibraryManager.Controllers
         public IActionResult Index()
         {
             var books = _unitOfWork.Books.GetAll();
-            return View();
+            return View(books);
         }
 
         public IActionResult Open(int id)
@@ -27,8 +25,7 @@ namespace LibraryManager.Controllers
             var book = _unitOfWork.Books.Get(id);
             if (book == null)
             {
-                //TODO: Return 404 page.
-                return null;
+                Response.StatusCode = 404;
             }
 
             return View(book);
@@ -42,8 +39,7 @@ namespace LibraryManager.Controllers
 
             if (randomBook == null)
             {
-                //TODO: Return error page.
-                return null;
+                Response.StatusCode = 404;
             }
 
             return View("Open", randomBook);
@@ -52,15 +48,17 @@ namespace LibraryManager.Controllers
         public IActionResult RateBook(int id, int rating)
         {
             var book = _unitOfWork.Books.Get(id);
+
             if (book == null)
             {
-                //TODO: Return 404 page.
-                return null;
+                Response.StatusCode = 404;
             }
-
-            book.Rating += rating;
-            _unitOfWork.Books.Update(book);
-            _unitOfWork.Save();
+            else
+            {
+                book.Rating += rating;
+                _unitOfWork.Books.Update(book);
+                _unitOfWork.Save();
+            }
 
             return View("Index");
         }
