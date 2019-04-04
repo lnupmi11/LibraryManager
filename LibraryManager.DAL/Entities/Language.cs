@@ -8,6 +8,6 @@ namespace LibraryManager.DAL.Entities
     {
         public string LanguageName { get; set; }
 
-        private Language() { }
+        public Language() { }
     }
 }
