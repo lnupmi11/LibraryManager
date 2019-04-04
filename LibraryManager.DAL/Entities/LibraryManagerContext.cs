@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LibraryManager.DAL.EntityConfigurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LibraryManager.DAL.Entities
 {
-    public sealed class LibraryManagerContext: DbContext
+    public sealed class LibraryManagerContext: IdentityDbContext<User>
     {
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Author> Authors { get; set; }
@@ -14,7 +15,6 @@ namespace LibraryManager.DAL.Entities
         public DbSet<Category> Categories { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Language> Languages { get; set; }
-        public DbSet<User> Users { get; set; }
 
 
         public LibraryManagerContext() { }

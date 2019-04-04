@@ -5,7 +5,7 @@ using LibraryManager.DAL.Interfaces;
 
 namespace LibraryManager.DAL.Entities
 {
-    public class Admin: IUser
+    public class Admin: IdentityUser
     {
         public int Id { get; set; }
 
