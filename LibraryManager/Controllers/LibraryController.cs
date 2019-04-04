@@ -2,16 +2,21 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using LibraryManager.DAL;
+using LibraryManager.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace LibraryManager.Controllers
 {
-    public class LibraryController : Controller
+    public class BooksController : Controller
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly UserManager<User> _userManager;
 
-        public LibraryController()
+        public BooksController(UserManager<User> manager)
         {
             _unitOfWork = new UnitOfWork();
+            _userManager = manager;
         }
 
         public IActionResult Index()
@@ -20,6 +25,7 @@ namespace LibraryManager.Controllers
             return View(books);
         }
 
+        [AllowAnonymous]
         public IActionResult Open(int id)
         {
             var book = _unitOfWork.Books.Get(id);
@@ -31,6 +37,7 @@ namespace LibraryManager.Controllers
             return View(book);
         }
 
+        [AllowAnonymous]
         public IActionResult OpenRandom()
         {
             var numberOfBooks = _unitOfWork.Books.GetAll().Count();
@@ -45,9 +52,27 @@ namespace LibraryManager.Controllers
             return View("Open", randomBook);
         }
 
-        public IActionResult RateBook(int id, int rating)
+
+        #region Actions
+
+        public async void AddToWishlist(string userId, int bookId)
         {
-            var book = _unitOfWork.Books.Get(id);
+            var currentUser = await _userManager.FindByIdAsync(userId);
+            var currentBook = _unitOfWork.Books.Get(bookId);
+
+            if (currentUser.WishList.Contains(currentBook))
+            {
+                currentUser.WishList.ToList().Remove(currentBook);
+            }
+            else
+            {
+                currentUser.WishList.Append(currentBook);
+            }
+        }
+
+        public void RateBook(int bookId, int rating)
+        {
+            var book = _unitOfWork.Books.Get(bookId);
 
             if (book == null)
             {
@@ -59,8 +84,8 @@ namespace LibraryManager.Controllers
                 _unitOfWork.Books.Update(book);
                 _unitOfWork.Save();
             }
-
-            return View("Index");
         }
+
+        #endregion
     }
 }
