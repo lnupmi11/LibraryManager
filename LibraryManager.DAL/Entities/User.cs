@@ -1,21 +1,26 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using LibraryManager.DAL.Interfaces;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LibraryManager.DAL.Entities
 {
-    public class User: IUser
+    public class User: IdentityUser
     {
-        public int Id { get; set; }
+        //Seems to be useless if we inherit identityuser
+        //uncomment if needed
 
-        public string Login { get; set; }
 
-        public string Password { get; set; }
+        //public int Id { get; set; }
+
+        //public string Login { get; set; }
+
+        //public string Password { get; set; }
         
-        public string FirstName { get; set; }
+        //public string FirstName { get; set; }
         
-        public string LastName { get; set; }
+        //public string LastName { get; set; }
         
         public IEnumerable<Book> WishList { get; set; }
         
