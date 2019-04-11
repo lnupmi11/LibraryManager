@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LibraryManager.DAL.EntityConfigurations
 {
-    public class CategoryConfiguration
+    public class GenreConfiguration
     {
-        public void Initialize(ModelBuilder builder, EntityTypeBuilder<Category> cfg)
+        public void Initialize(ModelBuilder builder, EntityTypeBuilder<Genre> cfg)
         {
             cfg.Property(x => x.Id).IsRequired();
-            cfg.Property(x => x.CategoryName).IsRequired().HasMaxLength(50);
+            cfg.Property(x => x.GenreName).IsRequired().HasMaxLength(50);
 
             Initialize(builder, cfg);
         }

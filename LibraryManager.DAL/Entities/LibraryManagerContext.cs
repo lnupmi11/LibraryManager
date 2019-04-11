@@ -11,7 +11,6 @@ namespace LibraryManager.DAL.Entities
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book>Books { get; set; }
-        public DbSet<Category> Categories { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<User> Users { get; set; }
@@ -30,7 +29,7 @@ namespace LibraryManager.DAL.Entities
             new AuthorConfiguration().Initialize(builder,builder.Entity<Author>());
             new BookConfiguration().Initialize(builder, builder.Entity<Book>());
             new UserConfiguration().Initialize(builder, builder.Entity<User>());
-            new CategoryConfiguration().Initialize(builder, builder.Entity<Category>());
+            new GenreConfiguration().Initialize(builder, builder.Entity<Genre>());
         }
     }
 }

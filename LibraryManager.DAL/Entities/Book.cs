@@ -19,6 +19,6 @@ namespace LibraryManager.DAL.Entities
         
         public int NumberOfPages { get; set; }
 
-        private Book(){}
+        public Book() { }
     }
 }
