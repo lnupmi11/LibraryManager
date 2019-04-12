@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace LibraryManager.Controllers
 {
+    [AllowAnonymous]
     public class BooksController : Controller
     {
         private readonly UnitOfWork _unitOfWork;
@@ -19,10 +20,10 @@ namespace LibraryManager.Controllers
             _userManager = manager;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
-            var books = _unitOfWork.Books.GetAll();
-            return View(books);
+            return View();
         }
 
         [AllowAnonymous]

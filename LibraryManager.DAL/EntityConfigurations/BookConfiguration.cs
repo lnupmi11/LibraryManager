@@ -19,7 +19,6 @@ namespace LibraryManager.DAL.EntityConfigurations
             cfg.Property(x => x.NumberOfPages).IsRequired();
 
             
-            Initialize(builder, cfg);
         }
     }
 }

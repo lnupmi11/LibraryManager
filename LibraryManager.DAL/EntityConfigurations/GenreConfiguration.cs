@@ -13,8 +13,7 @@ namespace LibraryManager.DAL.EntityConfigurations
         {
             cfg.Property(x => x.Id).IsRequired();
             cfg.Property(x => x.GenreName).IsRequired().HasMaxLength(50);
-
-            Initialize(builder, cfg);
+            
         }
     }
 }

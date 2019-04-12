@@ -1,4 +1,4 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
 namespace LibraryManager.DAL.Entities
@@ -9,6 +9,7 @@ namespace LibraryManager.DAL.Entities
         
         public string Title { get; set; }
         
+        [NotMapped]
         public Author Author { get; set; }
         
         public IEnumerable<Genre> GenresCollection { get; set; }

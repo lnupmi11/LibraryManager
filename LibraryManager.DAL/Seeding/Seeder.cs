@@ -8,10 +8,10 @@ namespace LibraryManager.DAL.Seeding
 {
     public class Seeder
     {
-        public  void SeedAll(LibraryManagerContext context)
+        public void SeedAll(LibraryManagerContext context)
         {
-            BookSeed(context);
             AuthorSeed(context);
+            BookSeed(context);
             GenreSeed(context);
             LanguageSeed(context);
         }
@@ -58,8 +58,8 @@ namespace LibraryManager.DAL.Seeding
             {
                 Id = 3,
                 Author = GetAuthorSeedItems().FirstOrDefault(x => x.LastName == "London"),
-                AvailableLanguagesCollection = new List<Language>() {  GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "English"), GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "Ukrainian") },
-                GenresCollection = new List<Genre>() { GetGenreSeedItems().FirstOrDefault(x => x.GenreName == "Adventures" ) },
+                AvailableLanguagesCollection = new List<Language>() { GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "English"), GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                GenresCollection = new List<Genre>() { GetGenreSeedItems().FirstOrDefault(x => x.GenreName == "Adventures") },
                 NumberOfPages = 400,
                 Rating = 8,
                 Title = "Call of the wild"
@@ -108,19 +108,31 @@ namespace LibraryManager.DAL.Seeding
             List<Author> list = new List<Author>();
             list.Add(new Author()
             {
-                FirstName = "Jack", LastName = "London", Id = 1, NumberOfWrittenBooks = 10 
+                FirstName = "Jack",
+                LastName = "London",
+                Id = 1,
+                NumberOfWrittenBooks = 10
             });
             list.Add(new Author()
             {
-                 FirstName = "Maria", LastName = "Remark", Id = 2, NumberOfWrittenBooks = 5 
+                FirstName = "Maria",
+                LastName = "Remark",
+                Id = 2,
+                NumberOfWrittenBooks = 5
             });
             list.Add(new Author()
             {
-                FirstName = "Jules", LastName = "Verne",Id = 3, NumberOfWrittenBooks = 15
+                FirstName = "Jules",
+                LastName = "Verne",
+                Id = 3,
+                NumberOfWrittenBooks = 15
             });
             list.Add(new Author()
             {
-                FirstName = "Arthur", LastName = "Conan-Doyle", Id = 3, NumberOfWrittenBooks = 5
+                FirstName = "Arthur",
+                LastName = "Conan-Doyle",
+                Id = 4,
+                NumberOfWrittenBooks = 5
             });
             return list;
         }
@@ -150,12 +162,12 @@ namespace LibraryManager.DAL.Seeding
             });
             list.Add(new Genre()
             {
-                Id = 1,
+                Id = 2,
                 GenreName = "Detective"
             });
             list.Add(new Genre()
             {
-                Id = 1,
+                Id = 3,
                 GenreName = "Novel"
             });
             return list;
@@ -180,18 +192,17 @@ namespace LibraryManager.DAL.Seeding
             List<Language> list = new List<Language>();
             list.Add(new Language()
             {
-               LanguageName = "Ukrainian"
+                Id = 1,
+                LanguageName = "Ukrainian"
             });
             list.Add(new Language()
             {
+                Id = 2,
                 LanguageName = "English"
             });
             list.Add(new Language()
             {
-                LanguageName = "French"
-            });
-            list.Add(new Language()
-            {
+                Id = 3,
                 LanguageName = "French"
             });
             return list;
