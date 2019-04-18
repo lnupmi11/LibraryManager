@@ -68,7 +68,7 @@ namespace LibraryManager
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=LogIn}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

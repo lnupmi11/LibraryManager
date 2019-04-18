@@ -24,12 +24,12 @@ namespace LibraryManager.DAL.Entities
             Database.EnsureCreated();
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            new AuthorConfiguration().Initialize(builder,builder.Entity<Author>());
-            new BookConfiguration().Initialize(builder, builder.Entity<Book>());
-            new UserConfiguration().Initialize(builder, builder.Entity<User>());
-            new GenreConfiguration().Initialize(builder, builder.Entity<Genre>());
-        }
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    new AuthorConfiguration().Initialize(builder,builder.Entity<Author>());
+        //    new BookConfiguration().Initialize(builder, builder.Entity<Book>());
+        //    new UserConfiguration().Initialize(builder, builder.Entity<User>());
+        //    new GenreConfiguration().Initialize(builder, builder.Entity<Genre>());
+        //}
     }
 }

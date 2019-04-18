@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LibraryManager.Controllers
+namespace LibraryManager.API.Controllers
 {
     public class AuthorizationController : Controller
     {

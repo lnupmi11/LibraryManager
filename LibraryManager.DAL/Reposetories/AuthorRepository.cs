@@ -12,7 +12,7 @@ namespace LibraryManager.DAL.Reposetories
     {
         private readonly LibraryManagerContext _dbContext;
 
-        public BookRepository(LibraryManagerContext dbContext)
+        public AuthorRepository(LibraryManagerContext dbContext)
         {
             _dbContext = dbContext;
         }

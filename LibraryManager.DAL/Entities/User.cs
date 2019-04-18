@@ -12,7 +12,7 @@ namespace LibraryManager.DAL.Entities
         //uncomment if needed
 
 
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         //public string Login { get; set; }
 
