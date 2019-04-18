@@ -41,9 +41,7 @@ namespace LibraryManager.Controllers
         [AllowAnonymous]
         public IActionResult OpenRandom()
         {
-            var numberOfBooks = _unitOfWork.Books.GetAll().Count();
-            var random = new Random();
-            var randomBook = _unitOfWork.Books.Get(random.Next(0, numberOfBooks));
+            var randomBook = _unitOfWork.Books.OpenRandom();
 
             if (randomBook == null)
             {

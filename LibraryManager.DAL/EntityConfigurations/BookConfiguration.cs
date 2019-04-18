@@ -17,8 +17,6 @@ namespace LibraryManager.DAL.EntityConfigurations
             cfg.Property(x => x.GenresCollection).IsRequired();
             cfg.Property(x => x.AvailableLanguagesCollection).IsRequired();
             cfg.Property(x => x.NumberOfPages).IsRequired();
-
-            
         }
     }
 }

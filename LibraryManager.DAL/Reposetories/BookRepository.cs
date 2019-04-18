@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Interfaces;
@@ -46,6 +47,14 @@ namespace LibraryManager.DAL.Reposetories
             var book = _dbContext.Books.Find(id);
             if (book != null)
                 _dbContext.Books.Remove(book);
+        }
+        public Book OpenRandom()
+        {
+            var numberOfBooks = _dbContext.Books.Count();
+            var random = new Random();
+            var randomBook = _dbContext.Books.Find(random.Next(0, numberOfBooks));
+
+            return randomBook;
         }
     }
 }

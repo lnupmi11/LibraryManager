@@ -6,16 +6,16 @@ using LibraryManager.DAL.Entities;
 
 namespace LibraryManager.DAL.Seeding
 {
-    public class Seeder
+    public static class Seeder
     {
-        public void SeedAll(LibraryManagerContext context)
+        public static void SeedAll(LibraryManagerContext context)
         {
             AuthorSeed(context);
             BookSeed(context);
             GenreSeed(context);
             LanguageSeed(context);
         }
-        private async void BookSeed(LibraryManagerContext context)
+        private static async void BookSeed(LibraryManagerContext context)
         {
             List<Book> list = GetBookSeedItems();
             foreach (var item in list)
@@ -31,7 +31,7 @@ namespace LibraryManager.DAL.Seeding
             await context.SaveChangesAsync();
         }
 
-        private List<Book> GetBookSeedItems()
+        public static List<Book> GetBookSeedItems()
         {
             List<Book> list = new List<Book>();
             list.Add(new Book()
@@ -87,7 +87,7 @@ namespace LibraryManager.DAL.Seeding
             return list;
         }
 
-        private async void AuthorSeed(LibraryManagerContext context)
+        private static async void AuthorSeed(LibraryManagerContext context)
         {
             List<Author> list = GetAuthorSeedItems();
             foreach (var item in list)
@@ -103,7 +103,7 @@ namespace LibraryManager.DAL.Seeding
             await context.SaveChangesAsync();
         }
 
-        private List<Author> GetAuthorSeedItems()
+        private static List<Author> GetAuthorSeedItems()
         {
             List<Author> list = new List<Author>();
             list.Add(new Author()
@@ -137,7 +137,7 @@ namespace LibraryManager.DAL.Seeding
             return list;
         }
 
-        private async void GenreSeed(LibraryManagerContext context)
+        private static async void GenreSeed(LibraryManagerContext context)
         {
             List<Genre> list = GetGenreSeedItems();
             foreach (var item in list)
@@ -152,7 +152,7 @@ namespace LibraryManager.DAL.Seeding
 
             await context.SaveChangesAsync();
         }
-        private List<Genre> GetGenreSeedItems()
+        private static List<Genre> GetGenreSeedItems()
         {
             List<Genre> list = new List<Genre>();
             list.Add(new Genre()
@@ -172,7 +172,7 @@ namespace LibraryManager.DAL.Seeding
             });
             return list;
         }
-        private async void LanguageSeed(LibraryManagerContext context)
+        private static async void LanguageSeed(LibraryManagerContext context)
         {
             List<Language> list = GetLanguageSeedItems();
             foreach (var item in list)
@@ -187,7 +187,7 @@ namespace LibraryManager.DAL.Seeding
 
             await context.SaveChangesAsync();
         }
-        private List<Language> GetLanguageSeedItems()
+        private static List<Language> GetLanguageSeedItems()
         {
             List<Language> list = new List<Language>();
             list.Add(new Language()
