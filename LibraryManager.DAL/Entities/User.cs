@@ -8,16 +8,7 @@ namespace LibraryManager.DAL.Entities
 {
     public class User: IdentityUser
     {
-        //Seems to be useless if we inherit identityuser
-        //uncomment if needed
 
-
-        //public int Id { get; set; }
-
-        //public string Login { get; set; }
-
-        //public string Password { get; set; }
-        
         public string FirstName { get; set; }
         
         public string LastName { get; set; }
