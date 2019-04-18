@@ -4,39 +4,57 @@ using LibraryManager.DAL.Reposetories;
 
 namespace LibraryManager.DAL
 {
-    public class UnitOfWork:IDisposable
+    public class UnitOfWork
     {
-        private readonly LibraryManagerContext _dbContext = new LibraryManagerContext();
-        private BookRepository _bookRepository;
+        private LibraryManagerContext context;
+        private AuthorRepository authorRepository;
+        private UserRepository userRepository;
+        private BookRepository bookRepository;
 
-        public BookRepository Books => _bookRepository ?? (_bookRepository = new BookRepository(_dbContext));
+        public UnitOfWork(LibraryManagerContext context)
+        {
+            this.context = context;
+        }
+
+        public AuthorRepository AuthorRepository
+        {
+            get
+            {
+                if (this.authorRepository == null)
+                {
+                    this.authorRepository = new AuthorRepository(context);
+                }
+                return authorRepository;
+            }
+        }
+
+        public UserRepository UserRepository
+        {
+            get
+            {
+                if (this.userRepository == null)
+                {
+                    this.userRepository = new UserRepository(context);
+                }
+                return userRepository;
+            }
+        }
+
+        public BookRepository BookRepository
+        {
+            get
+            {
+                if (this.bookRepository == null)
+                {
+                    this.bookRepository = new BookRepository(context);
+                }
+                return bookRepository;
+            }
+        }
 
         public void Save()
         {
-            _dbContext.SaveChanges();
-        }
-
-        private bool _disposed = false;
-
-        public virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                _dbContext.Dispose();
-            }
-
-            _disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            context.SaveChanges();
         }
     }
 }

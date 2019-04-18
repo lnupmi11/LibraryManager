@@ -14,9 +14,9 @@ namespace LibraryManager.Controllers
         private readonly UnitOfWork _unitOfWork;
         private readonly UserManager<User> _userManager;
 
-        public BooksController(UserManager<User> manager)
+        public BooksController(UnitOfWork unitOfWork,UserManager<User> manager)
         {
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
             _userManager = manager;
         }
 
@@ -29,7 +29,7 @@ namespace LibraryManager.Controllers
         [AllowAnonymous]
         public IActionResult Open(int id)
         {
-            var book = _unitOfWork.Books.Get(id);
+            var book = _unitOfWork.BookRepository.Get(id);
             if (book == null)
             {
                 Response.StatusCode = 404;
@@ -41,7 +41,7 @@ namespace LibraryManager.Controllers
         [AllowAnonymous]
         public IActionResult OpenRandom()
         {
-            var randomBook = _unitOfWork.Books.OpenRandom();
+            var randomBook = _unitOfWork.BookRepository.OpenRandom();
 
             if (randomBook == null)
             {
@@ -57,7 +57,7 @@ namespace LibraryManager.Controllers
         public async void AddToWishlist(string userId, int bookId)
         {
             var currentUser = await _userManager.FindByIdAsync(userId);
-            var currentBook = _unitOfWork.Books.Get(bookId);
+            var currentBook = _unitOfWork.BookRepository.Get(bookId);
 
             if (currentUser.WishList.Contains(currentBook))
             {
@@ -71,7 +71,7 @@ namespace LibraryManager.Controllers
 
         public void RateBook(int bookId, int rating)
         {
-            var book = _unitOfWork.Books.Get(bookId);
+            var book = _unitOfWork.BookRepository.Get(bookId);
 
             if (book == null)
             {
@@ -80,7 +80,7 @@ namespace LibraryManager.Controllers
             else
             {
                 book.Rating += rating;
-                _unitOfWork.Books.Update(book);
+                _unitOfWork.BookRepository.Update(book);
                 _unitOfWork.Save();
             }
         }
