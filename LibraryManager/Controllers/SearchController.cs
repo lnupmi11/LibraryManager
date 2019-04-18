@@ -12,9 +12,9 @@ namespace LibraryManager.Controllers
 
         private UnitOfWork _unitOfWork;
 
-        public SearchController()
+        public SearchController(UnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
@@ -24,7 +24,7 @@ namespace LibraryManager.Controllers
 
         public IActionResult SearchBook(string bookName)
         {
-            var book = _unitOfWork.Books.GetByName(bookName);
+            var book = _unitOfWork.BookRepository.GetByName(bookName);
             if (book == null)
             {
                 //TODO: Return 404 page.
