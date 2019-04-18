@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManager.API", "LibraryManager\LibraryManager.API.csproj", "{33E3370B-D309-49A5-AB87-0996B7F746E9}"
 EndProject
@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManager.DAL", "Libra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManager.Tests", "LibraryManager.Tests\LibraryManager.Tests.csproj", "{CD581622-1BBA-415E-8171-C7820DE421BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManager.BLL", "LibraryManager.BLL\LibraryManager.BLL.csproj", "{23D3ECB0-C0E9-4343-9A78-C10F9F3BA928}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManager.BLL", "LibraryManager.BLL\LibraryManager.BLL.csproj", "{23D3ECB0-C0E9-4343-9A78-C10F9F3BA928}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManager.DTO", "LibraryManager.DTO\LibraryManager.DTO.csproj", "{49776201-2578-4624-B891-64DF9202B8F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{23D3ECB0-C0E9-4343-9A78-C10F9F3BA928}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23D3ECB0-C0E9-4343-9A78-C10F9F3BA928}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23D3ECB0-C0E9-4343-9A78-C10F9F3BA928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49776201-2578-4624-B891-64DF9202B8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49776201-2578-4624-B891-64DF9202B8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49776201-2578-4624-B891-64DF9202B8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49776201-2578-4624-B891-64DF9202B8F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,6 @@
 using System;
 
-namespace LibraryManager.Models
+namespace LibraryManager.DTO.Models
 {
     public class ErrorViewModel
     {
