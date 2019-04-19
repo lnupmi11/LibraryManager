@@ -5,19 +5,20 @@ using LibraryManager.DAL;
 using LibraryManager.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using LibraryManager.BLL.Interfaces;
 
 namespace LibraryManager.Controllers
 {
     [AllowAnonymous]
     public class BooksController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
-        private readonly UserManager<User> _userManager;
+        private readonly IBookService _bookService;
+        private readonly IUserService _userService;
 
-        public BooksController(UnitOfWork unitOfWork,UserManager<User> manager)
+        public BooksController(IBookService bookService,IUserService userService)
         {
-            _unitOfWork = unitOfWork;
-            _userManager = manager;
+            _bookService = bookService;
+            _userService = userService;
         }
 
         [AllowAnonymous]
@@ -29,7 +30,7 @@ namespace LibraryManager.Controllers
         [AllowAnonymous]
         public IActionResult Open(int id)
         {
-            var book = _unitOfWork.BookRepository.Get(id);
+            var book = _bookService.Find(id);
             if (book == null)
             {
                 Response.StatusCode = 404;
@@ -41,7 +42,9 @@ namespace LibraryManager.Controllers
         [AllowAnonymous]
         public IActionResult OpenRandom()
         {
-            var randomBook = _unitOfWork.BookRepository.OpenRandom();
+            var numberOfBooks = _bookService.GetAll().Count();
+            var random = new Random();
+            var randomBook = _bookService.Find(random.Next(0, numberOfBooks));
 
             if (randomBook == null)
             {
@@ -54,10 +57,10 @@ namespace LibraryManager.Controllers
 
         #region Actions
 
-        public async void AddToWishlist(string userId, int bookId)
+        public async void AddToWishlist(int userId, int bookId)
         {
-            var currentUser = await _userManager.FindByIdAsync(userId);
-            var currentBook = _unitOfWork.BookRepository.Get(bookId);
+            var currentUser =  _userService.GetUser(userId);
+            var currentBook = _bookService.Find(bookId);
 
             if (currentUser.WishList.Contains(currentBook))
             {
@@ -71,7 +74,7 @@ namespace LibraryManager.Controllers
 
         public void RateBook(int bookId, int rating)
         {
-            var book = _unitOfWork.BookRepository.Get(bookId);
+            var book = _bookService.Find(bookId);
 
             if (book == null)
             {
@@ -80,8 +83,7 @@ namespace LibraryManager.Controllers
             else
             {
                 book.Rating += rating;
-                _unitOfWork.BookRepository.Update(book);
-                _unitOfWork.Save();
+                _bookService.Update(book);
             }
         }
 
