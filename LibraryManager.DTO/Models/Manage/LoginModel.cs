@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace LibraryManager.DTO.Models.UserDTO
+namespace LibraryManager.DTO.Models.Manage
 {
     class LoginModel
     {

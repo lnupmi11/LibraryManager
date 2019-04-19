@@ -45,8 +45,14 @@ namespace LibraryManager.BLL.Services
         public IEnumerable<BookDTO> GetAll()
         {
             var books = _bookRepository.GetAll();
+            var booksDTO = new List<BookDTO>();
 
-            return books;
+            foreach (var book in books)
+            {
+                booksDTO.Add(_mapper.Map<BookDTO>(book));
+            }
+
+            return booksDTO;
         }
 
         public void Update(BookDTO bookDTO)

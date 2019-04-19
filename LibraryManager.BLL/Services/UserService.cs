@@ -5,6 +5,7 @@ using System.Text;
 using LibraryManager.BLL.Interfaces;
 using LibraryManager.DAL.Interfaces;
 using LibraryManager.DAL.Entities;
+using LibraryManager.DTO.Models;
 
 namespace LibraryManager.BLL.Services
 {
@@ -62,7 +63,7 @@ namespace LibraryManager.BLL.Services
         {
             var users = _userRepository.GetAll();
             List<UserDTO> usersDTO = new List<UserDTO>();
-            foreach (var user in user)
+            foreach (var user in users)
             {
                 usersDTO.Add(_mapper.Map<UserDTO>(user));
             }
@@ -72,11 +73,16 @@ namespace LibraryManager.BLL.Services
 
         public UserDTO GetUser(int id)
         {
-            _userRepository.Delete(id);
+            var user = _userRepository.Get(id);
+            var userDTO = _mapper.Map<UserDTO>(user);
+
+            return userDTO;
         }
 
-        public void Update(UserDTO user)
+        public void Update(UserDTO userDTO)
         {
+            var user = _mapper.Map<User>(userDTO);
+
             _userRepository.Update(user);
         }
     }
