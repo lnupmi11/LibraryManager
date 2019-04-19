@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LibraryManager.BLL\LibraryManager.BLL.csproj" />
     <ProjectReference Include="..\LibraryManager.DAL\LibraryManager.DAL.csproj" />
   </ItemGroup>
 

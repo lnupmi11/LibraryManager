@@ -6,6 +6,10 @@ namespace LibraryManager.DTO.Models
 {
     public class UserDTO
     {
+        public int Id;
+
+        public string FirstName;
+
         public IEnumerable<BookDTO> WishList;
     }
 }
