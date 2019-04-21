@@ -9,7 +9,6 @@ namespace LibraryManager.DAL.Entities
         
         public string Title { get; set; }
         
-        [NotMapped]
         public Author Author { get; set; }
         
         public IEnumerable<Genre> GenresCollection { get; set; }

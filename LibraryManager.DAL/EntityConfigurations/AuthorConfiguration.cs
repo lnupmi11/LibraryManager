@@ -15,7 +15,7 @@ namespace LibraryManager.DAL.EntityConfigurations
             cfg.Property(x => x.NumberOfWrittenBooks).IsRequired();
             cfg.Property(x => x.FirstName).HasMaxLength(100).IsRequired();
             cfg.Property(x => x.LastName).HasMaxLength(100).IsRequired();
-            
+            cfg.HasMany(x => x.Books).WithOne(y => y.Author);
         }
     }
 }
