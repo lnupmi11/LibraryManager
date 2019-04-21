@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LibraryManager.DAL.Entities;
+using LibraryManager.DAL.Seeding;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LibraryManager
 {
@@ -14,11 +11,28 @@ namespace LibraryManager
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var builder = CreateWebHostBuilder(args).Build(); //.Run();
+
+            using (var scope = builder.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetService<LibraryManagerContext>();
+
+                //context.Database.Migrate();
+
+                Seeder.SeedAll(context);
+            }
+
+
+            builder.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            var builder = WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
+            return builder;
+        }
     }
+
 }

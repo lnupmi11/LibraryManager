@@ -11,7 +11,7 @@ namespace LibraryManager.DAL.EntityConfigurations
     {
         public void Initialize(ModelBuilder builder, EntityTypeBuilder<Genre> cfg)
         {
-            cfg.Property(x => x.Id).IsRequired();
+            cfg.HasKey(x => x.Id);
             cfg.Property(x => x.GenreName).IsRequired().HasMaxLength(50);
             
         }

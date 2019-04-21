@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.EntityConfigurations;
+using LibraryManager.DAL.Seeding;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LibraryManager.DAL.Entities
@@ -21,7 +23,7 @@ namespace LibraryManager.DAL.Entities
         public LibraryManagerContext(DbContextOptions<LibraryManagerContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

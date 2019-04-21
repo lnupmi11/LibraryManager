@@ -11,11 +11,11 @@ namespace LibraryManager.DAL.EntityConfigurations
     {
         public void Initialize(ModelBuilder builder, EntityTypeBuilder<Author> cfg)
         {
-            cfg.Property(x => x.Id).IsRequired();
+            //cfg.HasKey(x => x.Id);
             cfg.Property(x => x.NumberOfWrittenBooks).IsRequired();
             cfg.Property(x => x.FirstName).HasMaxLength(100).IsRequired();
             cfg.Property(x => x.LastName).HasMaxLength(100).IsRequired();
-            cfg.HasMany(x => x.Books).WithOne(y => y.Author);
+            //cfg.HasMany(x => x.Books).WithOne(y => y.Author);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using LibraryManager.DAL.Entities;
 
 namespace LibraryManager.DAL.Seeding
@@ -10,17 +11,18 @@ namespace LibraryManager.DAL.Seeding
     {
         public static void SeedAll(LibraryManagerContext context)
         {
-            AuthorSeed(context);
-            BookSeed(context);
-            GenreSeed(context);
-            LanguageSeed(context);
+            AuthorSeed(context).GetAwaiter().GetResult();
+            BookSeed(context).GetAwaiter().GetResult();
+            GenreSeed(context).GetAwaiter().GetResult();
+            LanguageSeed(context).GetAwaiter().GetResult();
+            
         }
-        private static async void BookSeed(LibraryManagerContext context)
+        private static async Task BookSeed(LibraryManagerContext context)
         {
-            List<Book> list = GetBookSeedItems();
+            List<Book> list = GetBookSeedItems(context);
             foreach (var item in list)
             {
-                if (context.Set<Book>().Any(x => x.Id == item.Id))
+                if (context.Set<Book>().Any(x => x.Title == item.Title))
                 {
                     continue;
                 }
@@ -31,24 +33,22 @@ namespace LibraryManager.DAL.Seeding
             await context.SaveChangesAsync();
         }
 
-        public static List<Book> GetBookSeedItems()
+        public static List<Book> GetBookSeedItems(LibraryManagerContext context)
         {
             List<Book> list = new List<Book>();
             list.Add(new Book()
             {
-                Id = 1,
-                Author = GetAuthorSeedItems().FirstOrDefault(x => x.LastName == "London"),
-                AvailableLanguagesCollection = new List<Language>() { GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "English"), GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "Ukrainian") },
-                GenresCollection = new List<Genre>() { GetGenreSeedItems().FirstOrDefault(x => x.GenreName == "Adventures") },
+                Author = context.Authors.FirstOrDefault(x => x.LastName == "London"),
+                AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                GenresCollection = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Novel") },
                 NumberOfPages = 400,
                 Rating = 8,
                 Title = "White Fang"
             });
             list.Add(new Book()
             {
-                Id = 2,
                 Author = GetAuthorSeedItems().FirstOrDefault(x => x.LastName == "Remark"),
-                AvailableLanguagesCollection = new List<Language>() { GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "German"), GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "German"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
                 GenresCollection = new List<Genre>() { GetGenreSeedItems().FirstOrDefault(x => x.GenreName == "Novel") },
                 NumberOfPages = 300,
                 Rating = 9,
@@ -56,30 +56,27 @@ namespace LibraryManager.DAL.Seeding
             });
             list.Add(new Book()
             {
-                Id = 3,
                 Author = GetAuthorSeedItems().FirstOrDefault(x => x.LastName == "London"),
-                AvailableLanguagesCollection = new List<Language>() { GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "English"), GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "Ukrainian") },
-                GenresCollection = new List<Genre>() { GetGenreSeedItems().FirstOrDefault(x => x.GenreName == "Adventures") },
+                AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                GenresCollection = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Adventures") },
                 NumberOfPages = 400,
                 Rating = 8,
                 Title = "Call of the wild"
             });
             list.Add(new Book()
             {
-                Id = 4,
                 Author = GetAuthorSeedItems().FirstOrDefault(x => x.LastName == "Verne"),
-                AvailableLanguagesCollection = new List<Language>() { GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "French"), GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "Ukrainian") },
-                GenresCollection = new List<Genre>() { GetGenreSeedItems().FirstOrDefault(x => x.GenreName == "Adventures") },
+                AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "French"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                GenresCollection = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Adventures") },
                 NumberOfPages = 500,
                 Rating = 7,
                 Title = "The Mysterious Island"
             });
             list.Add(new Book()
             {
-                Id = 5,
                 Author = GetAuthorSeedItems().FirstOrDefault(x => x.LastName == "Conan-Doyle"),
-                AvailableLanguagesCollection = new List<Language>() { GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "English"), GetLanguageSeedItems().FirstOrDefault(x => x.LanguageName == "Ukrainian") },
-                GenresCollection = new List<Genre>() { GetGenreSeedItems().FirstOrDefault(x => x.GenreName == "Detective") },
+                AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                GenresCollection = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Detective") },
                 NumberOfPages = 200,
                 Rating = 8,
                 Title = "Sherlock Holmes"
@@ -87,12 +84,12 @@ namespace LibraryManager.DAL.Seeding
             return list;
         }
 
-        private static async void AuthorSeed(LibraryManagerContext context)
+        private static async Task AuthorSeed(LibraryManagerContext context)
         {
             List<Author> list = GetAuthorSeedItems();
             foreach (var item in list)
             {
-                if (context.Set<Author>().Any(x => x.Id == item.Id))
+                if (context.Set<Author>().Any(x => x.LastName == item.LastName))
                 {
                     continue;
                 }
@@ -103,41 +100,37 @@ namespace LibraryManager.DAL.Seeding
             await context.SaveChangesAsync();
         }
 
-        private static List<Author> GetAuthorSeedItems()
+        public static List<Author> GetAuthorSeedItems()
         {
             List<Author> list = new List<Author>();
             list.Add(new Author()
             {
                 FirstName = "Jack",
                 LastName = "London",
-                Id = 1,
                 NumberOfWrittenBooks = 10
             });
             list.Add(new Author()
             {
                 FirstName = "Maria",
                 LastName = "Remark",
-                Id = 2,
                 NumberOfWrittenBooks = 5
             });
             list.Add(new Author()
             {
                 FirstName = "Jules",
                 LastName = "Verne",
-                Id = 3,
                 NumberOfWrittenBooks = 15
             });
             list.Add(new Author()
             {
                 FirstName = "Arthur",
                 LastName = "Conan-Doyle",
-                Id = 4,
                 NumberOfWrittenBooks = 5
             });
             return list;
         }
 
-        private static async void GenreSeed(LibraryManagerContext context)
+        private static async Task GenreSeed(LibraryManagerContext context)
         {
             List<Genre> list = GetGenreSeedItems();
             foreach (var item in list)
@@ -152,27 +145,24 @@ namespace LibraryManager.DAL.Seeding
 
             await context.SaveChangesAsync();
         }
-        private static List<Genre> GetGenreSeedItems()
+        public static List<Genre> GetGenreSeedItems()
         {
             List<Genre> list = new List<Genre>();
             list.Add(new Genre()
             {
-                Id = 1,
                 GenreName = "Adventures"
             });
             list.Add(new Genre()
             {
-                Id = 2,
                 GenreName = "Detective"
             });
             list.Add(new Genre()
             {
-                Id = 3,
                 GenreName = "Novel"
             });
             return list;
         }
-        private static async void LanguageSeed(LibraryManagerContext context)
+        private static async Task LanguageSeed(LibraryManagerContext context)
         {
             List<Language> list = GetLanguageSeedItems();
             foreach (var item in list)
@@ -187,22 +177,19 @@ namespace LibraryManager.DAL.Seeding
 
             await context.SaveChangesAsync();
         }
-        private static List<Language> GetLanguageSeedItems()
+        public static List<Language> GetLanguageSeedItems()
         {
             List<Language> list = new List<Language>();
             list.Add(new Language()
             {
-                Id = 1,
                 LanguageName = "Ukrainian"
             });
             list.Add(new Language()
             {
-                Id = 2,
                 LanguageName = "English"
             });
             list.Add(new Language()
             {
-                Id = 3,
                 LanguageName = "French"
             });
             return list;

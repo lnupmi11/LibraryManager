@@ -4,14 +4,16 @@ using LibraryManager.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LibraryManager.DAL.Migrations
 {
     [DbContext(typeof(LibraryManagerContext))]
-    partial class LibraryManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20190421195931_userremovedbookstest")]
+    partial class userremovedbookstest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,17 +58,9 @@ namespace LibraryManager.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<string>("UserId");
-
-                    b.Property<string>("UserId1");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Books");
                 });
@@ -288,14 +282,6 @@ namespace LibraryManager.DAL.Migrations
                     b.HasOne("LibraryManager.DAL.Entities.Author", "Author")
                         .WithMany("Books")
                         .HasForeignKey("AuthorId");
-
-                    b.HasOne("LibraryManager.DAL.Entities.User")
-                        .WithMany("ReadedBooksCollection")
-                        .HasForeignKey("UserId");
-
-                    b.HasOne("LibraryManager.DAL.Entities.User")
-                        .WithMany("WishList")
-                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("LibraryManager.DAL.Entities.Genre", b =>

@@ -40,6 +40,9 @@ namespace LibraryManager
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<LibraryManagerContext>();
+           
+
+            
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -62,7 +65,7 @@ namespace LibraryManager
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            
             app.UseAuthentication();
 
             app.UseMvc(routes =>

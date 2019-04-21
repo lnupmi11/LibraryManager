@@ -23,7 +23,7 @@ namespace LibraryManager.Tests
                 .UseInMemoryDatabase(databaseName: "Library").Options;
             _dbContext = new LibraryManagerContext(options);
             Seeder.SeedAll(_dbContext);
-            testItems = Seeder.GetBookSeedItems();
+            testItems = Seeder.GetBookSeedItems(_dbContext);
         }
 
         [Fact]

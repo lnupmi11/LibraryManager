@@ -4,14 +4,16 @@ using LibraryManager.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LibraryManager.DAL.Migrations
 {
     [DbContext(typeof(LibraryManagerContext))]
-    partial class LibraryManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20190421194128_BookFix")]
+    partial class BookFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
