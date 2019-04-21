@@ -1,64 +1,64 @@
-﻿//using AutoMapper;
-//using System;
-//using System.Collections.Generic;
-//using System.Text;
-//using System.Security.Claims;
-//using LibraryManager.BLL.Interfaces;
-//using LibraryManager.DAL.Interfaces;
-//using LibraryManager.DAL.Entities;
-//using LibraryManager.DTO.Models;
+﻿using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Security.Claims;
+using LibraryManager.BLL.Interfaces;
+using LibraryManager.DAL.Interfaces;
+using LibraryManager.DAL.Entities;
+using LibraryManager.DTO.Models;
 
-//namespace LibraryManager.BLL.Services
-//{
-//    public class BookService : IBookService
-//    {
-//        private readonly IRepository<Book> _bookRepository;
-//        private readonly IUserService _userService;
-//        private readonly IMapper _mapper;
+namespace LibraryManager.BLL.Services
+{
+    public class AuthorService// : IAuthorService
+    {
+        private readonly IRepository<Author> _authorRepository;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-//        public BookService(IRepository<Book> bookRepository, IUserService userService, IMapper mapper)
-//        {
-//            _bookRepository = bookRepository;
-//            _userService = userService;
-//            _mapper = mapper;
-//        }
+        public AuthorService(IRepository<Author> authorRepository, IUserService userService, IMapper mapper)
+        {
+            _authorRepository = authorRepository;
+            _userService = userService;
+            _mapper = mapper;
+        }
 
-//        public void Create(BookDTO bookDTO)
-//        {
-//            var book = _mapper.Map<Book>(bookDTO);
-//            _bookRepository.Create(book);
-//        }
+        public void Create(AuthorDTO authorDTO)
+        {
+            var author = _mapper.Map<Author>(authorDTO);
+            _authorRepository.Create(author);
+        }
 
-//        public void Delete(int id)
-//        {
-//            _bookRepository.Delete(id);
-//        }
+        public void Delete(int id)
+        {
+            _authorRepository.Delete(id);
+        }
 
-//        public BookDTO Find(int id)
-//        {
-//            var book = _bookRepository.Get(id);
-//            var bookDTO = _mapper.Map<BookDTO>(book);
+        public AuthorDTO Find(int id)
+        {
+            var author = _authorRepository.Get(id);
+            var authorDTO = _mapper.Map<AuthorDTO>(author);
 
-//            return bookDTO;
-//        }
+            return authorDTO;
+        }
 
-//        public IEnumerable<BookDTO> GetAll()
-//        {
-//            var books = _bookRepository.GetAll();
-//            var booksDTO = new List<BookDTO>();
+        public IEnumerable<AuthorDTO> GetAll()
+        {
+            var authors = _authorRepository.GetAll();
+            var authorsDTO = new List<AuthorDTO>();
 
-//            foreach (var book in books)
-//            {
-//                booksDTO.Add(_mapper.Map<BookDTO>(book));
-//            }
+            foreach (var author in authors)
+            {
+                authorsDTO.Add(_mapper.Map<AuthorDTO>(author));
+            }
 
-//            return booksDTO;
-//        }
+            return authorsDTO;
+        }
 
-//        public void Update(BookDTO bookDTO)
-//        {
-//            var book = _mapper.Map<Book>(bookDTO);
-//            _bookRepository.Update(book);
-//        }
-//    }
-//}
+        public void Update(AuthorDTO authorDTO)
+        {
+            var book = _mapper.Map<Author>(authorDTO);
+            _authorRepository.Update(book);
+        }
+    }
+}
