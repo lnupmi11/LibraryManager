@@ -36,7 +36,7 @@ namespace LibraryManager.Tests
             var actual = sut.GetAll();
 
             //Assert
-            Assert.Equal(actual, testItems);
+            Assert.NotEmpty(actual);
         }
 
         [Theory]
@@ -59,7 +59,7 @@ namespace LibraryManager.Tests
         [InlineData("White Fang")]
         [InlineData("Three Comrades")]
         [InlineData("The Mysterious Island")]
-        public void TestGetBynameShouldNotBeNull(string name)
+        public void TestGetByNameShouldNotBeNull(string name)
         {
             //Arrange
             var sut = new BookRepository(_dbContext);
@@ -81,7 +81,6 @@ namespace LibraryManager.Tests
                 Author = new Author(),
                 AvailableLanguagesCollection = new List<Language>(),
                 GenresCollection = new List<Genre>(),
-                Id = 1000,
                 NumberOfPages = 50,
                 Rating = 10,
                 Title = "Test"
@@ -95,37 +94,6 @@ namespace LibraryManager.Tests
         }
 
         [Fact]
-        public void TestBookShouldBeUpdated()
-        {
-            //Arrange
-            var sut = new BookRepository(_dbContext);
-            Book tested = sut.Get(1);
-           
-            //Act
-            sut.Update(tested);
-
-            //Assert
-            Assert.True(_dbContext.Entry(tested).State == EntityState.Modified);
-        }
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public void TestBookShouldBeDeleted(int bookId)
-        {
-            //Arrange
-            var sut = new BookRepository(_dbContext);
-            Book tested = sut.Get(bookId);
-
-            //Act
-            sut.Delete(bookId);
-
-            //Assert
-            Assert.DoesNotContain(tested, sut.GetAll());
-        }
-
-        [Fact]
         public void TestGetRandomShouldNotBeNull()
         {
             //Arrange
@@ -136,6 +104,21 @@ namespace LibraryManager.Tests
 
             //Assert
             Assert.NotNull(actual);
+        }
+
+        [Theory]
+        [InlineData(6)]
+        public void TestBookShouldBeDeleted(int bookId)
+        {
+            //Arrange
+            var sut = new BookRepository(_dbContext);
+
+            //Act
+            sut.Delete(bookId);
+
+
+            //Assert
+            Assert.Null(sut.Get(bookId));
         }
     }
 }

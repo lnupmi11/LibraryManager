@@ -29,12 +29,13 @@ namespace LibraryManager.DAL.Reposetories
 
         public Book GetByName(string bookName)
         {
-           return _dbContext.Books.Find(bookName);
+           return _dbContext.Books.FirstOrDefault(x => x.Title == bookName);
         }
 
         public void Create(Book item)
         {
             _dbContext.Add(item);
+            _dbContext.SaveChanges();
         }
 
         public void Update(Book item)
@@ -47,12 +48,13 @@ namespace LibraryManager.DAL.Reposetories
             var book = _dbContext.Books.Find(id);
             if (book != null)
                 _dbContext.Books.Remove(book);
+            _dbContext.SaveChangesAsync();
         }
         public Book OpenRandom()
         {
             var numberOfBooks = _dbContext.Books.Count();
             var random = new Random();
-            var randomBook = _dbContext.Books.Find(random.Next(0, numberOfBooks));
+            var randomBook = _dbContext.Books.FirstOrDefault(x => x.Id == random.Next(1, numberOfBooks));
 
             return randomBook;
         }
