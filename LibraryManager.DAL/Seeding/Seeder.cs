@@ -46,7 +46,7 @@ namespace LibraryManager.DAL.Seeding
             });
             list.Add(new Book()
             {
-                Author = GetAuthorSeedItems().FirstOrDefault(x => x.LastName == "Remark"),
+                Author = context.Authors.FirstOrDefault(x => x.LastName == "Remark"),
                 AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "German"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
                 GenresCollection = new List<Genre>() { GetGenreSeedItems().FirstOrDefault(x => x.GenreName == "Novel") },
                 NumberOfPages = 300,
@@ -55,7 +55,7 @@ namespace LibraryManager.DAL.Seeding
             });
             list.Add(new Book()
             {
-                Author = GetAuthorSeedItems().FirstOrDefault(x => x.LastName == "London"),
+                Author = context.Authors.FirstOrDefault(x => x.LastName == "London"),
                 AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
                 GenresCollection = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Adventures") },
                 NumberOfPages = 400,
@@ -64,7 +64,7 @@ namespace LibraryManager.DAL.Seeding
             });
             list.Add(new Book()
             {
-                Author = GetAuthorSeedItems().FirstOrDefault(x => x.LastName == "Verne"),
+                Author = context.Authors.FirstOrDefault(x => x.LastName == "Verne"),
                 AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "French"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
                 GenresCollection = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Adventures") },
                 NumberOfPages = 500,
@@ -73,7 +73,7 @@ namespace LibraryManager.DAL.Seeding
             });
             list.Add(new Book()
             {
-                Author = GetAuthorSeedItems().FirstOrDefault(x => x.LastName == "Conan-Doyle"),
+                Author = context.Authors.FirstOrDefault(x => x.LastName == "Conan-Doyle"),
                 AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
                 GenresCollection = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Detective") },
                 NumberOfPages = 200,

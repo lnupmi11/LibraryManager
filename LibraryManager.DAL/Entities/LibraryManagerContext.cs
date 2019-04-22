@@ -23,7 +23,7 @@ namespace LibraryManager.DAL.Entities
         public LibraryManagerContext(DbContextOptions<LibraryManagerContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
