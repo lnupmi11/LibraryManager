@@ -8,13 +8,16 @@ namespace LibraryManager.DAL
     public class UnitOfWork:IUnitOfWork
     {
         private LibraryManagerContext context;
+        private bool disposed;
+
         private AuthorRepository authorRepository;
         private UserRepository userRepository;
         private BookRepository bookRepository;
-
+        
         public UnitOfWork(LibraryManagerContext context)
         {
             this.context = context;
+            this.disposed = false;
         }
 
         public AuthorRepository AuthorRepository
@@ -56,6 +59,24 @@ namespace LibraryManager.DAL
         public void Save()
         {
             context.SaveChanges();
+        }
+
+        public virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    context.Dispose();
+                }
+                this.disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

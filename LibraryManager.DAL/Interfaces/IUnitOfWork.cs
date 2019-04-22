@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using LibraryManager.DAL.Entities;
+using LibraryManager.DAL.Reposetories;
 
 namespace LibraryManager.DAL.Interfaces
 {
     interface IUnitOfWork: IDisposable
     {
-        IRepository<Author> AuthorRepository { get; }
+        AuthorRepository AuthorRepository { get; }
     }
 }
