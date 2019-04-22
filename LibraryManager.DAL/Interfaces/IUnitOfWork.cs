@@ -6,7 +6,7 @@ using LibraryManager.DAL.Reposetories;
 
 namespace LibraryManager.DAL.Interfaces
 {
-    interface IUnitOfWork: IDisposable
+    public interface IUnitOfWork: IDisposable
     {
         AuthorRepository AuthorRepository { get; }
     }

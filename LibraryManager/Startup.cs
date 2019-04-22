@@ -10,9 +10,12 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryManager.DAL.Entities;
-//using LibraryManager.DAL.Seeding;
+using LibraryManager.DAL.Interfaces;
+
+using LibraryManager.DAL.Seeding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using LibraryManager.DAL;
 
 namespace LibraryManager
 {
@@ -40,11 +43,7 @@ namespace LibraryManager
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<LibraryManagerContext>();
-           
-
-            
-
-
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
