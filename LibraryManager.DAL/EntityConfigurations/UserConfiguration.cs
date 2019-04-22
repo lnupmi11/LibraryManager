@@ -11,7 +11,7 @@ namespace LibraryManager.DAL.EntityConfigurations
     {
         public void Initialize(ModelBuilder builder, EntityTypeBuilder<User> cfg)
         {
-            //cfg.HasKey(x => x.Id);
+            cfg.HasKey(x => x.Id);
             cfg.Property(x => x.UserName).IsRequired().HasMaxLength(50);
             cfg.Property(x => x.PasswordHash).IsRequired().HasMaxLength(25);
             cfg.Property(x => x.FirstName).HasMaxLength(100).IsRequired();

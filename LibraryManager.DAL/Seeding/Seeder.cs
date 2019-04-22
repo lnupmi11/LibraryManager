@@ -12,10 +12,9 @@ namespace LibraryManager.DAL.Seeding
         public static void SeedAll(LibraryManagerContext context)
         {
             AuthorSeed(context).GetAwaiter().GetResult();
-            BookSeed(context).GetAwaiter().GetResult();
             GenreSeed(context).GetAwaiter().GetResult();
             LanguageSeed(context).GetAwaiter().GetResult();
-            
+            BookSeed(context).GetAwaiter().GetResult();
         }
         private static async Task BookSeed(LibraryManagerContext context)
         {
@@ -135,11 +134,6 @@ namespace LibraryManager.DAL.Seeding
             List<Genre> list = GetGenreSeedItems();
             foreach (var item in list)
             {
-                if (context.Set<Genre>().Any(x => x.Id == item.Id))
-                {
-                    continue;
-                }
-
                 await context.Set<Genre>().AddAsync(item);
             }
 
@@ -167,11 +161,6 @@ namespace LibraryManager.DAL.Seeding
             List<Language> list = GetLanguageSeedItems();
             foreach (var item in list)
             {
-                if (context.Set<Language>().Any(x => x.LanguageName == item.LanguageName))
-                {
-                    continue;
-                }
-
                 await context.Set<Language>().AddAsync(item);
             }
 
@@ -191,6 +180,10 @@ namespace LibraryManager.DAL.Seeding
             list.Add(new Language()
             {
                 LanguageName = "French"
+            });
+            list.Add(new Language()
+            {
+                LanguageName = "German"
             });
             return list;
         }
