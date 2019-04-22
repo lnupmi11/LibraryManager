@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManager.DAL.Migrations
 {
     [DbContext(typeof(LibraryManagerContext))]
-    [Migration("20190421195931_userremovedbookstest")]
-    partial class userremovedbookstest
+    [Migration("20190422114119_Linking book with language")]
+    partial class Linkingbookwithlanguage
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,13 +27,9 @@ namespace LibraryManager.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                    b.Property<string>("FirstName");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                    b.Property<string>("LastName");
 
                     b.Property<int>("NumberOfWrittenBooks");
 
@@ -48,19 +44,25 @@ namespace LibraryManager.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<int>("AuthorId");
+
+                    b.Property<int>("GenreId");
+
+                    b.Property<int>("LanguageId");
 
                     b.Property<int>("NumberOfPages");
 
                     b.Property<double>("Rating");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                    b.Property<string>("Title");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("GenreId");
+
+                    b.HasIndex("LanguageId");
 
                     b.ToTable("Books");
                 });
@@ -71,15 +73,9 @@ namespace LibraryManager.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BookId");
-
-                    b.Property<string>("GenreName")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("GenreName");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookId");
 
                     b.ToTable("Genres");
                 });
@@ -116,13 +112,9 @@ namespace LibraryManager.DAL.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                    b.Property<string>("FirstName");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -134,9 +126,7 @@ namespace LibraryManager.DAL.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                    b.Property<string>("PasswordHash");
 
                     b.Property<string>("PhoneNumber");
 
@@ -147,7 +137,6 @@ namespace LibraryManager.DAL.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -281,14 +270,18 @@ namespace LibraryManager.DAL.Migrations
                 {
                     b.HasOne("LibraryManager.DAL.Entities.Author", "Author")
                         .WithMany("Books")
-                        .HasForeignKey("AuthorId");
-                });
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("LibraryManager.DAL.Entities.Genre", b =>
-                {
-                    b.HasOne("LibraryManager.DAL.Entities.Book")
-                        .WithMany("GenresCollection")
-                        .HasForeignKey("BookId");
+                    b.HasOne("LibraryManager.DAL.Entities.Genre", "Genre")
+                        .WithMany("Book")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LibraryManager.DAL.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LibraryManager.DAL.Entities.Language", b =>

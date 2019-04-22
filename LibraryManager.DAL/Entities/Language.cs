@@ -10,6 +10,8 @@ namespace LibraryManager.DAL.Entities
 
         public string LanguageName { get; set; }
 
+        public IEnumerable<Book> Books { get; set; }
+
         public Language() { }
     }
 }

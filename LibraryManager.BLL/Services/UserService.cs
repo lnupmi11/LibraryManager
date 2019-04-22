@@ -24,14 +24,14 @@ namespace LibraryManager.BLL.Services
             var user = _mapper.Map<User>(userDTO);
             var book = _mapper.Map<Book>(bookDTO);
 
-            if (user.WishList.Contains(book))
-            {
-                user.WishList.Remove(book);
-            }
-            else
-            {
-                user.WishList.Add(book);
-            }
+            //if (user.WishList.Contains(book))
+            //{
+            //    user.WishList.Remove(book);
+            //}
+            //else
+            //{
+            //    user.WishList.Add(book);
+            //}
 
             _userRepository.Update(user);
         }

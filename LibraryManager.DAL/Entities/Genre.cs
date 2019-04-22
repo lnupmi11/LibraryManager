@@ -9,5 +9,7 @@ namespace LibraryManager.DAL.Entities
         public int Id { get; set; }
 
         public string GenreName { get; set; }
+
+        public IEnumerable<Book> Book { get; set; }
     }
 }

@@ -80,7 +80,7 @@ namespace LibraryManager.Tests
             {
                 Author = new Author(),
                 AvailableLanguagesCollection = new List<Language>(),
-                GenresCollection = new List<Genre>(),
+               //GenresCollection = new List<Genre>(),
                 NumberOfPages = 50,
                 Rating = 10,
                 Title = "Test"

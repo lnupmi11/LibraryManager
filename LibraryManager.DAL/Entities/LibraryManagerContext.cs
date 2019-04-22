@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LibraryManager.DAL.Entities;
-using LibraryManager.DAL.EntityConfigurations;
-using LibraryManager.DAL.Seeding;
+
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LibraryManager.DAL.Entities
@@ -23,15 +22,15 @@ namespace LibraryManager.DAL.Entities
         public LibraryManagerContext(DbContextOptions<LibraryManagerContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+           Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            new AuthorConfiguration().Initialize(builder, builder.Entity<Author>());
-            new BookConfiguration().Initialize(builder, builder.Entity<Book>());
-            new UserConfiguration().Initialize(builder, builder.Entity<User>());
-            new GenreConfiguration().Initialize(builder, builder.Entity<Genre>());
+            //new AuthorConfiguration().Initialize(builder, builder.Entity<Author>());
+            //new BookConfiguration().Initialize(builder, builder.Entity<Book>());
+            //new UserConfiguration().Initialize(builder, builder.Entity<User>());
+            //new GenreConfiguration().Initialize(builder, builder.Entity<Genre>());
             base.OnModelCreating(builder);
         }
     }
