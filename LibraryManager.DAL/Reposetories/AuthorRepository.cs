@@ -30,6 +30,7 @@ namespace LibraryManager.DAL.Reposetories
         public void Create(Author item)
         {
             _dbContext.Authors.Add(item);
+            _dbContext.SaveChanges();
         }
 
         public void Update(Author item)
@@ -42,6 +43,7 @@ namespace LibraryManager.DAL.Reposetories
             var author = _dbContext.Authors.Find(id);
             if (author != null)
                 _dbContext.Authors.Remove(author);
+            _dbContext.SaveChanges();
         }         
     }
 }

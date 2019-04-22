@@ -79,7 +79,7 @@ namespace LibraryManager.Tests
             Book test = new Book()
             {
                 Author = new Author(),
-                AvailableLanguagesCollection = new List<Language>(),
+               //AvailableLanguagesCollection = new List<Language>(),
                //GenresCollection = new List<Genre>(),
                 NumberOfPages = 50,
                 Rating = 10,
@@ -93,18 +93,18 @@ namespace LibraryManager.Tests
             Assert.Contains(test, sut.GetAll());
         }
 
-        [Fact]
-        public void TestGetRandomShouldNotBeNull()
-        {
-            //Arrange
-            var sut = new BookRepository(_dbContext);
+        //[Fact]
+        //public void TestGetRandomShouldNotBeNull()
+        //{
+        //    //Arrange
+        //    var sut = new BookRepository(_dbContext);
 
-            //Act
-            Book actual = sut.OpenRandom();
+        //    //Act
+        //    Book actual = sut.OpenRandom();
 
-            //Assert
-            Assert.NotNull(actual);
-        }
+        //    //Assert
+        //    Assert.NotNull(actual);
+        //}
 
         [Theory]
         [InlineData(6)]
