@@ -1,10 +1,11 @@
 ﻿using System;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Reposetories;
+using LibraryManager.DAL.Interfaces;
 
 namespace LibraryManager.DAL
 {
-    public class UnitOfWork
+    public class UnitOfWork:IUnitOfWork
     {
         private LibraryManagerContext context;
         private AuthorRepository authorRepository;
