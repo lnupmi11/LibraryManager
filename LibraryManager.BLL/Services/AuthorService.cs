@@ -10,8 +10,9 @@ using LibraryManager.DTO.Models;
 
 namespace LibraryManager.BLL.Services
 {
-    public class AuthorService// : IAuthorService
+    public class AuthorService: IAuthorService
     {
+       
         private readonly IRepository<Author> _authorRepository;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
