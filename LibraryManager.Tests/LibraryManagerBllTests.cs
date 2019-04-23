@@ -76,6 +76,7 @@ namespace LibraryManager.Tests
             Book newBook = new Book { Id = 5 };
             BookDTO newBookDTO = new BookDTO { Id = 5 };
             List<Book> books = new List<Book>();
+
             bookRepositoryMock.Setup(x => x.GetAll()).Returns(books);
             bookRepositoryMock.Setup(x => x.Create(newBook)).Callback((Book book) => { books.Add(new Book()); });
             mapper.Setup(x => x.Map<Book>(newBookDTO)).Returns(newBook);
@@ -85,7 +86,7 @@ namespace LibraryManager.Tests
             var expectedNumberOfBooks = 1;
 
             var actualBookCollection = bookService.GetAll();
-
+            
             Assert.Equal(expectedNumberOfBooks, actualBookCollection.Count());
         }
 

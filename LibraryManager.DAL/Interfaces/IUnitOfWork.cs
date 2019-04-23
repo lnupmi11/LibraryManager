@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using LibraryManager.DAL.Entities;
-using LibraryManager.DAL.Reposetories;
+using LibraryManager.DAL.Repositories;
 using LibraryManager.DAL.Interfaces;
 
 namespace LibraryManager.DAL.Interfaces

@@ -18,6 +18,10 @@ using LibraryManager.DAL.Seeding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LibraryManager.DAL;
+using LibraryManager.BLL.Interfaces;
+using LibraryManager.BLL.Services;
+
+using AutoMapper;
 
 namespace LibraryManager
 {
@@ -47,6 +51,9 @@ namespace LibraryManager
                 .AddEntityFrameworkStores<LibraryManagerContext>();
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ILanguageService, LanguageService>();
+            services.AddSingleton<IBookService, BookService>();
+            services.AddSingleton<IUserService, UserService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -74,7 +81,7 @@ namespace LibraryManager
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Books}/{action=Index}/{id?}");
             });
         }
     }
