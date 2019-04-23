@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Interfaces;
+using LibraryManager.BLL.Interfaces;
+using LibraryManager.BLL.Services;
 
 using LibraryManager.DAL.Seeding;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +46,7 @@ namespace LibraryManager
             services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<LibraryManagerContext>();
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<ILanguageService, LanguageService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

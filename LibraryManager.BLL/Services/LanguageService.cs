@@ -13,13 +13,11 @@ namespace LibraryManager.BLL.Services
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public LanguageService(IUnitOfWork unitOfWork, IUserService userService, IMapper mapper)
+        public LanguageService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _userService = userService;
             _mapper = mapper;
         }
         public void Create(LanguageDTO languageDTO)

@@ -4,22 +4,30 @@ using System.Linq;
 using System.Threading.Tasks;
 using LibraryManager.DAL;
 using Microsoft.AspNetCore.Mvc;
+using LibraryManager.BLL.Interfaces;
+using LibraryManager.DTO.Models;
+
 
 namespace LibraryManager.Controllers
 {
     public class SearchController : Controller
     {
+        ILanguageService _languageService;
 
-        private UnitOfWork _unitOfWork;
-
-        public SearchController(UnitOfWork unitOfWork)
+        public SearchController(ILanguageService languageService)
         {
-            _unitOfWork = unitOfWork;
+            _languageService = languageService;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IEnumerable<LanguageDTO> ShowLanguage()
+        {
+            var allLanguage = _languageService.GetAll();
+            return (allLanguage);
         }
 
         public IActionResult SearchBook(string bookName)
