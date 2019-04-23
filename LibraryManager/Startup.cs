@@ -11,13 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Interfaces;
+using LibraryManager.BLL.Interfaces;
+using LibraryManager.BLL.Services;
+using LibraryManager.DAL.Repositories;
 
 using LibraryManager.DAL.Seeding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LibraryManager.DAL;
-using LibraryManager.BLL.Interfaces;
-using LibraryManager.BLL.Services;
 
 using AutoMapper;
 
@@ -47,9 +48,12 @@ namespace LibraryManager
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<LibraryManagerContext>();
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
-            services.AddSingleton<IBookService, BookService>();
-            services.AddSingleton<IUserService, UserService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ILanguageService, LanguageService>();
+            services.AddScoped<IRepository<Language,int>, LanguageRepository>();
+            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -77,7 +81,7 @@ namespace LibraryManager
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Books}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

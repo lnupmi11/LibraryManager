@@ -73,6 +73,11 @@ namespace LibraryManager.DAL
         {
             get
             {
+                if (this.languageRepository == null)
+                {
+                    this.languageRepository = new LanguageRepository(context);
+                }
+
                 return languageRepository;
             }
             set
