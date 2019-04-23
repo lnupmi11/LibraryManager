@@ -1,10 +1,13 @@
-﻿
+﻿@using LibraryManager.DTO.Models
 @{
     ViewData["Title"] = "Index";
 }
 
-@{ 
+@model  IEnumerable<LanguageDTO> 
 
+@foreach(var language in Model)
+{
+    <p>@language.LanguageName</p>
 }
 
 <h2>Index</h2>

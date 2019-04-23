@@ -21,8 +21,10 @@ namespace LibraryManager.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var language = ShowLanguage();
+            return View(language);
         }
+
 
         public IEnumerable<LanguageDTO> ShowLanguage()
         {
