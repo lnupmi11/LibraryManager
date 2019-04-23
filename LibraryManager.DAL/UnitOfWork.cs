@@ -13,7 +13,8 @@ namespace LibraryManager.DAL
         private IRepository<Author, int> authorRepository;
         private IRepository<User, string> userRepository;
         private IRepository<Book, int> bookRepository;
-        
+        private IRepository<Language, int> languageRepository;
+
         public UnitOfWork(LibraryManagerContext context)
         {
             this.context = context;
@@ -53,6 +54,18 @@ namespace LibraryManager.DAL
             set
             {
                 this.bookRepository = value ?? new BookRepository(context);
+            }
+        }
+
+        public IRepository<Language, int> LanguageRepository
+        {
+            get
+            {
+                return languageRepository;
+            }
+            set
+            {
+                this.languageRepository = value ?? new LanguageRepository(context);
             }
         }
 
