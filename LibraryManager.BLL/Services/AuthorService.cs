@@ -13,13 +13,13 @@ namespace LibraryManager.BLL.Services
     public class AuthorService: IAuthorService
     {
        
-        private readonly IRepository<Author> _authorRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public AuthorService(IRepository<Author> authorRepository, IUserService userService, IMapper mapper)
+        public AuthorService(IUnitOfWork unitOfWork, IUserService userService, IMapper mapper)
         {
-            _authorRepository = authorRepository;
+            _unitOfWork = unitOfWork;
             _userService = userService;
             _mapper = mapper;
         }
@@ -27,17 +27,19 @@ namespace LibraryManager.BLL.Services
         public void Create(AuthorDTO authorDTO)
         {
             var author = _mapper.Map<Author>(authorDTO);
-            _authorRepository.Create(author);
+            _unitOfWork.AuthorRepository.Create(author);
+            _unitOfWork.Save();
         }
 
         public void Delete(int id)
         {
-            _authorRepository.Delete(id);
+            _unitOfWork.AuthorRepository.Delete(id);
+            _unitOfWork.Save();
         }
 
         public AuthorDTO Find(int id)
         {
-            var author = _authorRepository.Get(id);
+            var author = _unitOfWork.AuthorRepository.Get(id);
             var authorDTO = _mapper.Map<AuthorDTO>(author);
 
             return authorDTO;
@@ -45,7 +47,7 @@ namespace LibraryManager.BLL.Services
 
         public IEnumerable<AuthorDTO> GetAll()
         {
-            var authors = _authorRepository.GetAll();
+            var authors = _unitOfWork.AuthorRepository.GetAll();
             var authorsDTO = new List<AuthorDTO>();
 
             foreach (var author in authors)
@@ -59,7 +61,8 @@ namespace LibraryManager.BLL.Services
         public void Update(AuthorDTO authorDTO)
         {
             var book = _mapper.Map<Author>(authorDTO);
-            _authorRepository.Update(book);
+            _unitOfWork.AuthorRepository.Update(book);
+            _unitOfWork.Save();
         }
     }
 }

@@ -24,14 +24,14 @@ namespace LibraryManager.Controllers
 
         public IActionResult SearchBook(string bookName)
         {
-            var book = _unitOfWork.BookRepository.GetByName(bookName);
-            if (book == null)
-            {
-                //TODO: Return 404 page.
-                return null;
-            }
+            //var book = _unitOfWork.BookRepository.Get(bookName);
+            //if (book == null)
+            //{
+            //    //TODO: Return 404 page.
+            //    return null;
+            //}
 
-            return View(book);
+            return View(/*book*/);
         }
 
         public IActionResult SortByCategory()

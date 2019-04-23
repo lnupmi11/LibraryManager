@@ -12,13 +12,13 @@ namespace LibraryManager.BLL.Services
 {
     public class BookService : IBookService
     {
-        private readonly IRepository<Book, int> _bookRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public BookService(IRepository<Book, int> bookRepository, IUserService userService, IMapper mapper)
+        public BookService(IUnitOfWork unitOfWork, IUserService userService, IMapper mapper)
         {
-            _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
             _userService = userService;
             _mapper = mapper;
         }
@@ -26,17 +26,19 @@ namespace LibraryManager.BLL.Services
         public void Create(BookDTO bookDTO)
         {
             var book = _mapper.Map<Book>(bookDTO);
-            _bookRepository.Create(book);
+            _unitOfWork.BookRepository.Create(book);
+            _unitOfWork.Save();
         }
 
         public void Delete(int id)
         {
-            _bookRepository.Delete(id);
+            _unitOfWork.BookRepository.Delete(id);
+            _unitOfWork.Save();
         }
 
         public BookDTO Find(int id)
         {
-            var book = _bookRepository.Get(id);
+            var book = _unitOfWork.BookRepository.Get(id);
             var bookDTO = _mapper.Map<BookDTO>(book);
 
             return bookDTO;
@@ -44,7 +46,7 @@ namespace LibraryManager.BLL.Services
 
         public IEnumerable<BookDTO> GetAll()
         {
-            var books = _bookRepository.GetAll();
+            var books = _unitOfWork.BookRepository.GetAll();
             var booksDTO = new List<BookDTO>();
 
             foreach (var book in books)
@@ -58,7 +60,8 @@ namespace LibraryManager.BLL.Services
         public void Update(BookDTO bookDTO)
         {
             var book = _mapper.Map<Book>(bookDTO);
-            _bookRepository.Update(book);
+            _unitOfWork.BookRepository.Update(book);
+            _unitOfWork.Save();
         }
     }
 }

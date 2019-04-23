@@ -11,13 +11,13 @@ namespace LibraryManager.BLL.Services
 {
     public class UserService : IUserService
     {
-        private readonly IRepository<User, string> _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
 
-        public UserService(IRepository<User, string> userRepository, IMapper mapper)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
         public void AddBookToWishList(User user, BookDTO bookDTO)
@@ -33,46 +33,49 @@ namespace LibraryManager.BLL.Services
             //    user.WishList.Add(book);
             //}
 
-            _userRepository.Update(user);
+            _unitOfWork.UserRepository.Update(user);
+            _unitOfWork.Save();
         }
 
         public void ChangeUserName(User user, string name)
         {
             user.FirstName = name;
 
-            _userRepository.Update(user);
+            _unitOfWork.UserRepository.Update(user);
+            _unitOfWork.Save();
         }
 
         public void ChangeUserSurname(User user, string surname)
         {
             user.LastName = surname;
 
-            _userRepository.Update(user);
+            _unitOfWork.UserRepository.Update(user);
         }
 
         public void Delete(User user)
         {
 
-            //_userRepository.Delete(user.Id);
+            _unitOfWork.UserRepository.Delete(user.Id);
         }
 
         public IEnumerable<User> GetAllUsers()
         {
-            var users = _userRepository.GetAll();
+            var users = _unitOfWork.UserRepository.GetAll();
 
             return users;
         }
 
         public User GetUser(string id)
         {
-            var user = _userRepository.Get(id);
+            var user = _unitOfWork.UserRepository.Get(id);
 
             return user;
         }
 
         public void Update(User user)
         {
-            _userRepository.Update(user);
+            _unitOfWork.UserRepository.Update(user);
+            _unitOfWork.Save();
         }
     }
 }

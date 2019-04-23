@@ -9,7 +9,9 @@ using LibraryManager.DAL.Interfaces;
 using LibraryManager.DAL.Entities;
 using AutoMapper;
 using LibraryManager.DTO.Models;
+using LibraryManager.DAL;
 using System.Linq;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LibraryManager.Tests
 {
@@ -17,17 +19,21 @@ namespace LibraryManager.Tests
     {
         private readonly IBookService bookService;
         private readonly IUserService userService;
+        private UnitOfWork unitOfWork;
         private Mock<IRepository<Book, int>> bookRepositoryMock;
         private Mock<IRepository<User, string>> userRepositoryMock;
         private Mock<IMapper> mapper;
 
         public LibraryManagerBllTests()
         {
+            unitOfWork = new UnitOfWork(null);
             mapper = new Mock<IMapper>();
             userRepositoryMock = new Mock<IRepository<User, string>>();
             bookRepositoryMock = new Mock<IRepository<Book, int>>();
-            userService = new UserService(userRepositoryMock.Object, mapper.Object);
-            bookService = new BookService(bookRepositoryMock.Object, userService, mapper.Object);
+            unitOfWork.BookRepository = bookRepositoryMock.Object;
+            unitOfWork.UserRepository = userRepositoryMock.Object;
+            userService = new UserService(unitOfWork, mapper.Object);
+            bookService = new BookService(unitOfWork, userService, mapper.Object);
 
             InitializeMock();
         }

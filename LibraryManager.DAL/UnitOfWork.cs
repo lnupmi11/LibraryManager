@@ -10,9 +10,9 @@ namespace LibraryManager.DAL
         private LibraryManagerContext context;
         private bool disposed;
 
-        private AuthorRepository authorRepository;
-        private UserRepository userRepository;
-        private BookRepository bookRepository;
+        private IRepository<Author, int> authorRepository;
+        private IRepository<User, string> userRepository;
+        private IRepository<Book, int> bookRepository;
         
         public UnitOfWork(LibraryManagerContext context)
         {
@@ -20,45 +20,48 @@ namespace LibraryManager.DAL
             this.disposed = false;
         }
 
-        public AuthorRepository AuthorRepository
+        public IRepository<Author, int> AuthorRepository
         {
             get
             {
-                if (this.authorRepository == null)
-                {
-                    this.authorRepository = new AuthorRepository(context);
-                }
                 return authorRepository;
             }
-        }
-
-        public UserRepository UserRepository
-        {
-            get
+            set
             {
-                if (this.userRepository == null)
-                {
-                    this.userRepository = new UserRepository(context);
-                }
-                return userRepository;
+                this.authorRepository = value ?? new AuthorRepository(context);
             }
         }
 
-        public BookRepository BookRepository
+        public IRepository<User, string> UserRepository
         {
             get
             {
-                if (this.bookRepository == null)
-                {
-                    this.bookRepository = new BookRepository(context);
-                }
+                return userRepository;
+            }
+            set
+            {
+                this.userRepository = value ?? new UserRepository(context);
+            }
+        }
+
+        public IRepository<Book, int> BookRepository
+        {
+            get
+            {
                 return bookRepository;
+            }
+            set
+            {
+                this.bookRepository = value ?? new BookRepository(context);
             }
         }
 
         public void Save()
         {
-            context.SaveChanges();
+            if (context != null)
+            {
+                context.SaveChanges();
+            }
         }
 
         public virtual void Dispose(bool disposing)
