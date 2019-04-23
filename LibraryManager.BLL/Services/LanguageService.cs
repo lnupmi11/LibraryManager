@@ -22,46 +22,46 @@ namespace LibraryManager.BLL.Services
             _userService = userService;
             _mapper = mapper;
         }
-        public void Create(BookDTO bookDTO)
+        public void Create(LanguageDTO languageDTO)
         {
-            var book = _mapper.Map<Book>(bookDTO);
-            _unitOfWork.BookRepository.Create(book);
+            var language = _mapper.Map<Language>(languageDTO);
+            _unitOfWork.LanguageRepository.Create(language);
             _unitOfWork.Save();
         }
 
         public void Delete(int id)
         {
-            _unitOfWork.BookRepository.Delete(id);
+            _unitOfWork.LanguageRepository.Delete(id);
             _unitOfWork.Save();
         }
 
-       public BookDTO Find(int id)
-       {
-            var book = _unitOfWork.BookRepository.Get(id);
-            var bookDTO = _mapper.Map<BookDTO>(book);
+        public LanguageDTO Find(int id)
+        {
+            var language = _unitOfWork.LanguageRepository.Get(id);
+            var languageDTO = _mapper.Map<LanguageDTO>(language);
 
-            return bookDTO;
-       }
+            return languageDTO;
+        }
 
-       public IEnumerable<BookDTO> GetAll()
-       {
-            var books = _unitOfWork.BookRepository.GetAll();
-            var booksDTO = new List<BookDTO>();
+        public IEnumerable<LanguageDTO> GetAll()
+        {
+            var languages = _unitOfWork.LanguageRepository.GetAll();
+            var languagesDTO = new List<LanguageDTO>();
 
-            foreach (var book in books)
+            foreach (var language in languages)
             {
-                booksDTO.Add(_mapper.Map<BookDTO>(book));
+                languagesDTO.Add(_mapper.Map<LanguageDTO>(language));
             }
 
-            return booksDTO;
-       }
+            return languagesDTO;
+        }
 
-       public void Update(BookDTO bookDTO)
-       {
-        var book = _mapper.Map<Book>(bookDTO);
-       _unitOfWork.BookRepository.Update(book);
-       _unitOfWork.Save();
-       }
+        public void Update(LanguageDTO languageDTO)
+        {
+            var language = _mapper.Map<Language>(languageDTO);
+            _unitOfWork.LanguageRepository.Update(language);
+            _unitOfWork.Save();
+        }
 
     }
 }
