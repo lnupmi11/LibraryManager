@@ -4,16 +4,16 @@ using System.Text;
 
 namespace LibraryManager.DAL.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T, TId> where T : class
     {
         IEnumerable<T> GetAll();
 
-        T Get(int id);
+        T Get(TId id);
 
         void Create(T item);
 
         void Update(T item);
 
-        void Delete(int id);
+        void Delete(TId id);
     }
 }

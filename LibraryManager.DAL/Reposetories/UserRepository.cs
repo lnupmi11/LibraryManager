@@ -8,7 +8,7 @@ using System.Text;
 
 namespace LibraryManager.DAL.Reposetories
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : IRepository<User, string>
     {
         private LibraryManagerContext context;
         public UserRepository(LibraryManagerContext context)
@@ -21,13 +21,13 @@ namespace LibraryManager.DAL.Reposetories
             context.Users.Add(item);
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             User user = context.Users.Find(id);
             context.Users.Remove(user);
         }
 
-        public User Get(int id)
+        public User Get(string id)
         {
             return context.Users.Find(id);
         }

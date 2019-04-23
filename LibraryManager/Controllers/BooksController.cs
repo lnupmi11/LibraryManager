@@ -57,19 +57,19 @@ namespace LibraryManager.Controllers
 
         #region Actions
 
-        public async void AddToWishlist(int userId, int bookId)
+        public async void AddToWishlist(string userId, int bookId)
         {
             var currentUser =  _userService.GetUser(userId);
             var currentBook = _bookService.Find(bookId);
 
-            if (currentUser.WishList.Contains(currentBook))
-            {
-                currentUser.WishList.ToList().Remove(currentBook);
-            }
-            else
-            {
-                currentUser.WishList.Append(currentBook);
-            }
+            //if (currentUser.WishList.Contains(currentBook))
+            //{
+            //    currentUser.WishList.ToList().Remove(currentBook);
+            //}
+            //else
+            //{
+            //    currentUser.WishList.Append(currentBook);
+            //}
         }
 
         public void RateBook(int bookId, int rating)

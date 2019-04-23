@@ -11,17 +11,17 @@ namespace LibraryManager.BLL.Services
 {
     public class UserService : IUserService
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<User, string> _userRepository;
+
         private readonly IMapper _mapper;
 
-        public UserService(IRepository<User> userRepository, IMapper mapper)
+        public UserService(IRepository<User, string> userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
         }
-        public void AddBookToWishList(UserDTO userDTO, BookDTO bookDTO)
+        public void AddBookToWishList(User user, BookDTO bookDTO)
         {
-            var user = _mapper.Map<User>(userDTO);
             var book = _mapper.Map<Book>(bookDTO);
 
             //if (user.WishList.Contains(book))
@@ -36,53 +36,42 @@ namespace LibraryManager.BLL.Services
             _userRepository.Update(user);
         }
 
-        public void ChangeUserName(UserDTO userDTO, string name)
+        public void ChangeUserName(User user, string name)
         {
-            var user = _mapper.Map<User>(userDTO);
             user.FirstName = name;
 
             _userRepository.Update(user);
         }
 
-        public void ChangeUserSurname(UserDTO userDTO, string surname)
+        public void ChangeUserSurname(User user, string surname)
         {
-            var user = _mapper.Map<User>(userDTO);
             user.LastName = surname;
 
             _userRepository.Update(user);
         }
 
-        public void Delete(UserDTO userDTO)
+        public void Delete(User user)
         {
-            var user = _mapper.Map<User>(userDTO);
 
             //_userRepository.Delete(user.Id);
         }
 
-        public IEnumerable<UserDTO> GetAllUsers()
+        public IEnumerable<User> GetAllUsers()
         {
             var users = _userRepository.GetAll();
-            List<UserDTO> usersDTO = new List<UserDTO>();
-            foreach (var user in users)
-            {
-                usersDTO.Add(_mapper.Map<UserDTO>(user));
-            }
 
-            return usersDTO;
+            return users;
         }
 
-        public UserDTO GetUser(int id)
+        public User GetUser(string id)
         {
             var user = _userRepository.Get(id);
-            var userDTO = _mapper.Map<UserDTO>(user);
 
-            return userDTO;
+            return user;
         }
 
-        public void Update(UserDTO userDTO)
+        public void Update(User user)
         {
-            var user = _mapper.Map<User>(userDTO);
-
             _userRepository.Update(user);
         }
     }

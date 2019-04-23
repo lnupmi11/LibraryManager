@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManager.DAL.Reposetories
 {
-    public class BookRepository: IRepository<Book>
+    public class BookRepository: IRepository<Book, int>
     {
         private readonly LibraryManagerContext _dbContext;
 

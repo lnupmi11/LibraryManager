@@ -20,6 +20,6 @@ namespace LibraryManager.DAL.Entities
 
         //public List<Book> WishList { get; set; }
         //public IEnumerable<Book> ReadedBooksCollection { get; set; }
-        private User() { }
+        public User() { }
     }
 }

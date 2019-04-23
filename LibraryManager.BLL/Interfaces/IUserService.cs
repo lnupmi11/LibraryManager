@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 using LibraryManager.DTO.Models;
+using LibraryManager.DAL.Entities;
 
 namespace LibraryManager.BLL.Interfaces
 {
     public interface IUserService
     {
-        UserDTO GetUser(int id);
-        IEnumerable<UserDTO> GetAllUsers();
-        void AddBookToWishList(UserDTO userDTO, BookDTO bookDTO);
-        void ChangeUserName(UserDTO userDTO, string name);
-        void ChangeUserSurname(UserDTO userDTO, string surname);
-        void Update(UserDTO user);
-        void Delete(UserDTO user);
+        User GetUser(string id);
+        IEnumerable<User> GetAllUsers();
+        void AddBookToWishList(User userDTO, BookDTO bookDTO);
+        void ChangeUserName(User userDTO, string name);
+        void ChangeUserSurname(User userDTO, string surname);
+        void Update(User user);
+        void Delete(User user);
 
     }
 }

@@ -1,140 +1,153 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Text;
-//using Xunit;
-//using LibraryManager.BLL.Interfaces;
-//using LibraryManager.BLL.Services;
-//using Moq;
-//using LibraryManager.DAL.Interfaces;
-//using LibraryManager.DAL.Entities;
-//using AutoMapper;
-//using LibraryManager.DTO.Models;
-//using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Xunit;
+using LibraryManager.BLL.Interfaces;
+using LibraryManager.BLL.Services;
+using Moq;
+using LibraryManager.DAL.Interfaces;
+using LibraryManager.DAL.Entities;
+using AutoMapper;
+using LibraryManager.DTO.Models;
+using System.Linq;
 
-//namespace LibraryManager.Tests
-//{
-//    public class LibraryManagerBllTests
-//    {
-//        private readonly IBookService bookService;
-//        private readonly IUserService userService;
-//        private Mock<IRepository<Book>> bookRepositoryMock;
-//        private Mock<IRepository<User>> userRepositoryMock;
-//        private Mock<IMapper> mapper;
+namespace LibraryManager.Tests
+{
+    public class LibraryManagerBllTests
+    {
+        private readonly IBookService bookService;
+        private readonly IUserService userService;
+        private Mock<IRepository<Book, int>> bookRepositoryMock;
+        private Mock<IRepository<User, string>> userRepositoryMock;
+        private Mock<IMapper> mapper;
 
-//        public LibraryManagerBllTests()
-//        {
-//            mapper = new Mock<IMapper>();
-//            userService = new UserService(userRepositoryMock.Object, mapper.Object);
-//            bookService = new BookService(bookRepositoryMock.Object, userService, mapper.Object);
+        public LibraryManagerBllTests()
+        {
+            mapper = new Mock<IMapper>();
+            userRepositoryMock = new Mock<IRepository<User, string>>();
+            bookRepositoryMock = new Mock<IRepository<Book, int>>();
+            userService = new UserService(userRepositoryMock.Object, mapper.Object);
+            bookService = new BookService(bookRepositoryMock.Object, userService, mapper.Object);
 
-//            InitializeMock();
-//        }
+            InitializeMock();
+        }
 
-//        [Fact]
-//        public void BookGetAllTest()
-//        {
-//            var testCollection = GetBookCollection();
+        [Fact]
+        public void BookGetAllTest()
+        {
+            var testCollection = GetBookCollection();
 
-//            var actualBookCollection = bookService.GetAll();
+            var actualBookCollection = bookService.GetAll();
 
-//            Assert.Equal(testCollection.Count(), actualBookCollection.Count());
-//        }
+            Assert.Equal(testCollection.Count(), actualBookCollection.Count());
+        }
 
-//        [Fact]
-//        public void UserGetAllTest()
-//        {
-//            var testCollection = GetUserCollection();
+        [Fact]
+        public void UserGetAllTest()
+        {
+            var testCollection = GetUserCollection();
 
-//            var actualBookCollection = userService.GetAllUsers();
+            var actualBookCollection = userService.GetAllUsers();
 
-//            Assert.Equal(testCollection.Count(), actualBookCollection.Count());
-//        }
+            Assert.Equal(testCollection.Count(), actualBookCollection.Count());
+        }
 
-//        [Fact]
-//        public void BookGetById()
-//        {
-//            var testBook = GetBookCollection().ToList()[0];
+        [Fact]
+        public void BookGetById()
+        {
+            bookRepositoryMock.Setup(x => x.Get(0)).Returns(GetBookCollection().ToList()[0]);
 
-//            var actualBook = bookService.Find(0);
+            var testBook = GetBookDTOCollection().ToList()[0];
 
-//            Assert.Equal(testBook.Id, actualBook.Id);
-//        }
+            var actualBook = bookService.Find(0);
 
-//        [Fact]
-//        public void CreateBook()
-//        {
-//            bookService.Create(new BookDTO { Id = 5 });
+            Assert.Equal(testBook.Id, actualBook.Id);
+        }
 
-//            var testCollection = GetUserCollection();
+        [Fact]
+        public void CreateBook()
+        {
+            Book newBook = new Book { Id = 5 };
+            BookDTO newBookDTO = new BookDTO { Id = 5 };
+            List<Book> books = new List<Book>();
+            bookRepositoryMock.Setup(x => x.GetAll()).Returns(books);
+            bookRepositoryMock.Setup(x => x.Create(newBook)).Callback((Book book) => { books.Add(new Book()); });
+            mapper.Setup(x => x.Map<Book>(newBookDTO)).Returns(newBook);
 
-//            var actualBookCollection = userService.GetAllUsers();
+            bookService.Create(newBookDTO);
 
-//            Assert.Equal((testCollection.Count() + 1), actualBookCollection.Count());
-//        }
+            var expectedNumberOfBooks = 1;
 
-//        private void InitializeMock()
-//        {
-//            mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[0])).Returns(GetBookDTOCollection().ToList()[0]);
-//            mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[1])).Returns(GetBookDTOCollection().ToList()[1]);
-//            mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[2])).Returns(GetBookDTOCollection().ToList()[2]);
-//            mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[3])).Returns(GetBookDTOCollection().ToList()[3]);
-//            mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[4])).Returns(GetBookDTOCollection().ToList()[4]);
+            var actualBookCollection = bookService.GetAll();
 
-//            mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[0])).Returns(GetUserDTOCollection().ToList()[0]);
-//            mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[1])).Returns(GetUserDTOCollection().ToList()[1]);
-//            mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[2])).Returns(GetUserDTOCollection().ToList()[2]);
-//            mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[3])).Returns(GetUserDTOCollection().ToList()[3]);
-//            mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[4])).Returns(GetUserDTOCollection().ToList()[4]);
+            Assert.Equal(expectedNumberOfBooks, actualBookCollection.Count());
+        }
 
-//        }
+        private void InitializeMock()
+        {
+            mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[0])).Returns(GetBookDTOCollection().ToList()[0]);
+            mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[1])).Returns(GetBookDTOCollection().ToList()[1]);
+            mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[2])).Returns(GetBookDTOCollection().ToList()[2]);
+            mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[3])).Returns(GetBookDTOCollection().ToList()[3]);
+            mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[4])).Returns(GetBookDTOCollection().ToList()[4]);
 
-//        private IEnumerable<Book> GetBookCollection()
-//        {
-//            return new[]
-//            {
-//                new Book{Id = 1},
-//                new Book{Id = 2},
-//                new Book{Id = 3},
-//                new Book{Id = 4},
-//                new Book{Id = 5},
-//            };
-//        }
+            mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[0])).Returns(GetUserDTOCollection().ToList()[0]);
+            mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[1])).Returns(GetUserDTOCollection().ToList()[1]);
+            mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[2])).Returns(GetUserDTOCollection().ToList()[2]);
+            mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[3])).Returns(GetUserDTOCollection().ToList()[3]);
+            mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[4])).Returns(GetUserDTOCollection().ToList()[4]);
 
-//        private IEnumerable<BookDTO> GetBookDTOCollection()
-//        {
-//            return new[]
-//            {
-//                new BookDTO{Id = 1},
-//                new BookDTO{Id = 2},
-//                new BookDTO{Id = 3},
-//                new BookDTO{Id = 4},
-//                new BookDTO{Id = 5},
-//            };
-//        }
+            bookRepositoryMock.Setup(x => x.GetAll()).Returns(GetBookCollection());
+            userRepositoryMock.Setup(x => x.GetAll()).Returns(GetUserCollection());
+        }
 
-//        private IEnumerable<User> GetUserCollection()
-//        {
-//            return new[]
-//            {
-//                new User{FirstName = "a"},
-//                new User{FirstName = "b"},
-//                new User{FirstName = "c"},
-//                new User{FirstName = "d"},
-//                new User{FirstName = "f"},
-//            };
-//        }
+        private IEnumerable<Book> GetBookCollection()
+        {
+            return new[]
+            {
+                new Book{Id = 0},
+                new Book{Id = 1},
+                new Book{Id = 2},
+                new Book{Id = 3},
+                new Book{Id = 4},
+            };
+        }
 
-//        private IEnumerable<UserDTO> GetUserDTOCollection()
-//        {
-//            return new[]
-//            {
-//                new UserDTO{FirstName = "a"},
-//                new UserDTO{FirstName = "b"},
-//                new UserDTO{FirstName = "c"},
-//                new UserDTO{FirstName = "d"},
-//                new UserDTO{FirstName = "f"},
-//            };
-//        }
+        private IEnumerable<BookDTO> GetBookDTOCollection()
+        {
+            return new[]
+            {
+                new BookDTO{Id = 0},
+                new BookDTO{Id = 1},
+                new BookDTO{Id = 2},
+                new BookDTO{Id = 3},
+                new BookDTO{Id = 4},
+            };
+        }
 
-//    }
-//}
+        private IEnumerable<User> GetUserCollection()
+        {
+            return new[]
+            {
+                new User{FirstName = "a"},
+                new User{FirstName = "b"},
+                new User{FirstName = "c"},
+                new User{FirstName = "d"},
+                new User{FirstName = "f"},
+            };
+        }
+
+        private IEnumerable<UserDTO> GetUserDTOCollection()
+        {
+            return new[]
+            {
+                new UserDTO{FirstName = "a"},
+                new UserDTO{FirstName = "b"},
+                new UserDTO{FirstName = "c"},
+                new UserDTO{FirstName = "d"},
+                new UserDTO{FirstName = "f"},
+            };
+        }
+
+    }
+}

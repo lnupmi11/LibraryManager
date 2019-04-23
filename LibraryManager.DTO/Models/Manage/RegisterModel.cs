@@ -4,7 +4,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace LibraryManager.DTO.Models.Manage
+namespace LibraryManager.DTO.Entities.Manage
 {
     class RegisterModel
     {

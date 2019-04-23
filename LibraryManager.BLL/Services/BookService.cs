@@ -12,11 +12,11 @@ namespace LibraryManager.BLL.Services
 {
     public class BookService : IBookService
     {
-        private readonly IRepository<Book> _bookRepository;
+        private readonly IRepository<Book, int> _bookRepository;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public BookService(IRepository<Book> bookRepository, IUserService userService, IMapper mapper)
+        public BookService(IRepository<Book, int> bookRepository, IUserService userService, IMapper mapper)
         {
             _bookRepository = bookRepository;
             _userService = userService;
