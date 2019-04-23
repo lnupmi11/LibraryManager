@@ -8,6 +8,12 @@ namespace LibraryManager.DTO.Models
     {
         public int Id;
 
+        public string Title;
+
+        public AuthorDTO Author;
+
         public double Rating;
+
+        public int NumberOfPages;
     }
 }

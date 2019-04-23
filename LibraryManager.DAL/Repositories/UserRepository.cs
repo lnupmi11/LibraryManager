@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LibraryManager.DAL.Reposetories
+namespace LibraryManager.DAL.Repositories
 {
     public class UserRepository : IRepository<User, string>
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using LibraryManager.DAL.Entities;
-using LibraryManager.DAL.Reposetories;
+using LibraryManager.DAL.Repositories;
 using LibraryManager.DAL.Interfaces;
 
 namespace LibraryManager.DAL
@@ -24,6 +24,10 @@ namespace LibraryManager.DAL
         {
             get
             {
+                if(this.authorRepository == null)
+                {
+                    this.authorRepository = new AuthorRepository(context);
+                }
                 return authorRepository;
             }
             set
@@ -36,6 +40,10 @@ namespace LibraryManager.DAL
         {
             get
             {
+                if (this.UserRepository == null)
+                {
+                    this.UserRepository = new UserRepository(context);
+                }
                 return userRepository;
             }
             set
@@ -48,6 +56,10 @@ namespace LibraryManager.DAL
         {
             get
             {
+                if (this.BookRepository == null)
+                {
+                    this.BookRepository = new BookRepository(context);
+                }
                 return bookRepository;
             }
             set
