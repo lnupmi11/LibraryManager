@@ -15,6 +15,8 @@ namespace LibraryManager.DAL.Interfaces
 
         IRepository<Book, int> BookRepository { get; set; }
 
+        IRepository<Language, int> LanguageRepository { get; set; }
+
         void Save();
     }
 }
