@@ -1,7 +1,20 @@
-﻿@{
+﻿@using LibraryManager.DTO.Models
+@model IEnumerable<BookDTO>
+
+@{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
-
-<p>Hello</p>
+<div>
+    <ul>
+        @foreach (var book in Model)
+        {
+            <li>
+                <a asp-controller="Books" asp-action="Open" asp-route-id="@book.Id"><h2>@book.Title</h2></a>
+                <h3>Writteb by @book.Author.FullName</h3>
+                <p>@book.Rating</p><br />
+                <p>@book.NumberOfPages</p>
+            </li>
+        }
+    </ul>
+</div>

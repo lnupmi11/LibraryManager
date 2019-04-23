@@ -6,7 +6,7 @@ using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibraryManager.DAL.Reposetories
+namespace LibraryManager.DAL.Repositories
 {
     public class BookRepository: IRepository<Book, int>
     {

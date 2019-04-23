@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using LibraryManager.DAL;
-using LibraryManager.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using LibraryManager.BLL.Interfaces;
 
 namespace LibraryManager.Controllers
@@ -24,7 +21,9 @@ namespace LibraryManager.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            return View();
+            var books = _bookService.GetAll();
+
+            return View(books);
         }
 
         [AllowAnonymous]
