@@ -198,6 +198,17 @@ namespace LibraryManager.DAL.Seeding
             return list;
         }
 
+        private static async Task BookGenreSeed(LibraryManagerContext context)
+        {
+            var list = GetBookGenreSeedItems(context);
+            foreach (var item in list)
+            {
+                await context.Set<BookGenre>().AddAsync(item);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
         public static List<BookGenre> GetBookGenreSeedItems(LibraryManagerContext context)
         {
             var list = new List<BookGenre>()
@@ -228,6 +239,17 @@ namespace LibraryManager.DAL.Seeding
                 }
             };
             return list;
+        }
+
+        private static async Task BookLanguageSeed(LibraryManagerContext context)
+        {
+            var list = GetBookLanguageSeedItems(context);
+            foreach (var item in list)
+            {
+                await context.Set<BookLanguage>().AddAsync(item);
+            }
+
+            await context.SaveChangesAsync();
         }
 
         public static List<BookLanguage> GetBookLanguageSeedItems(LibraryManagerContext context)
