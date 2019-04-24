@@ -19,7 +19,9 @@ namespace LibraryManager.DAL.Repositories
 
         public IEnumerable<Book> GetAll()
         {
-            return _dbContext.Books;
+            return _dbContext.Books
+                .Include(b => b.Genres)
+                .Include(b => b.Languages);
         }
 
         public Book Get(int id)

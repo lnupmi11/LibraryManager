@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LibraryManager.DTO.Models
 {
-    class GenreDTO
+    public class GenreDTO
     {
         public int Id { get; set; }
 
