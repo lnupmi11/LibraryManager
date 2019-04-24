@@ -19,7 +19,7 @@ namespace LibraryManager.DAL.Repositories
 
         public IEnumerable<Author> GetAll()
         {
-            return _dbContext.Authors;
+            return _dbContext.Authors.ToList();
         }
 
         public Author Get(int id)

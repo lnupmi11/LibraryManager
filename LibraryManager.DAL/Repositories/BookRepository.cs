@@ -21,7 +21,7 @@ namespace LibraryManager.DAL.Repositories
         {
             return _dbContext.Books
                 .Include(b => b.Genres)
-                .Include(b => b.Languages);
+                .Include(b => b.Languages).ToList();
         }
 
         public Book Get(int id)

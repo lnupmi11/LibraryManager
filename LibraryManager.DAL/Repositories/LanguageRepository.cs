@@ -21,7 +21,7 @@ namespace LibraryManager.DAL.Repositories
 
         public IEnumerable<Language> GetAll()
         {
-            return _dbContext.Languages;
+            return _dbContext.Languages.ToList();
         }
 
         public Language Get(int id)

@@ -18,7 +18,7 @@ namespace LibraryManager.DAL.Repositories
         }
         public IEnumerable<Genre> GetAll()
         {
-            return _dbContext.Genres;
+            return _dbContext.Genres.ToList();
         }
 
         public Genre Get(int id)
