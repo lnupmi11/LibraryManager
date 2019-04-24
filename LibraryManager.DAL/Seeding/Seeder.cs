@@ -15,21 +15,26 @@ namespace LibraryManager.DAL.Seeding
             GenreSeed(context).GetAwaiter().GetResult();
             LanguageSeed(context).GetAwaiter().GetResult();
             BookSeed(context).GetAwaiter().GetResult();
+            BookLanguageSeed(context).GetAwaiter().GetResult();
+            BookGenreSeed(context).GetAwaiter().GetResult();
         }
         private static async Task BookSeed(LibraryManagerContext context)
         {
-            List<Book> list = GetBookSeedItems(context);
-            foreach (var item in list)
+            if (!context.Set<Book>().Any())
             {
-                if (context.Set<Book>().Any(x => x.Title == item.Title))
+                List<Book> list = GetBookSeedItems(context);
+                foreach (var item in list)
                 {
-                    continue;
+                    if (context.Set<Book>().Any(x => x.Title == item.Title))
+                    {
+                        continue;
+                    }
+
+                    await context.Set<Book>().AddAsync(item);
                 }
 
-                await context.Set<Book>().AddAsync(item);
+                await context.SaveChangesAsync();
             }
-
-            await context.SaveChangesAsync();
         }
 
         public static List<Book> GetBookSeedItems(LibraryManagerContext context)
@@ -95,18 +100,21 @@ namespace LibraryManager.DAL.Seeding
 
         private static async Task AuthorSeed(LibraryManagerContext context)
         {
-            List<Author> list = GetAuthorSeedItems();
-            foreach (var item in list)
+            if (!context.Set<Author>().Any())
             {
-                if (context.Set<Author>().Any(x => x.LastName == item.LastName))
+                List<Author> list = GetAuthorSeedItems();
+                foreach (var item in list)
                 {
-                    continue;
+                    if (context.Set<Author>().Any(x => x.LastName == item.LastName))
+                    {
+                        continue;
+                    }
+
+                    await context.Set<Author>().AddAsync(item);
                 }
 
-                await context.Set<Author>().AddAsync(item);
+                await context.SaveChangesAsync();
             }
-
-            await context.SaveChangesAsync();
         }
 
         public static List<Author> GetAuthorSeedItems()
@@ -141,13 +149,16 @@ namespace LibraryManager.DAL.Seeding
 
         private static async Task GenreSeed(LibraryManagerContext context)
         {
-            List<Genre> list = GetGenreSeedItems();
-            foreach (var item in list)
+            if (!context.Set<Genre>().Any())
             {
-                await context.Set<Genre>().AddAsync(item);
-            }
+                List<Genre> list = GetGenreSeedItems();
+                foreach (var item in list)
+                {
+                    await context.Set<Genre>().AddAsync(item);
+                }
 
-            await context.SaveChangesAsync();
+                await context.SaveChangesAsync();
+            }
         }
         public static List<Genre> GetGenreSeedItems()
         {
@@ -168,13 +179,16 @@ namespace LibraryManager.DAL.Seeding
         }
         private static async Task LanguageSeed(LibraryManagerContext context)
         {
-            List<Language> list = GetLanguageSeedItems();
-            foreach (var item in list)
+            if (!context.Set <Language>().Any())
             {
-                await context.Set<Language>().AddAsync(item);
-            }
+                List<Language> list = GetLanguageSeedItems();
+                foreach (var item in list)
+                {
+                    await context.Set<Language>().AddAsync(item);
+                }
 
-            await context.SaveChangesAsync();
+                await context.SaveChangesAsync();
+            }
         }
         public static List<Language> GetLanguageSeedItems()
         {
@@ -200,13 +214,16 @@ namespace LibraryManager.DAL.Seeding
 
         private static async Task BookGenreSeed(LibraryManagerContext context)
         {
-            var list = GetBookGenreSeedItems(context);
-            foreach (var item in list)
+            if (!context.Set<BookGenre>().Any())
             {
-                await context.Set<BookGenre>().AddAsync(item);
-            }
+                var list = GetBookGenreSeedItems(context);
+                foreach (var item in list)
+                {
+                    await context.Set<BookGenre>().AddAsync(item);
+                }
 
-            await context.SaveChangesAsync();
+                await context.SaveChangesAsync();
+            }
         }
 
         public static List<BookGenre> GetBookGenreSeedItems(LibraryManagerContext context)
@@ -243,13 +260,16 @@ namespace LibraryManager.DAL.Seeding
 
         private static async Task BookLanguageSeed(LibraryManagerContext context)
         {
-            var list = GetBookLanguageSeedItems(context);
-            foreach (var item in list)
+            if (!context.Set<BookLanguage>().Any())
             {
-                await context.Set<BookLanguage>().AddAsync(item);
-            }
+                var list = GetBookLanguageSeedItems(context);
+                foreach (var item in list)
+                {
+                    await context.Set<BookLanguage>().AddAsync(item);
+                }
 
-            await context.SaveChangesAsync();
+                await context.SaveChangesAsync();
+            }
         }
 
         public static List<BookLanguage> GetBookLanguageSeedItems(LibraryManagerContext context)
