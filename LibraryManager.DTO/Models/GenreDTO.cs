@@ -4,10 +4,10 @@ using System.Text;
 
 namespace LibraryManager.DTO.Models
 {
-    public class GenreDTO
+    class GenreDTO
     {
         public int Id { get; set; }
 
-        public string GenreName { get; set; }
+        public string GenreName;
     }
 }

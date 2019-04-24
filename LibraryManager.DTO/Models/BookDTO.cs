@@ -11,6 +11,7 @@ namespace LibraryManager.DTO.Models
         public string Title;
 
         public AuthorDTO Author;
+        
 
         public double Rating;
 

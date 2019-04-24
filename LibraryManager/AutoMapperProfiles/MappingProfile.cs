@@ -16,7 +16,7 @@ namespace LibraryManager.API.AutoMapperProfiles
         {
             CreateMap<Book, BookDTO>().ReverseMap();
             CreateMap<Author, AuthorDTO>().ReverseMap();
-            CreateMap<Genre, GenreDTO>().ReverseMap();
+            CreateMap<Language, LanguageDTO>().ReverseMap();
         }
     }
 }

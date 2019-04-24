@@ -22,16 +22,42 @@ namespace LibraryManager.DAL.Entities
         public LibraryManagerContext(DbContextOptions<LibraryManagerContext> options)
             : base(options)
         {
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            ConfigureBookGenreRelations(builder);
+            ConfigureBookLanguageRelations(builder);
+            ConfigureUserBookRelations(builder);
+
             //new AuthorConfiguration().Initialize(builder, builder.Entity<Author>());
             //new BookConfiguration().Initialize(builder, builder.Entity<Book>());
             //new UserConfiguration().Initialize(builder, builder.Entity<User>());
             //new GenreConfiguration().Initialize(builder, builder.Entity<Genre>());
             base.OnModelCreating(builder);
         }
+
+        private void ConfigureBookGenreRelations(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BookGenre>().HasKey(bg => new { bg.BookId, bg.GenreId });
+            modelBuilder.Entity<BookGenre>().HasOne(bg => bg.Book).WithMany(b => b.Genres).HasForeignKey(bg => bg.BookId);
+            modelBuilder.Entity<BookGenre>().HasOne(bg => bg.Genre).WithMany(g => g.Books).HasForeignKey(bg => bg.GenreId);
+        }
+
+        private void ConfigureBookLanguageRelations(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BookLanguage>().HasKey(bl => new { bl.BookId, bl.LanguageId });
+            modelBuilder.Entity<BookLanguage>().HasOne(bl => bl.Book).WithMany(b => b.Languages).HasForeignKey(bl => bl.BookId);
+            modelBuilder.Entity<BookLanguage>().HasOne(bl => bl.Language).WithMany(l => l.Books).HasForeignKey(bl => bl.LanguageId);
+        }
+
+        private void ConfigureUserBookRelations(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserBook>().HasKey(ub => new { ub.UserId, ub.BookId });
+            modelBuilder.Entity<UserBook>().HasOne(ub => ub.User).WithMany(u => u.WishList).HasForeignKey(ub => ub.UserId);
+            modelBuilder.Entity<UserBook>().HasOne(ub => ub.Book).WithMany(b => b.Users).HasForeignKey(ub => ub.BookId);
+        }
+
     }
 }

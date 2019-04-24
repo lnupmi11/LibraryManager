@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 
 
-namespace LibraryManager.DAL.Reposetories
+namespace LibraryManager.DAL.Repositories
 {
     public class LanguageRepository : IRepository<Language, int>
     {

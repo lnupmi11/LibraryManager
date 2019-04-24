@@ -12,15 +12,12 @@ namespace LibraryManager.DAL.Entities
         [ForeignKey("Author")]
         public int AuthorId { get; set; }
         public Author Author { get; set; }
+        
+        public ICollection<BookGenre> Genres { get; set; }
+        
+        public ICollection<BookLanguage> Languages { get; set; }
 
-        [ForeignKey("Genre")]
-        public int GenreId { get; set;}
-        public Genre Genre { get; set; }
-
-        [ForeignKey("Language")]
-        public int LanguageId { get; set; }
-        [NotMapped]
-        public Language Language { get; set; }
+        public ICollection<UserBook> Users { get; set; }
 
       //  public IEnumerable<Genre> GenresCollection { get; set; }
         

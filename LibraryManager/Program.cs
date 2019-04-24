@@ -20,7 +20,7 @@ namespace LibraryManager
 
                 //context.Database.Migrate();
 
-                //Seeder.SeedAll(context);
+                Seeder.SeedAll(context);
             }
 
 
