@@ -38,10 +38,10 @@ namespace LibraryManager.DAL.Seeding
             list.Add(new Book()
             {
                 Author = context.Authors.FirstOrDefault(x => x.LastName == "London"),
-               // AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
-                //GenresCollection = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Novel") },
-                GenreId = 3,
-                LanguageId = 1,
+                //Languages = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                //Genres = new List<BookGenre>() {  context.Genres.FirstOrDefault(x => x.GenreName == "Novel") },
+                //GenreId = 3,
+                //LanguageId = 1,
                 NumberOfPages = 400,
                 Rating = 8,
                 Title = "White Fang"
@@ -49,10 +49,10 @@ namespace LibraryManager.DAL.Seeding
             list.Add(new Book()
             {
                 Author = context.Authors.FirstOrDefault(x => x.LastName == "Remark"),
-               // AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "German"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
-                //GenresCollection = new List<Genre>() { GetGenreSeedItems().FirstOrDefault(x => x.GenreName == "Novel") },
-                GenreId = 1,
-                LanguageId = 2,
+                //Languages = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "German"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                //Genres = new List<Genre>() { GetGenreSeedItems().FirstOrDefault(x => x.GenreName == "Novel") },
+                //GenreId = 1,
+                //LanguageId = 2,
                 NumberOfPages = 300,
                 Rating = 9,
                 Title = "Three Comrades"
@@ -60,10 +60,10 @@ namespace LibraryManager.DAL.Seeding
             list.Add(new Book()
             {
                 Author = context.Authors.FirstOrDefault(x => x.LastName == "London"),
-                //AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
-                //GenresCollection = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Adventures") },
-                GenreId = 2,
-                LanguageId = 2,
+                //Languages = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                //Genres = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Adventures") },
+                //GenreId = 2,
+                //LanguageId = 2,
                 NumberOfPages = 400,
                 Rating = 8,
                 Title = "Call of the wild"
@@ -71,10 +71,10 @@ namespace LibraryManager.DAL.Seeding
             list.Add(new Book()
             {
                 Author = context.Authors.FirstOrDefault(x => x.LastName == "Verne"),
-                //AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "French"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
-                // GenresCollection = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Adventures") },
-                GenreId = 2,
-                LanguageId = 1,
+                //Languages = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "French"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                //Genres = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Adventures") },
+                //GenreId = 2,
+                //LanguageId = 1,
                 NumberOfPages = 500,
                 Rating = 7,
                 Title = "The Mysterious Island"
@@ -82,10 +82,10 @@ namespace LibraryManager.DAL.Seeding
             list.Add(new Book()
             {
                 Author = context.Authors.FirstOrDefault(x => x.LastName == "Conan-Doyle"),
-                //AvailableLanguagesCollection = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
-                //GenresCollection = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Detective") },
-                GenreId = 1,
-                LanguageId = 1,
+                //Languages = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                //Genres = new List<Genre>() { context.Genres.FirstOrDefault(x => x.GenreName == "Detective") },
+                //GenreId = 1,
+                //LanguageId = 1,
                 NumberOfPages = 200,
                 Rating = 8,
                 Title = "Sherlock Holmes"
@@ -195,6 +195,96 @@ namespace LibraryManager.DAL.Seeding
             {
                 LanguageName = "German"
             });
+            return list;
+        }
+
+        public static List<BookGenre> GetBookGenreSeedItems(LibraryManagerContext context)
+        {
+            var list = new List<BookGenre>()
+            {
+                new BookGenre() {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "White Fang"),
+                    Genre = context.Genres.FirstOrDefault(g => g.GenreName == "Novel")
+                },
+                new BookGenre()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Three Comrades"),
+                    Genre = context.Genres.FirstOrDefault(g => g.GenreName == "Novel")
+                },
+                new BookGenre()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Call of the wild"),
+                    Genre = context.Genres.FirstOrDefault(g => g.GenreName == "Adventures")
+                },
+                new BookGenre()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "The Mysterious Island"),
+                    Genre = context.Genres.FirstOrDefault(g => g.GenreName == "Adventures")
+                },
+                new BookGenre()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Sherlock Holmes" ),
+                    Genre = context.Genres.FirstOrDefault(g => g.GenreName == "Detective")
+                }
+            };
+            return list;
+        }
+
+        public static List<BookLanguage> GetBookLanguageSeedItems(LibraryManagerContext context)
+        {
+            var list = new List<BookLanguage>()
+            {
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "White Fang"),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "English")
+                },
+                new BookLanguage()
+                {
+                    Book =  context.Books.FirstOrDefault(b => b.Title == "White Fang"),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "Ukrainian")
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Three Comrades"),
+                    Language = context.Languages.FirstOrDefault(x => x.LanguageName == "German") 
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Three Comrades"),
+                    Language = context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian")
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Call of the wild"),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "English") 
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Call of the wild"),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "Ukrainian")
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "The Mysterious Island"),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "French") 
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "The Mysterious Island"),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "Ukrainian")
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Sherlock Holmes" ),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "English") 
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Sherlock Holmes" ),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "Ukrainian")
+                }
+            };
             return list;
         }
     }

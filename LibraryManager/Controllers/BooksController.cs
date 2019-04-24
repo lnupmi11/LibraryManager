@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using LibraryManager.BLL.Interfaces;
 
 namespace LibraryManager.Controllers
 {
-    [AllowAnonymous]
     public class BooksController : Controller
     {
         private readonly IBookService _bookService;
@@ -17,16 +15,14 @@ namespace LibraryManager.Controllers
             _bookService = bookService;
             _userService = userService;
         }
-
-        [AllowAnonymous]
+        
         public IActionResult Index()
         {
             var books = _bookService.GetAll();
 
-            return View(books);
+            return View(/*books*/);
         }
-
-        [AllowAnonymous]
+        
         public IActionResult Open(int id)
         {
             var book = _bookService.Find(id);
@@ -37,8 +33,7 @@ namespace LibraryManager.Controllers
 
             return View(book);
         }
-
-        [AllowAnonymous]
+        
         public IActionResult OpenRandom()
         {
             var numberOfBooks = _bookService.GetAll().Count();
@@ -56,7 +51,7 @@ namespace LibraryManager.Controllers
 
         #region Actions
 
-        public async void AddToWishlist(string userId, int bookId)
+        public void AddToWishlist(string userId, int bookId)
         {
             var currentUser =  _userService.GetUser(userId);
             var currentBook = _bookService.Find(bookId);

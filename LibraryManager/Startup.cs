@@ -48,11 +48,12 @@ namespace LibraryManager
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<LibraryManagerContext>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ILanguageService, LanguageService>();
-            services.AddScoped<IRepository<Language,int>, LanguageRepository>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IUserService, UserService>();
+
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

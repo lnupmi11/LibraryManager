@@ -11,7 +11,6 @@ using AutoMapper;
 using LibraryManager.DTO.Models;
 using LibraryManager.DAL;
 using System.Linq;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LibraryManager.Tests
 {

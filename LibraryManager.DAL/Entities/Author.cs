@@ -12,7 +12,7 @@ namespace LibraryManager.DAL.Entities
         
         public int NumberOfWrittenBooks { get; set; }
 
-        public IEnumerable<Book> Books { get; set; }
+        public ICollection<Book> Books { get; set; }
 
         public Author() { }
     }
