@@ -2,6 +2,7 @@
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Repositories;
 using LibraryManager.DAL.Interfaces;
+using LibraryManager.DAL.Reposetories;
 
 namespace LibraryManager.DAL
 {
@@ -14,6 +15,8 @@ namespace LibraryManager.DAL
         private IRepository<User, string> userRepository;
         private IRepository<Book, int> bookRepository;
         private IRepository<Language, int> languageRepository;
+        private IRepository<Genre, int> genreRepository;
+
 
         public UnitOfWork(LibraryManagerContext context)
         {
@@ -85,6 +88,20 @@ namespace LibraryManager.DAL
                 this.languageRepository = value ?? new LanguageRepository(context);
             }
         }
+
+        public IRepository<Genre, int> GenreRepository
+        {
+            get
+            {
+                return genreRepository;
+            }
+            set
+            {
+                this.genreRepository = value ?? new GenreRepository(context);
+            }
+        }
+
+
 
         public void Save()
         {
