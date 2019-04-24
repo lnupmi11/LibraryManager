@@ -78,13 +78,13 @@ namespace LibraryManager.Tests
         public void TestLanguageShouldBeDeleted(int LanguageId)
         {
             //Arrange
-            var authorRepository = new AuthorRepository(_dbContext);
+            var LanguageRepository = new LanguageRepository(_dbContext);
 
             //Act
-            authorRepository.Delete(LanguageId);
+            LanguageRepository.Delete(LanguageId);
 
             //Assert
-            Assert.Null(authorRepository.Get(LanguageId));
+            Assert.Null(LanguageRepository.Get(LanguageId));
         }
     }
 }
