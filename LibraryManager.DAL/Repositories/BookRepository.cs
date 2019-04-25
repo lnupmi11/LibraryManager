@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Interfaces;
+using LibraryManager.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManager.DAL.Repositories
@@ -33,7 +34,7 @@ namespace LibraryManager.DAL.Repositories
 
         public Book GetByName(string bookName)
         {
-           return GetAll().FirstOrDefault(x => x.Title == bookName);
+           return GetAll().FirstOrDefault(b => b.Title == bookName);
         }
 
         public void Create(Book item)
@@ -45,24 +46,15 @@ namespace LibraryManager.DAL.Repositories
         public void Update(Book item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
-            _dbContext.Update(item);
-            _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var book = _dbContext.Books.Find(id);
+            var book = Get(id);
             if (book != null)
                 _dbContext.Books.Remove(book);
             _dbContext.SaveChangesAsync();
-        }
-        public Book OpenRandom()
-        {
-            var numberOfBooks = _dbContext.Books.Count();
-            var random = new Random();
-            var randomBook = _dbContext.Books.FirstOrDefault(x => x.Id == random.Next(1, numberOfBooks));
-
-            return randomBook;
         }
     }
 }

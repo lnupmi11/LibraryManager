@@ -6,7 +6,7 @@ using LibraryManager.DAL.Entities;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace LibraryManager.DAL.Entities
+namespace LibraryManager.DAL.Context
 {
     public sealed class LibraryManagerContext: IdentityDbContext<User>
     {

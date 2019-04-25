@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using LibraryManager.DAL.Repositories;
 using LibraryManager.DAL.Seeding;
+using LibraryManager.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Xunit;
@@ -42,7 +43,6 @@ namespace LibraryManager.Tests
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        [InlineData(3)]
         public void TestGetBookShouldNotBeNull(int bookId)
         {
             //Arrange

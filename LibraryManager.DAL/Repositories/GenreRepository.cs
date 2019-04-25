@@ -1,5 +1,6 @@
 ﻿using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Interfaces;
+using LibraryManager.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,12 +24,12 @@ namespace LibraryManager.DAL.Repositories
 
         public Genre Get(int id)
         {
-            return _dbContext.Genres.Find(id);
+            return GetAll().FirstOrDefault(g => g.Id == id);
         }
 
         public Genre GetByName(string genreName)
         {
-            return _dbContext.Genres.FirstOrDefault(x => x.GenreName == genreName);
+            return GetAll().FirstOrDefault(g => g.GenreName == genreName);
         }
 
         public void Create(Genre item)
@@ -40,11 +41,12 @@ namespace LibraryManager.DAL.Repositories
         public void Update(Genre item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
+            _dbContext.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var genre = _dbContext.Genres.Find(id);
+            var genre = Get(id);
             if (genre != null)
                 _dbContext.Genres.Remove(genre);
             _dbContext.SaveChangesAsync();

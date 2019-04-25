@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibraryManager.DAL.Entities;
+using LibraryManager.DAL.Context;
 
 namespace LibraryManager.DAL.Seeding
 {

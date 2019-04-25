@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Interfaces;
+using LibraryManager.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -26,12 +27,12 @@ namespace LibraryManager.DAL.Repositories
 
         public Language Get(int id)
         {
-            return _dbContext.Languages.Find(id);
+            return GetAll().FirstOrDefault(l => l.Id == id);
         }
 
         public Language GetByName(string languageName)
         {
-            return _dbContext.Languages.FirstOrDefault(x => x.LanguageName == languageName);
+            return GetAll().FirstOrDefault(l => l.LanguageName == languageName);
         }
 
         public void Create(Language item)
@@ -43,11 +44,12 @@ namespace LibraryManager.DAL.Repositories
         public void Update(Language item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
+            _dbContext.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var language = _dbContext.Languages.Find(id);
+            var language = Get(id);
             if (language != null)
                 _dbContext.Languages.Remove(language);
             _dbContext.SaveChangesAsync();

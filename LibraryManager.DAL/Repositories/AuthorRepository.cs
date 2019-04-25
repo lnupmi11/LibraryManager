@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Interfaces;
+using LibraryManager.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManager.DAL.Repositories
@@ -24,7 +25,7 @@ namespace LibraryManager.DAL.Repositories
 
         public Author Get(int id)
         {
-            return _dbContext.Authors.Find(id);
+            return GetAll().FirstOrDefault(a => a.Id == id);
         }
 
         public void Create(Author item)
@@ -36,11 +37,12 @@ namespace LibraryManager.DAL.Repositories
         public void Update(Author item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
+            _dbContext.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var author = _dbContext.Authors.Find(id);
+            var author = Get(id);
             if (author != null)
                 _dbContext.Authors.Remove(author);
             _dbContext.SaveChanges();

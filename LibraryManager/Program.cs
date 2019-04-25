@@ -1,5 +1,6 @@
 ﻿using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Seeding;
+using LibraryManager.DAL.Context;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
