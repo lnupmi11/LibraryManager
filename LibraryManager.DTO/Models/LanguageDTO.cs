@@ -10,7 +10,5 @@ namespace LibraryManager.DTO.Models
         public int Id;
 
         public string LanguageName;
-
-        public IEnumerable<BookDTO> Books;
     }
 }

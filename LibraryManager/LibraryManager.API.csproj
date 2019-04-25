@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-LibraryManager-58B49916-9CDE-44DA-B5A8-5372703FE4C7</UserSecretsId>
+    <RootNamespace>LibraryManager</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

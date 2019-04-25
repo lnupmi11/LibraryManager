@@ -6,8 +6,9 @@ namespace LibraryManager.DTO.Models
 {
     public class AuthorDTO
     {
-        public string FullName { get; set; }
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public int NumberOfWrittenBooks { get; set; }
-        public ICollection<BookDTO> Books { get; set; }
     }
 }

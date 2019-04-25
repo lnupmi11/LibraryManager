@@ -61,6 +61,7 @@ namespace LibraryManager.Tests
         public void BookGetById()
         {
             bookRepositoryMock.Setup(x => x.Get(0)).Returns(GetBookCollection().ToList()[0]);
+            mapper.Setup(x => x.Map<BookDTO>(It.IsAny<Book>())).Returns(GetBookDTOCollection().ToList()[0]);
 
             var testBook = GetBookDTOCollection().ToList()[0];
 

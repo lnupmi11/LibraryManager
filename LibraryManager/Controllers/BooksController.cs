@@ -20,7 +20,7 @@ namespace LibraryManager.Controllers
         {
             var books = _bookService.GetAll();
 
-            return View(/*books*/);
+            return View(books);
         }
         
         public IActionResult Open(int id)

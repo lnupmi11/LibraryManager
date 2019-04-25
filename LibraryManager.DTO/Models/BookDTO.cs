@@ -11,7 +11,10 @@ namespace LibraryManager.DTO.Models
         public string Title;
 
         public AuthorDTO Author;
-        
+
+        public IEnumerable<GenreDTO> Genres;
+
+        public IEnumerable<LanguageDTO> Languages;
 
         public double Rating;
 

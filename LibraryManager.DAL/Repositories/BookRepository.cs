@@ -20,29 +20,33 @@ namespace LibraryManager.DAL.Repositories
         public IEnumerable<Book> GetAll()
         {
             return _dbContext.Books
-                .Include(b => b.Genres)
-                .Include(b => b.Languages).ToList();
+                .Include(b => b.Genres).ThenInclude(g => g.Genre)
+                .Include(b => b.Languages).ThenInclude(l => l.Language)
+                .Include(b => b.Author)
+                .ToList();
         }
 
         public Book Get(int id)
         {
-            return _dbContext.Books.Find(id);
+            return GetAll().FirstOrDefault(b => b.Id == id);
         }
 
         public Book GetByName(string bookName)
         {
-           return _dbContext.Books.FirstOrDefault(x => x.Title == bookName);
+           return GetAll().FirstOrDefault(x => x.Title == bookName);
         }
 
         public void Create(Book item)
         {
             _dbContext.Add(item);
-            _dbContext.SaveChanges();
+            _dbContext.SaveChangesAsync();
         }
 
         public void Update(Book item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
+            _dbContext.Update(item);
+            _dbContext.SaveChangesAsync();
         }
 
         public void Delete(int id)
