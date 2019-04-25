@@ -1,31 +1,29 @@
-﻿@using LibraryManager.DTO.Models
-
-@using LibraryManager.DTO.Models
-@model IEnumerable<BookDTO>
+﻿@using LibraryManager.DTO.Models.Manage
+@model LibraryIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+<div class="container">
+    @foreach (var genre in Model.GenreDTOs)
+    {
+        <div class="col-sm-3">
+            <img>
+            <h5>@genre.GenreName</h5>
+            <h6>@genre.NumberOfBooks</h6>
+        </div>
+    }
+</div>
 
-<div>
-    <ul>
-        @foreach (var book in Model)
-        {
-            <li>
-                <a asp-controller="Books" asp-action="Open" asp-route-id="@book.Id"><h2>@book.Title</h2></a>
-                <h3>Written by @book.Author.FirstName  @book.Author.LastName</h3>
-                <p>@book.Rating</p><br />
-                <p>@book.NumberOfPages</p>
-                <p>
-                    Available Languages:
-                    @foreach (var language in book.Languages)
-                    {
-                        <h6>@language.LanguageName</h6>
-                    }
-                </p>
-            </li>
-        }
-    </ul>
+<div class="container">
+    @foreach (var book in Model.BookDTOs)
+    {
+        <div class="col-sm-4">
+            <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id"><h2>@book.Title</h2></a>
+            <h3>Written by @book.Author.FirstName  @book.Author.LastName</h3>
+            
+        </div>
+    }
 </div>

@@ -8,6 +8,8 @@ namespace LibraryManager.DTO.Models
     {
         public int Id { get; set; }
 
-        public string GenreName;
+        public string GenreName { get; set; }
+        
+        public int NumberOfBooks { get; set; }
     }
 }

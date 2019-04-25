@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LibraryManager.BLL.Interfaces
 {
-    interface IGenreService
+    public interface IGenreService
     {
         void Create(GenreDTO genreDTO);
         IEnumerable<GenreDTO> GetAll();

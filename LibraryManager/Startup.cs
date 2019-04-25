@@ -53,6 +53,7 @@ namespace LibraryManager
             services.AddScoped<ILanguageService, LanguageService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IGenreService, GenreService>();
 
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -82,7 +83,7 @@ namespace LibraryManager
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Library}/{action=Index}/{id?}");
             });
         }
     }

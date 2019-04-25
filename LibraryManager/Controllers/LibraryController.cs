@@ -4,27 +4,37 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LibraryManager.BLL.Interfaces;
+using LibraryManager.DTO.Models.Manage;
+using LibraryManager.DTO.Models;
 
 
 namespace LibraryManagerControllers
 {
     public class LibraryController : Controller
     {
-
         private readonly IBookService _bookService;
         private readonly IUserService _userService;
+        private readonly IGenreService _genreService;
 
-        public LibraryController(IBookService bookService, IUserService userService)
+        public LibraryController(IBookService bookService, IUserService userService, IGenreService genreService)
         {
             _bookService = bookService;
             _userService = userService;
+            _genreService = genreService;
         }
 
         public IActionResult Index()
         {
             var books = _bookService.GetAll();
+            var genres = _genreService.GetAll();
 
-            return View(books);
+            var libraryIndexViewModel = new LibraryIndexViewModel
+            {
+                BookDTOs = books,
+                GenreDTOs = genres,
+            };
+
+            return View(libraryIndexViewModel);
         }
 
         public IActionResult Open(int id)
@@ -84,7 +94,6 @@ namespace LibraryManagerControllers
                 _bookService.Update(book);
             }
         }
-
         #endregion
     }
 }
