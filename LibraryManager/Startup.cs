@@ -19,7 +19,6 @@ using LibraryManager.DAL.Context;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LibraryManager.DAL;
-
 using AutoMapper;
 
 namespace LibraryManager
@@ -55,7 +54,7 @@ namespace LibraryManager
             services.AddScoped<ILanguageService, LanguageService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IUserService, UserService>();
-
+            services.AddScoped<IAccountService, AccountService>();
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

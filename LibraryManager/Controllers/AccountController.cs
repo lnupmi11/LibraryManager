@@ -4,18 +4,22 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using LibraryManager.BLL.Services;
+using LibraryManager.BLL.Interfaces;
 
 namespace LibraryManager.Controllers
 {
-    public class AuthorizationController : Controller
+    public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        //private readonly UserManager<User> _userManager;
+        //private readonly SignInManager<User> _signInManager;
+        private readonly IAccountService _authorizationService;
 
-        public AuthorizationController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(IAccountService authorizationService)//<User> userManager, SignInManager<User> signInManager)
         {
-            this._userManager = userManager;
-            this._signInManager = signInManager;
+            //this._userManager = userManager;
+            //this._signInManager = signInManager;
+            this._authorizationService = authorizationService;
         }
 
         [HttpGet]
@@ -25,7 +29,7 @@ namespace LibraryManager.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public IActionResult Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -36,11 +40,10 @@ namespace LibraryManager.Controllers
                     UserName = model.UserName,
                     Email = model.Email
                 };
-                var result = await _userManager.CreateAsync(user, model.Password);
-
-                if(result.Succeeded)
+             
+                var result = _authorizationService.RegisterNewUser(user, model.Password);
+                if (result.Result)
                 {
-                    await _signInManager.SignInAsync(user, false);
                     //Consider about redirecting page
                     return RedirectToAction("Index", "Home");
                 }
