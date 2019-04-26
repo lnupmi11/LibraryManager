@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Interfaces;
@@ -56,7 +57,13 @@ namespace LibraryManager
             services.AddScoped<IGenreService, GenreService>();
 
             services.AddAutoMapper();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMemoryCache();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddSessionStateTempDataProvider();
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+            services.AddSession();
+
+            services.AddDistributedMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,9 +81,9 @@ namespace LibraryManager
             }
 
             app.UseHttpsRedirection();
+            app.UseSession();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
-            
+
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -85,6 +92,8 @@ namespace LibraryManager
                     name: "default",
                     template: "{controller=Library}/{action=Index}/{id?}");
             });
+
+            app.UseCookiePolicy();
         }
     }
 }

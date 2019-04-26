@@ -4,26 +4,48 @@
 @{
     ViewData["Title"] = "Index";
 }
+@{ 
+    var numberOfGenres = Model.GenreDTOs.Count();
+    var genreIndex = ((int?)TempData["genreIndex"]).Value < 0
+        ? numberOfGenres + ((int?)TempData["genreIndex"]).Value % numberOfGenres
+        : ((int?)TempData["genreIndex"]).Value;
 
-<h1>Index</h1>
-<div class="container">
-    @foreach (var genre in Model.GenreDTOs)
-    {
-        <div class="col-sm-3">
-            <img>
-            <h5>@genre.GenreName</h5>
-            <h6>@genre.NumberOfBooks</h6>
-        </div>
-    }
-</div>
+    var displayedGenres = ((int?)TempData["displayedGenres"]).Value >= numberOfGenres
+        ? numberOfGenres - 1
+        : ((int?)TempData["displayedGenres"]).Value;
 
-<div class="container">
-    @foreach (var book in Model.BookDTOs)
-    {
-        <div class="col-sm-4">
-            <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id"><h2>@book.Title</h2></a>
-            <h3>Written by @book.Author.FirstName  @book.Author.LastName</h3>
-            
+    TempData.Keep();
+}
+
+
+<div class="content">
+    <div id="genreSection" class="container text-center">
+        <div class="col-sm-2 alert alert-dark">
+            <a asp-controller="Library" asp-action="DecreaseValue" type="button" class="btn">&#8249;</a>
         </div>
-    }
+        <div class="col-sm-8">
+            @for (var i = genreIndex % numberOfGenres; i != (genreIndex + displayedGenres) % (numberOfGenres); i = (i + 1) % numberOfGenres)
+            {
+                <div class="col-sm-3">
+                    <img src="~/images/mock-100x100.png" class="img-rounded mx-auto d-block" alt="@Model.GenreDTOs.ElementAt(i).GenreName">
+                    <h5>@Model.GenreDTOs.ElementAt(i).GenreName</h5>
+                    <h6>@Model.GenreDTOs.ElementAt(i).NumberOfBooks</h6>
+                </div>
+            }
+        </div>
+        <div class="col-sm-2 alert alert-dark">
+            <a asp-controller="Library" asp-action="IncreaseValue" type="button" class="btn">&#8250;</a>
+        </div>
+    </div>
+
+    <div id="itemsSection" class="container">
+        @foreach (var book in Model.BookDTOs)
+        {
+            <div class="col-sm-4 text-center">
+                <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id"><h2>@book.Title</h2></a>
+                <h5>@book.Author.FirstName  @book.Author.LastName</h5>
+                <img src="~/images/mock-200x300.jpg" class="img-rounded mx-auto d-block" alt="@book.Title" />
+            </div>
+        }
+    </div>
 </div>

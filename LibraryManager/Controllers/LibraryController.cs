@@ -28,6 +28,8 @@ namespace LibraryManagerControllers
             var books = _bookService.GetAll();
             var genres = _genreService.GetAll();
 
+            InitializeTempData();
+
             var libraryIndexViewModel = new LibraryIndexViewModel
             {
                 BookDTOs = books,
@@ -35,6 +37,19 @@ namespace LibraryManagerControllers
             };
 
             return View(libraryIndexViewModel);
+        }
+
+        public IActionResult IncreaseValue()
+        {
+            TempData["genreIndex"] = new int? (((int?)TempData["genreIndex"]).Value + 1);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DecreaseValue()
+        {
+            var value = ((int?)TempData["genreIndex"]).Value - 1;
+            TempData["genreIndex"] = new int? (value);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Open(int id)
@@ -92,6 +107,16 @@ namespace LibraryManagerControllers
             {
                 book.Rating += rating;
                 _bookService.Update(book);
+            }
+        }
+
+        private void InitializeTempData()
+        {
+            if (TempData["wasInitialized"] == null || ((bool?)TempData["wasInitialized"]).Value != true)
+            {
+                TempData["genreIndex"] = new int?(0);
+                TempData["displayedGenres"] = new int?(2);
+                TempData["wasInitialized"] = new bool?(true);
             }
         }
         #endregion
