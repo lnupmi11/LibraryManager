@@ -46,6 +46,8 @@ namespace LibraryManager
             services.AddDbContext<LibraryManagerContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            //add default identity <user,   identityRole> later?
             services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<LibraryManagerContext>();
 
