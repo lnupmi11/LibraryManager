@@ -21,7 +21,7 @@
 <div class="content">
     <div id="genreSection" class="container text-center">
         <div class="col-sm-2 alert alert-dark">
-            <a asp-controller="Library" asp-action="DecreaseValue" type="button" class="btn">&#8249;</a>
+            <a asp-controller="Library" asp-action="DecreaseValue" class="btn">&#8249;</a>
         </div>
         <div class="col-sm-8">
             @for (var i = genreIndex % numberOfGenres; i != (genreIndex + displayedGenres) % (numberOfGenres); i = (i + 1) % numberOfGenres)
@@ -34,7 +34,7 @@
             }
         </div>
         <div class="col-sm-2 alert alert-dark">
-            <a asp-controller="Library" asp-action="IncreaseValue" type="button" class="btn">&#8250;</a>
+            <a asp-controller="Library" asp-action="IncreaseValue"  class="btn">&#8250;</a>
         </div>
     </div>
 

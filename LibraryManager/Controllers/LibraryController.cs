@@ -67,7 +67,8 @@ namespace LibraryManagerControllers
         {
             var numberOfBooks = _bookService.GetAll().Count();
             var random = new Random();
-            var randomBook = _bookService.Find(random.Next(0, numberOfBooks));
+            var randomBookId = random.Next(1, numberOfBooks + 1);
+            var randomBook = _bookService.Find(randomBookId);
 
             if (randomBook == null)
             {
