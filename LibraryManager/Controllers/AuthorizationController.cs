@@ -3,6 +3,7 @@ using LibraryManager.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace LibraryManager.Controllers
 {
@@ -24,9 +25,27 @@ namespace LibraryManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                User user = new User
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    UserName = model.UserName,
+                    Email = model.Email
+                };
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if(result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    //Consider about redirecting page
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return View(model);
         }
 
         [HttpGet]

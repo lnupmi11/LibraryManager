@@ -48,7 +48,7 @@ namespace LibraryManager
                     Configuration.GetConnectionString("DefaultConnection")));
 
             //add default identity <user,   identityRole> later?
-            services.AddDefaultIdentity<User>()
+            services.AddIdentity<User,IdentityRole>()
                 .AddEntityFrameworkStores<LibraryManagerContext>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
