@@ -11,15 +11,11 @@ namespace LibraryManager.Controllers
 {
     public class AccountController : Controller
     {
-        //private readonly UserManager<User> _userManager;
-        //private readonly SignInManager<User> _signInManager;
-        private readonly IAccountService _authorizationService;
+        private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService authorizationService)//<User> userManager, SignInManager<User> signInManager)
+        public AccountController(IAccountService accountService)
         {
-            //this._userManager = userManager;
-            //this._signInManager = signInManager;
-            this._authorizationService = authorizationService;
+            this._accountService = accountService;
         }
 
         [HttpGet]
@@ -33,6 +29,10 @@ namespace LibraryManager.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                //Consider moving this to BLL as well.
+                //It's needed to solve problem that we cannot reach RegisterViewModel
+                // On BLL level so that's why we cannt just pass it as parameter to account service
                 User user = new User
                 {
                     FirstName = model.FirstName,
@@ -41,7 +41,7 @@ namespace LibraryManager.Controllers
                     Email = model.Email
                 };
              
-                var result = _authorizationService.RegisterNewUser(user, model.Password);
+                var result = _accountService.RegisterNewUser(user, model.Password);
                 if (result.Result)
                 {
                     //Consider about redirecting page
@@ -49,18 +49,6 @@ namespace LibraryManager.Controllers
                 }
             }
             return View(model);
-        }
-
-        [HttpGet]
-        public IActionResult SignIn()
-        {
-            return View();
-        }
-        
-        [HttpPost]
-        public IActionResult SignIn(string Login, string Password) //another data for signing up 
-        {
-            return View();
         }
 
         [HttpGet]
