@@ -1,18 +1,30 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LibraryManager.DAL.Entities;
+using LibraryManager.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManager.Controllers
 {
     public class AuthorizationController : Controller
     {
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+
+        public AuthorizationController(UserManager<User> userManager, SignInManager<User> signInManager)
+        {
+            this._userManager = userManager;
+            this._signInManager = signInManager;
+        }
+
         [HttpGet]
-        public IActionResult LogIn()
+        public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult LogIn(string Login,string Password)
+        public IActionResult Register(RegisterViewModel model)
         {
             return View();
         }
