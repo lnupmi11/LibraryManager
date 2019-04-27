@@ -35,3 +35,7 @@ body {
         display: none;
     }
 }
+
+.content{
+    padding-top: 100px;
+}

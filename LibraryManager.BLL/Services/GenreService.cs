@@ -6,10 +6,11 @@ using LibraryManager.DTO.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace LibraryManager.BLL.Services
 {
-    class GenreService:IGenreService
+    public class GenreService:IGenreService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;

@@ -1,7 +1,32 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Open";
 }
+@using LibraryManager.DTO.Models;
+@model BookDTO
 
-<h2>Open</h2>
+<div id="content" class="container col-sm-12">
+    <div id="imageSection" class="col-sm-4">
+        <img />
+        <p>Rating: @Model.Rating</p>
+        <button class="btn btn-primary btn-success">Add to wishlist</button>
+    </div>
+    <div id="descriptionSection" class="col-sm-8">
+        <h2>@Model.Title</h2>
+        <h4>by @Model.Author.FirstName @Model.Author.LastName</h4>
+        <h4>Published in //TODO:Add year</h4>
+        <br />
+        <h4>Genres:</h4>
+        <h4>
+            @foreach (var genre in Model.Genres)
+            {
+            <p>@genre.GenreName, </p>
+            }
+        </h4>
+        <div class="card">
+            <div class="card-body">
+                //TODO: Add Description to book.
+            </div>
+        </div>
+</div>
+</div>
 
