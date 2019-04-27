@@ -20,7 +20,6 @@ using LibraryManager.DAL.Context;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LibraryManager.DAL;
-
 using AutoMapper;
 
 namespace LibraryManager
@@ -47,7 +46,9 @@ namespace LibraryManager
             services.AddDbContext<LibraryManagerContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<User>()
+
+            //add default identity <user,   identityRole> later?
+            services.AddIdentity<User,IdentityRole>()
                 .AddEntityFrameworkStores<LibraryManagerContext>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -55,7 +56,8 @@ namespace LibraryManager
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IGenreService, GenreService>();
-
+            services.AddScoped<IAccountService, AccountService>();
+          
             services.AddAutoMapper();
             services.AddMemoryCache();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
