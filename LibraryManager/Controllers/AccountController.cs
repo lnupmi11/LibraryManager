@@ -52,6 +52,22 @@ namespace LibraryManager.Controllers
         }
 
         [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(LoginViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+
+            }
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult LogOut()
         {
             return View();
