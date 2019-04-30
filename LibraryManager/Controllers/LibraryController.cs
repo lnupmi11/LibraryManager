@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LibraryManager.BLL.Interfaces;
 using LibraryManager.DTO.Models.Manage;
-using LibraryManager.DTO.Models;
-
+using Microsoft.AspNetCore.Identity;
+using LibraryManager.DAL.Entities;
 
 namespace LibraryManagerControllers
 {
@@ -16,14 +16,27 @@ namespace LibraryManagerControllers
         private readonly IUserService _userService;
         private readonly IGenreService _genreService;
 
-        public LibraryController(IBookService bookService, IUserService userService, IGenreService genreService)
+
+        //Temporary
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signinManager;
+
+        public LibraryController(IBookService bookService, IUserService userService, IGenreService genreService, RoleManager<IdentityRole> roleManager,UserManager<User> userManager,
+            SignInManager<User>signInManager)
         {
             _bookService = bookService;
             _userService = userService;
             _genreService = genreService;
+
+            //Temporary
+            _roleManager = roleManager;
+            _signinManager = signInManager;
+            _userManager = userManager;
+
         }
 
-        public IActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var books = _bookService.GetAll();
             var genres = _genreService.GetAll();
@@ -35,6 +48,35 @@ namespace LibraryManagerControllers
                 BookDTOs = books,
                 GenreDTOs = genres,
             };
+
+
+
+            //TEMPORARY CODE. 
+             await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            await  _roleManager.CreateAsync(new IdentityRole("User"));
+
+            var tempUser = new User {
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "john@gmail.com",
+                UserName = "john",               
+            };
+            var Password = "MyNameIsJohnDoe1_%";
+
+            var admin = new User
+            {
+                FirstName = "El",
+                LastName = "Admino",
+                Email = "eladmino@gmail.com",
+                UserName = "eladmino",
+            };
+            var adminPassword = "MyNameIsElAdmino1_%";
+
+            var res =  await _userManager.CreateAsync(tempUser, Password);
+            var res1 = await _userManager.AddToRoleAsync(tempUser, "User");
+
+            var res2 = await _userManager.CreateAsync(admin, adminPassword);
+            var res3 = await _userManager.AddToRoleAsync(admin, "Admin");
 
             return View(libraryIndexViewModel);
         }
