@@ -20,7 +20,11 @@ namespace LibraryManager.BLL.Services
             this._signInManager = signInManager;
         }
 
+<<<<<<< HEAD
         public async Task<bool> RegisterNewUser(RegisterViewModel model)
+=======
+        public async Task<IdentityResult> RegisterNewUser(User user, string password)
+>>>>>>> 538ce6e374abd562b5840320b4b47116e99da593
         {
             User user = new User
             {
@@ -35,11 +39,11 @@ namespace LibraryManager.BLL.Services
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-                return true;
             }
-            return false;
+            return result;
         }
 
+<<<<<<< HEAD
         public async Task<bool> Login(LoginViewModel model)
         {
             var result =  await
@@ -53,6 +57,16 @@ namespace LibraryManager.BLL.Services
             {
                 return false;
             }
+=======
+        public async Task<SignInResult> Login(Tuple<string, string> loginUserData)
+        {
+            var result = await
+              _signInManager.PasswordSignInAsync(loginUserData.Item1, loginUserData.Item2, false, false);
+
+            //var result =
+            //_signInManager.SignInAsync(user, false);
+            return result;
+>>>>>>> 538ce6e374abd562b5840320b4b47116e99da593
         }
 
         public async void Logout()
