@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using LibraryManager.BLL.Services;
 using LibraryManager.BLL.Interfaces;
+using System;
 
 namespace LibraryManager.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly SignInManager<User> _manager;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService,SignInManager<User> manager)
         {
             this._accountService = accountService;
+            this._manager = manager;
         }
 
         [HttpGet]
@@ -52,9 +55,36 @@ namespace LibraryManager.Controllers
         }
 
         [HttpGet]
-        public IActionResult LogOut()
+        public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                // Tuple<string, string> loginUserData = new Tuple<string, string>(model.Username, model.Password);
+                //  var result = _accountService.Login(loginUserData);
+                //if (result.IsCompletedSuccessfully)
+                //{
+                //    RedirectToAction("Index", "Home");
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("", "Wrong login or(and) password");
+                //}
+                var a  = await _manager.PasswordSignInAsync(model.Username, model.Password, false, false);
+            }
+            return View(model);
+        }
+
+        
+        public IActionResult Logout()
+        {
+            _accountService.Logout();
+           return RedirectToAction("Index", "Home");
         }
     }
 }

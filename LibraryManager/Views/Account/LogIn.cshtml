@@ -1,7 +1,19 @@
-﻿
-@{
-    ViewData["Title"] = "LogIn";
-}
-
-<h2>LogIn</h2>
-
+﻿@model LibraryManager.Models.LoginViewModel;
+<h2>Login to your account</h2>
+<form method="post" asp-controller="Account" asp-action="Login">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Username"></label><br />
+        <input asp-for="Username" />
+        <span asp-validation-for="Username"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <br />
+    <div>
+        <input type="submit" value="Login" />
+    </div>
+</form>

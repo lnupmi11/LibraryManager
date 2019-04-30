@@ -9,5 +9,7 @@ namespace LibraryManager.BLL.Interfaces
     public interface IAccountService
     {
        Task<bool> RegisterNewUser(User model, string password);
+       Task<bool> Login(Tuple<string,string> loginUserData);
+       void Logout();
     }
 }
