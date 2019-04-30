@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using LibraryManager.BLL.Interfaces;
+using LibraryManager.DTO.Models.Manage;
 using LibraryManager.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -19,9 +20,17 @@ namespace LibraryManager.BLL.Services
             this._signInManager = signInManager;
         }
 
-        public async Task<bool> RegisterNewUser(User user, string password)
+        public async Task<bool> RegisterNewUser(RegisterViewModel model)
         {
-            var result = await _userManager.CreateAsync(user, password);
+            User user = new User
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                UserName = model.UserName,
+                Email = model.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
@@ -31,28 +40,19 @@ namespace LibraryManager.BLL.Services
             return false;
         }
 
-        public async Task<bool> Login(Tuple<string, string> loginUserData)
+        public async Task<bool> Login(LoginViewModel model)
         {
-            var user = await _userManager.FindByEmailAsync(loginUserData.Item1);
+            var result =  await
+              _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
 
-            
-
-            //var result =
-            //  _signInManager.PasswordSignInAsync(loginUserData.Item1, loginUserData.Item2, false, false).Result;
-
-            //var result =
-            //        _signInManager.SignInAsync(user, false);
-            //if (result)
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-            return true;
-        
-    
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public async void Logout()

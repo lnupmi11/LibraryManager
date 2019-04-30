@@ -1,7 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@{
+@using Microsoft.AspNetCore.Identity
+@using LibraryManager.DAL.Entities
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+else
+{
     Layout = "~/Views/Shared/_GuestLayout.cshtml";
 }
 <style>
