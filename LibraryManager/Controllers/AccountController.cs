@@ -58,7 +58,7 @@ namespace LibraryManager.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Wrong login or(and) password");
+                        
                 }                
             }
             return View(model);
