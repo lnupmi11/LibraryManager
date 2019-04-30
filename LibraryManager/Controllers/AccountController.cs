@@ -31,37 +31,10 @@ namespace LibraryManager.Controllers
         {
             if (ModelState.IsValid)
             {
-<<<<<<< HEAD
-                var result = _accountService.RegisterNewUser(model);
-                if (result.Result)
+                var result = await _accountService.RegisterNewUser(model);
+                if (result)
                 {
                     return RedirectToAction("Index", "Home");
-=======
-
-                //Consider moving this to BLL as well.
-                //It's needed to solve problem that we cannot reach RegisterViewModel
-                // On BLL level so that's why we cannt just pass it as parameter to account service
-                User user = new User
-                {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    UserName = model.UserName,
-                    Email = model.Email
-                };
-
-                var result = await _accountService.RegisterNewUser(user, model.Password);
-                if (result.Succeeded)
-                {
-                    //Consider about redirecting page
-                    return RedirectToAction("Index", "Library");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
->>>>>>> 538ce6e374abd562b5840320b4b47116e99da593
                 }
             }
             return View(model);
@@ -78,28 +51,15 @@ namespace LibraryManager.Controllers
         {
             if (ModelState.IsValid)
             {
-<<<<<<< HEAD
                 var result = await _accountService.Login(model);
                 if (result)
                 {
                     return RedirectToAction("Index", "Home");
-=======
-                Tuple<string, string> loginUserData = new Tuple<string, string>(model.Username, model.Password);
-                var result = await _accountService.Login(loginUserData);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Library");
->>>>>>> 538ce6e374abd562b5840320b4b47116e99da593
                 }
                 else
                 {
                     ModelState.AddModelError("", "Wrong login or(and) password");
-<<<<<<< HEAD
                 }                
-=======
-                }
-                var a = await _manager.PasswordSignInAsync(model.Username, model.Password, false, false);
->>>>>>> 538ce6e374abd562b5840320b4b47116e99da593
             }
             return View(model);
         }
