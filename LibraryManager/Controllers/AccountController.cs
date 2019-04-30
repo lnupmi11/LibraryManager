@@ -31,14 +31,23 @@ namespace LibraryManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _accountService.RegisterNewUser(model);
-                if (result)
+                var doesEmailExists = await _accountService.DoesEmailExsists(model.Email);
+                if (!doesEmailExists)
                 {
-                    return RedirectToAction("Index", "Home");
+                    var result = await _accountService.RegisterNewUser(model);
+                    if (result)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
+                else
+                {
+                    ModelState.AddModelError("", "This email already exists");
+                }    
             }
             return View(model);
         }
+                
 
         [HttpGet]
         public IActionResult Login()
