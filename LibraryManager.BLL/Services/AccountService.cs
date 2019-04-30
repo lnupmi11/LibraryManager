@@ -20,7 +20,18 @@ namespace LibraryManager.BLL.Services
             this._signInManager = signInManager;
         }
 
-        public async Task<bool> DoesEmailExsists(string email)
+        public async Task<bool> DoesUsernameExsists(string username)
+        {
+            bool DoesUsernameExsists = true;
+            var user = await _userManager.FindByNameAsync(username);
+            if(user == null)
+            {
+                DoesUsernameExsists = false;
+            }
+            return DoesUsernameExsists;
+        }
+
+        public async Task<bool> DoesEmailExists(string email)
         {
             bool DoesEmailExsists = true;
             var user = await _userManager.FindByEmailAsync(email);
@@ -39,10 +50,6 @@ namespace LibraryManager.BLL.Services
                 UserName = model.UserName,
                 Email = model.Email
             };
-
-        
-            //var userCheck = this._userManager.FindByEmailAsync(model.Email);
-            // TODO:if email free
             
             var result = await _userManager.CreateAsync(user, model.Password);
 

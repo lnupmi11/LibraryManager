@@ -11,7 +11,8 @@ namespace LibraryManager.BLL.Interfaces
 {
     public interface IAccountService
     {
-       Task<bool> DoesEmailExsists(string email);
+       Task<bool> DoesEmailExists(string email);
+       Task<bool> DoesUsernameExsists(string email);
        Task<bool> RegisterNewUser(RegisterViewModel model);
        Task<bool> Login(LoginViewModel model);
        void Logout();

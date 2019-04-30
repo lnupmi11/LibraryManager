@@ -31,8 +31,9 @@ namespace LibraryManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                var doesEmailExists = await _accountService.DoesEmailExsists(model.Email);
-                if (!doesEmailExists)
+                var doesEmailExists = await _accountService.DoesEmailExists(model.Email);
+                var doesUsernameExists = await _accountService.DoesUsernameExsists(model.UserName);
+                if (!doesEmailExists && !doesUsernameExists)
                 {
                     var result = await _accountService.RegisterNewUser(model);
                     if (result)
@@ -40,10 +41,14 @@ namespace LibraryManager.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                else
+                else if(doesEmailExists)
                 {
                     ModelState.AddModelError("", "This email already exists");
-                }    
+                }
+                else if(doesUsernameExists)
+                {
+                    ModelState.AddModelError("", "This username already exists");
+                }
             }
             return View(model);
         }

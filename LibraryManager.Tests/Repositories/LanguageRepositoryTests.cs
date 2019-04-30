@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Xunit;
 using Moq;
+using LibraryManager.DAL.Context;
 
 namespace LibraryManager.Tests
 {
