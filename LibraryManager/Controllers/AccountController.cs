@@ -15,7 +15,7 @@ namespace LibraryManager.Controllers
         private readonly IAccountService _accountService;
         private readonly SignInManager<User> _manager;
 
-        public AccountController(IAccountService accountService,SignInManager<User> manager)
+        public AccountController(IAccountService accountService, SignInManager<User> manager)
         {
             this._accountService = accountService;
             this._manager = manager;
@@ -28,7 +28,7 @@ namespace LibraryManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -43,12 +43,19 @@ namespace LibraryManager.Controllers
                     UserName = model.UserName,
                     Email = model.Email
                 };
-             
-                var result = _accountService.RegisterNewUser(user, model.Password);
-                if (result.Result)
+
+                var result = await _accountService.RegisterNewUser(user, model.Password);
+                if (result.Succeeded)
                 {
                     //Consider about redirecting page
                     return RedirectToAction("Index", "Library");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
             return View(model);
@@ -63,23 +70,22 @@ namespace LibraryManager.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                // Tuple<string, string> loginUserData = new Tuple<string, string>(model.Username, model.Password);
-                //  var result = _accountService.Login(loginUserData);
-                //if (result.IsCompletedSuccessfully)
-                //{
-                //    RedirectToAction("Index", "Home");
-                //}
-                //else
-                //{
-                //    ModelState.AddModelError("", "Wrong login or(and) password");
-                //}
-                var a  = await _manager.PasswordSignInAsync(model.Username, model.Password, false, false);
+                Tuple<string, string> loginUserData = new Tuple<string, string>(model.Username, model.Password);
+                var result = await _accountService.Login(loginUserData);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Library");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Wrong login or(and) password");
+                }
+                var a = await _manager.PasswordSignInAsync(model.Username, model.Password, false, false);
             }
             return View(model);
         }
-
         
         public IActionResult Logout()
         {
