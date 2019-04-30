@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using LibraryManager.Models;
+using LibraryManager.DTO.Models.Manage;
 
 namespace LibraryManager.Controllers
 {

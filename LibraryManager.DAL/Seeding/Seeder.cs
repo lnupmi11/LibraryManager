@@ -96,6 +96,50 @@ namespace LibraryManager.DAL.Seeding
                 Rating = 8,
                 Title = "Sherlock Holmes"
             });
+            list.Add(new Book()
+            {
+                Author = context.Authors.FirstOrDefault(x => x.LastName == "Wolfgang von Goethe"),
+                //Languages = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                //Genres = new List<BookGenre>() {  context.Genres.FirstOrDefault(x => x.GenreName == "Novel") },
+                //GenreId = 3,
+                //LanguageId = 1,
+                NumberOfPages = 900,
+                Rating = 6,
+                Title = "Faust"
+            });
+            list.Add(new Book()
+            {
+                Author = context.Authors.FirstOrDefault(x => x.LastName == "Heine"),
+                //Languages = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                //Genres = new List<BookGenre>() {  context.Genres.FirstOrDefault(x => x.GenreName == "Novel") },
+                //GenreId = 3,
+                //LanguageId = 1,
+                NumberOfPages = 100,
+                Rating = 7,
+                Title = "Lorelei"
+            });
+            list.Add(new Book()
+            {
+                Author = context.Authors.FirstOrDefault(x => x.LastName == "Verne"),
+                //Languages = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                //Genres = new List<BookGenre>() {  context.Genres.FirstOrDefault(x => x.GenreName == "Novel") },
+                //GenreId = 3,
+                //LanguageId = 1,
+                NumberOfPages = 600,
+                Rating = 9,
+                Title = "Twenty Thousand Leagues Under the Sea"
+            });
+            list.Add(new Book()
+            {
+                Author = context.Authors.FirstOrDefault(x => x.LastName == "Verne"),
+                //Languages = new List<Language>() { context.Languages.FirstOrDefault(x => x.LanguageName == "English"), context.Languages.FirstOrDefault(x => x.LanguageName == "Ukrainian") },
+                //Genres = new List<BookGenre>() {  context.Genres.FirstOrDefault(x => x.GenreName == "Novel") },
+                //GenreId = 3,
+                //LanguageId = 1,
+                NumberOfPages = 800,
+                Rating = 8,
+                Title = "Around the World in Eighty Days"
+            });
             return list;
         }
 
@@ -145,6 +189,18 @@ namespace LibraryManager.DAL.Seeding
                 LastName = "Conan-Doyle",
                 NumberOfWrittenBooks = 5
             });
+            list.Add(new Author()
+            {
+                FirstName = "Johann",
+                LastName = "Wolfgang von Goethe",
+                NumberOfWrittenBooks = 13
+            });
+            list.Add(new Author()
+            {
+                FirstName = "Heinrich",
+                LastName = "Heine",
+                NumberOfWrittenBooks = 4
+            });
             return list;
         }
 
@@ -171,6 +227,10 @@ namespace LibraryManager.DAL.Seeding
             list.Add(new Genre()
             {
                 GenreName = "Detective"
+            });
+            list.Add(new Genre()
+            {
+                GenreName = "Poem"
             });
             list.Add(new Genre()
             {
@@ -254,6 +314,26 @@ namespace LibraryManager.DAL.Seeding
                 {
                     Book = context.Books.FirstOrDefault(b => b.Title == "Sherlock Holmes" ),
                     Genre = context.Genres.FirstOrDefault(g => g.GenreName == "Detective")
+                },
+                new BookGenre()
+                {
+                Book = context.Books.FirstOrDefault(b => b.Title == "Faust"),
+                Genre = context.Genres.FirstOrDefault(g => g.GenreName == "Poem")
+                },
+                new BookGenre()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Lorelei"),
+                    Genre = context.Genres.FirstOrDefault(g => g.GenreName == "Poem")
+                },
+                new BookGenre()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Twenty Thousand Leagues Under the Sea"),
+                    Genre = context.Genres.FirstOrDefault(g => g.GenreName == "Adventures")
+                },
+                new BookGenre()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Around the World in Eighty Days"),
+                    Genre = context.Genres.FirstOrDefault(g => g.GenreName == "Adventures")
                 }
             };
             return list;
@@ -321,6 +401,46 @@ namespace LibraryManager.DAL.Seeding
                 {
                     Book = context.Books.FirstOrDefault(b => b.Title == "Sherlock Holmes" ),
                     Language = context.Languages.FirstOrDefault(l => l.LanguageName == "English") 
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Faust" ),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "English")
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Faust" ),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "German")
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Lorelei" ),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "English")
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Lorelei" ),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "German")
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Twenty Thousand Leagues Under the Sea" ),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "English")
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Twenty Thousand Leagues Under the Sea" ),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "French")
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Around the World in Eighty Days" ),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "English")
+                },
+                new BookLanguage()
+                {
+                    Book = context.Books.FirstOrDefault(b => b.Title == "Around the World in Eighty Days" ),
+                    Language = context.Languages.FirstOrDefault(l => l.LanguageName == "French")
                 },
                 new BookLanguage()
                 {
