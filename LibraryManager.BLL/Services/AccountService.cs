@@ -19,40 +19,25 @@ namespace LibraryManager.BLL.Services
             this._signInManager = signInManager;
         }
 
-        public async Task<bool> RegisterNewUser(User user, string password)
+        public async Task<IdentityResult> RegisterNewUser(User user, string password)
         {
             var result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-                return true;
             }
-            return false;
+            return result;
         }
 
-        public async Task<bool> Login(Tuple<string, string> loginUserData)
+        public async Task<SignInResult> Login(Tuple<string, string> loginUserData)
         {
-            var user = await _userManager.FindByEmailAsync(loginUserData.Item1);
-
-            
-
-            //var result =
-            //  _signInManager.PasswordSignInAsync(loginUserData.Item1, loginUserData.Item2, false, false).Result;
+            var result = await
+              _signInManager.PasswordSignInAsync(loginUserData.Item1, loginUserData.Item2, false, false);
 
             //var result =
-            //        _signInManager.SignInAsync(user, false);
-            //if (result)
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-            return true;
-        
-    
+            //_signInManager.SignInAsync(user, false);
+            return result;
         }
 
         public async void Logout()
