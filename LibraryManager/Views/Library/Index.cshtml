@@ -11,7 +11,7 @@
     ViewData["Title"] = "Index";
 }
 @{
-    var numberOfGenres = Model.GenreDTOs.Count();
+    var numberOfGenres = Model.GenreDTOs.Count() <= 0 ? 1 : Model.GenreDTOs.Count();
     var genreIndex = ((int?)TempData["genreIndex"]).Value < 0
         ? numberOfGenres + ((int?)TempData["genreIndex"]).Value % numberOfGenres
         : ((int?)TempData["genreIndex"]).Value;

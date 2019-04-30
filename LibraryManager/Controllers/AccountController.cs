@@ -48,7 +48,7 @@ namespace LibraryManager.Controllers
                 if (result.Result)
                 {
                     //Consider about redirecting page
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Library");
                 }
             }
             return View(model);
@@ -84,7 +84,7 @@ namespace LibraryManager.Controllers
         public IActionResult Logout()
         {
             _accountService.Logout();
-           return RedirectToAction("Index", "Home");
+           return RedirectToAction("Index", "Library");
         }
     }
 }
