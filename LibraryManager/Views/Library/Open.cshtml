@@ -11,7 +11,7 @@
         <h4 style="padding:20px">Rating: @Model.Rating </h4>
         @if (User.Identity.IsAuthenticated)
         {
-            @User.IsInRole("Admin")
+           
             @if (User.IsInRole("Admin"))
             {
                 <button type="button" class="btn btn-warning">Edit</button>        
