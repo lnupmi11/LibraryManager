@@ -17,8 +17,9 @@
         : ((int?)TempData["genreIndex"]).Value;
 
     var displayedGenres = ((int?)TempData["displayedGenres"]).Value >= numberOfGenres
-        ? numberOfGenres - 1
-        : ((int?)TempData["displayedGenres"]).Value;
+        ? numberOfGenres
+        : 4;
+        //((int?)TempData["displayedGenres"]).Value;
 
     TempData.Keep();
 } 
@@ -42,7 +43,7 @@ else
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-                        
+                            
                             <div class="col-lg-4 col-md-4 col-sm-12 p-0">
                                 <select asp-for="SearchCategory" class="form-control search-slt" id="exampleFormControlSelect1">
                                     <option>Title</option>

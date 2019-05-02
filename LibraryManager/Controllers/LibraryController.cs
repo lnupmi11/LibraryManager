@@ -158,7 +158,7 @@ namespace LibraryManagerControllers
             if (TempData["wasInitialized"] == null || ((bool?)TempData["wasInitialized"]).Value != true)
             {
                 TempData["genreIndex"] = new int?(0);
-                TempData["displayedGenres"] = new int?(2);
+                TempData["displayedGenres"] = new int?(4);
                 TempData["wasInitialized"] = new bool?(true);
             }
         }

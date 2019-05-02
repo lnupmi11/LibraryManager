@@ -12,8 +12,12 @@ namespace LibraryManager.DAL.Entities
         public string GenreName { get; set; }
 
         [NotMapped]
-        public int NumberOfBooks { get
+        public int NumberOfBooks {
+            get
             {
+                if (Books == null)
+                    return 0;
+
                 return Books.Count;
             }
         }
