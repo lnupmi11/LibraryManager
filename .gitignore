@@ -345,4 +345,5 @@ MigrationBackup/
 
 
 
-appsettings.json
+LibraryManager/appsettings.json
+global.json
