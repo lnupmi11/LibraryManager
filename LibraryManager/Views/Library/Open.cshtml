@@ -8,9 +8,14 @@
 <div id="content" class="container">
     <div id="imageSection" class="alert col-sm-4">
         <img src="~/images/mock-300x400.png" class="img img-rounded mx-auto d-block" alt="@Model.Title"/>
-        <h4 style="padding:20px">Rating: @Model.Rating</h4>
+        <h4 style="padding:20px">Rating: @Model.Rating </h4>
         @if (User.Identity.IsAuthenticated)
         {
+            @User.IsInRole("Admin")
+            @if (User.IsInRole("Admin"))
+            {
+                <button type="button" class="btn btn-warning">Edit</button>        
+            }
         <button class="btn btn-primary btn-success">Add to wishlist</button>
         }
     </div>

@@ -61,7 +61,7 @@ namespace LibraryManagerControllers
                 Email = "john@gmail.com",
                 UserName = "john",               
             };
-            var Password = "MyNameIsJohnDoe1_%";
+            var Password = "1";//"MyNameIsJohnDoe1_%";
 
             var admin = new User
             {
@@ -70,7 +70,7 @@ namespace LibraryManagerControllers
                 Email = "eladmino@gmail.com",
                 UserName = "eladmino",
             };
-            var adminPassword = "MyNameIsElAdmino1_%";
+            var adminPassword = "1"; //"MyNameIsElAdmino1_%";
 
             var res =  await _userManager.CreateAsync(tempUser, Password);
             var res1 = await _userManager.AddToRoleAsync(tempUser, "User");

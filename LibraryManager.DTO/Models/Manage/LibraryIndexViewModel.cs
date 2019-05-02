@@ -9,5 +9,7 @@ namespace LibraryManager.DTO.Models.Manage
         public IEnumerable<GenreDTO> GenreDTOs { get; set; }
 
         public IEnumerable<BookDTO> BookDTOs { get; set; }
+        public string SearchCategory { get; set; }
+        public string SearchValue { get; set; }
     }
 }
