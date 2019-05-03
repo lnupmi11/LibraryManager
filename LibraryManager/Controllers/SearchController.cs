@@ -27,7 +27,7 @@ namespace LibraryManager.Controllers
         {
             if (model.SearchCategory == "Title")
             {
-                var book = _bookService.GetAll().FirstOrDefault(x => x.Title == model.SearchValue);
+                var book = _bookService.GetAll().FirstOrDefault(x => x.Title.ToLower().Contains(model.SearchValue.ToLower()));
 
                 if (book == null)
                 {
@@ -37,7 +37,7 @@ namespace LibraryManager.Controllers
             }
             else if (model.SearchCategory == "Author")
             {
-                var books = _bookService.GetAll().Where(x => model.SearchValue.Contains(x.Author.LastName));
+                var books = _bookService.GetAll().Where(x => model.SearchValue.ToLower().Contains(x.Author.LastName.ToLower()));
 
                 if (!books.Any())
                 {
@@ -47,7 +47,7 @@ namespace LibraryManager.Controllers
             }
             else
             {
-                var genre = _genreService.GetAll().FirstOrDefault(x => x.GenreName == model.SearchValue);
+                var genre = _genreService.GetAll().FirstOrDefault(x => x.GenreName.ToLower() == model.SearchValue.ToLower());
                 if (genre == null)
                 {
                     return RedirectToAction("Index", "Library");//TODO add error page etc.
