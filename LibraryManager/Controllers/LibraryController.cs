@@ -105,6 +105,19 @@ namespace LibraryManagerControllers
             return View(book);
         }
 
+        public IActionResult OpenByGenre(int id)
+        {
+            var genre = _genreService.Find(id);
+            if (genre == null)
+            {
+                Response.StatusCode = 404;
+            }
+
+            var books = _bookService.GetAll().Where(x => x.Genres.All(y => y.GenreName == genre.GenreName));
+
+            return View(books);
+        }
+
         public IActionResult OpenRandom()
         {
             var numberOfBooks = _bookService.GetAll().Count();

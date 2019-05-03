@@ -48,7 +48,6 @@ else
                                 <select asp-for="SearchCategory" class="form-control search-slt" id="exampleFormControlSelect1">
                                     <option>Title</option>
                                     <option>Author</option>
-                                    <option>Genre</option>
                                 </select>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 p-0">
@@ -76,7 +75,7 @@ else
                 {
                     <div class="col-sm-3">
                         <img src="~/images/mock-100x100.png" class="img-rounded mx-auto d-block" alt="@Model.GenreDTOs.ElementAt(i).GenreName">
-                        <h5>@Model.GenreDTOs.ElementAt(i).GenreName</h5>
+                        <a asp-controller="Library" asp-action="OpenByGenre" asp-route-id="@Model.GenreDTOs.ElementAt(i).Id"><h5>@Model.GenreDTOs.ElementAt(i).GenreName</h5></a>
                         <h6>@Model.GenreDTOs.ElementAt(i).NumberOfBooks</h6>
                     </div>
                 }

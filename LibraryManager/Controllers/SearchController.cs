@@ -35,7 +35,7 @@ namespace LibraryManager.Controllers
                 }
                 return View("../Library/Open", book);
             }
-            else if (model.SearchCategory == "Author")
+            else 
             {
                 var books = _bookService.GetAll().Where(x => model.SearchValue.ToLower().Contains(x.Author.LastName.ToLower()));
 
@@ -43,17 +43,6 @@ namespace LibraryManager.Controllers
                 {
                     return RedirectToAction("Index", "Library");//TODO add error page etc.
                 }
-                return View(books);
-            }
-            else
-            {
-                var genre = _genreService.GetAll().FirstOrDefault(x => x.GenreName.ToLower() == model.SearchValue.ToLower());
-                if (genre == null)
-                {
-                    return RedirectToAction("Index", "Library");//TODO add error page etc.
-                }
-                var books = _bookService.GetAll().Where(x => x.Genres.Contains(genre));
-                
                 return View(books);
             }
         }
