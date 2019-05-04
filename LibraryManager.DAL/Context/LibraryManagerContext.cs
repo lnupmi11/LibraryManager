@@ -15,6 +15,7 @@ namespace LibraryManager.DAL.Context
         public DbSet<Book> Books { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Language> Languages { get; set; }
+        public DbSet<UserBook> UserBooks { get; set; }
 
 
         public LibraryManagerContext() { }

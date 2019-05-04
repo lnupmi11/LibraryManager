@@ -7,16 +7,24 @@
 
 <div id="content" class="container">
     <div id="imageSection" class="alert col-sm-4">
-        <img src="~/images/mock-300x400.png" class="img img-rounded mx-auto d-block" alt="@Model.Title"/>
+        <img src="~/images/mock-300x400.png" class="img img-rounded mx-auto d-block" alt="@Model.Title" />
         <h4 style="padding:20px">Rating: @Model.Rating </h4>
         @if (User.Identity.IsAuthenticated)
         {
-           
+
             @if (User.IsInRole("Admin"))
             {
-                <button type="button" class="btn btn-warning">Edit</button>        
+                <button type="button" class="btn btn-warning">Edit</button>
             }
-        <button class="btn btn-primary btn-success">Add to wishlist</button>
+
+            @Html.ActionLink("Add to wish list", "AddBookToWishList", "Library",
+                 new {
+                     bookId = Model.Id
+            },
+                      htmlAttributes: new {
+                          @class = "btn btn-success btn-block",
+                          @role = "button"
+                      })
         }
     </div>
     <div id="descriptionSection" class="alert col-sm-8">

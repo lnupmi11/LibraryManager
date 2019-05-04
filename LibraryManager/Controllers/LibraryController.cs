@@ -8,6 +8,7 @@ using LibraryManager.DTO.Models.Manage;
 using Microsoft.AspNetCore.Identity;
 using LibraryManager.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace LibraryManagerControllers
 {
@@ -164,22 +165,7 @@ namespace LibraryManagerControllers
 
 
         #region Actions
-
-        public void AddToWishlist(string userId, int bookId)
-        {
-            var currentUser = _userService.GetUser(userId);
-            var currentBook = _bookService.Find(bookId);
-
-            //if (currentUser.WishList.Contains(currentBook))
-            //{
-            //    currentUser.WishList.ToList().Remove(currentBook);
-            //}
-            //else
-            //{
-            //    currentUser.WishList.Append(currentBook);
-            //}
-        }
-
+        
         public void RateBook(int bookId, int rating)
         {
             var book = _bookService.Find(bookId);
@@ -193,6 +179,12 @@ namespace LibraryManagerControllers
                 book.Rating += rating;
                 _bookService.Update(book);
             }
+        }
+
+        public void AddBookToWishList(int bookId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _userService.AddBookToWishList(userId,bookId);     
         }
 
         private void InitializeTempData()

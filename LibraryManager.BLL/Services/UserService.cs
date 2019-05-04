@@ -20,21 +20,14 @@ namespace LibraryManager.BLL.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public void AddBookToWishList(User user, BookDTO bookDTO)
+       
+        public void AddBookToWishList(string userId, int bookId)
         {
-            var book = _mapper.Map<Book>(bookDTO);
-
-            //if (user.WishList.Contains(book))
-            //{
-            //    user.WishList.Remove(book);
-            //}
-            //else
-            //{
-            //    user.WishList.Add(book);
-            //}
-
-            _unitOfWork.UserRepository.Update(user);
-            _unitOfWork.Save();
+            //Don't works because userId is encrypted and when we push it to DB we cannot tie 2 tables.
+            _unitOfWork.UserBookRepository.Create(new UserBook {
+                UserId = userId,
+                BookId = bookId
+            });
         }
 
         public void ChangeUserName(User user, string name)
@@ -67,7 +60,7 @@ namespace LibraryManager.BLL.Services
 
         public User GetUser(string id)
         {
-            var user = _unitOfWork.UserRepository.Get(id);
+           var user = _unitOfWork.UserRepository.Get(id);
 
             return user;
         }
@@ -77,5 +70,6 @@ namespace LibraryManager.BLL.Services
             _unitOfWork.UserRepository.Update(user);
             _unitOfWork.Save();
         }
+
     }
 }
