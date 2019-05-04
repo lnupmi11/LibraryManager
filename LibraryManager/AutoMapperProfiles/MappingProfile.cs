@@ -22,7 +22,8 @@ namespace LibraryManager.AutoMapperProfiles
                 .ForMember(dest => dest.Languages, opt => opt.MapFrom<LanguageResolver>());
             CreateMap<Author, AuthorDTO>().ReverseMap();
             CreateMap<Language, LanguageDTO>().ReverseMap();
-            CreateMap<Genre, GenreDTO>().ReverseMap();
+            CreateMap<Genre, GenreDTO>()/*.ReverseMap()*/;
+            CreateMap<GenreDTO, Genre>();
         }
     }
 }
