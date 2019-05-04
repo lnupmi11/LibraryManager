@@ -9,7 +9,8 @@ namespace LibraryManager.BLL.Interfaces
     {
         #region userManaging
         //Ask mentor and consider whether we need to hold all this here or move to userService
-        bool BanUser(int userId);
+        bool BanUser(string email);
+        bool UnbanUser(string email);
         void GetUserStatistic();
         IEnumerable<UserDTO> GetUsersList();
         #endregion

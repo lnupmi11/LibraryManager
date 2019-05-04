@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using LibraryManager.BLL.Interfaces;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryManager.Controllers
 {

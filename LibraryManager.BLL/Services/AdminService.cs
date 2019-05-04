@@ -14,19 +14,37 @@ namespace LibraryManager.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<User> _userManager;
-        private readonly IMapper _mapper;
+     
 
-        public AdminService(IUnitOfWork unitOfWork, UserManager<User> userManager, IMapper mapper)
+        public AdminService(IUnitOfWork unitOfWork, UserManager<User> userManager)
         {
             _unitOfWork = unitOfWork;
-            _userManager = userManager;
-            _mapper = mapper;
+            _userManager = userManager;  
         }
 
-        public bool BanUser(int userId)
+        public bool BanUser(string email)
         {
-            //_userManager.   
-            return false;          
+            var userToBan = _userManager.FindByEmailAsync(email).Result;
+            var isUserToBanAdmin = _userManager.IsInRoleAsync(userToBan, "Admin").Result;
+            if(!isUserToBanAdmin)
+            {
+                userToBan.IsBanned = true;
+                _unitOfWork.Save();
+                return false;
+            }
+            return false;
+        }
+
+        public bool UnbanUser(string email)
+        {
+            var userToUnban = _userManager.FindByEmailAsync(email).Result;
+            if(userToUnban.IsBanned)
+            {
+                userToUnban.IsBanned = false;
+                _unitOfWork.Save();
+                return true;
+            }
+            return false;
         }
 
         public IEnumerable<UserDTO> GetUsersList()
@@ -35,7 +53,7 @@ namespace LibraryManager.BLL.Services
             var allUsersDTOs = new List<UserDTO>();
             foreach(var user in allUsers)
             {
-                allUsersDTOs.Add(_mapper.Map<UserDTO>(user));
+                allUsersDTOs.Add(customUserDTOmapper(user));
             }
             return allUsersDTOs;
         }
@@ -43,6 +61,21 @@ namespace LibraryManager.BLL.Services
         public void GetUserStatistic()
         {
             throw new NotImplementedException();
+        }
+
+        //Use instead of AutoMapper because of problem with mapping Roles(acquiring, setting them etc.)
+        private UserDTO customUserDTOmapper(User user)
+        {
+            var role = _userManager.IsInRoleAsync(user, "Admin").Result ? "Admin" : "User";
+
+            return new UserDTO {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email = user.Email,
+                IsBanned = user.IsBanned,
+                Role = role
+            };
         }
     }
 }

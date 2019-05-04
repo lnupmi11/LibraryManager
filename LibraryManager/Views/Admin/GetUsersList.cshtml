@@ -31,20 +31,45 @@ else
                 <th>Full name</th>
                 <th>Username</th>
                 <th>Email</th>
+                <th>Role</th>
                 <th>Status</th>
             </tr>
         </thead>
         <tbody>
+            <!-- PUT CODE BELOW IN SWITCH AND TRY TO delete redundant code-->
             @foreach (var user in Model.UserDTOs)
-            {
-                if (!user.IsBanned)
+            { 
+                if (user.Role=="Admin")
                 {
-                    <tr>
+                    <tr class="info">
                         <td>@user.FirstName  @user.LastName</td>
                         <td>@user.UserName</td>
                         <td>@user.Email</td>
+                        <td>@user.Role</td>
+                        <td>Admin</td>     
+                        <td><button class="btn btn-primary btn-block">You can't ban me ;)</button></td>
+                    </tr>
+                }
+
+                else if (!user.IsBanned)
+                {
+                    <tr class="success">
+                        <td>@user.FirstName  @user.LastName</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>@user.Role</td>
                         <td>Active</td>
-                        <td><button type="button" class="btn btn-danger">Ban User</button></td>
+                        <td>
+                            @Html.ActionLink("Ban User", "BanUser", "Admin",
+                                  new
+                                  {
+                                      email = user.Email
+                                  },
+                                htmlAttributes: new {
+                                    @class = "btn btn-danger btn-block",
+                                    @role = "button"
+                                })
+                        </td>
                     </tr>
                 }
                 else
@@ -53,8 +78,18 @@ else
                         <td>@user.FirstName  @user.LastName</td>
                         <td>@user.UserName</td>
                         <td>@user.Email</td>
-                        <td>BLOCKED</td>
-                        <td><button type="button" class="btn btn-success">Unban User</button></td>
+                        <td>@user.Role</td>
+                        <td>In ban</td>
+                        <td>
+                            @Html.ActionLink("Unblock", "UnbanUser", "Admin",
+                                 new {
+                                   email = user.Email
+                               },
+                               htmlAttributes: new {
+                                   @class = "btn btn-success btn-block",
+                                   @role = "button"
+                               })
+                        </td>
                     </tr>
                 }
             }

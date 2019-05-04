@@ -21,6 +21,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LibraryManager.DAL;
 using AutoMapper;
+using LibraryManager.DTO.Models;
+using LibraryManager.AutoMapperProfiles;
 
 namespace LibraryManager
 {
@@ -58,8 +60,8 @@ namespace LibraryManager
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAdminService, AdminService>();
-          
-            services.AddAutoMapper();
+  
+                services.AddAutoMapper();
             services.AddMemoryCache();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddSessionStateTempDataProvider();

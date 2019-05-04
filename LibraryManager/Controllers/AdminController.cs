@@ -56,9 +56,16 @@ namespace LibraryManager.API.Controllers
             return View(UsersListViewModel);
         }
 
-        public void BanUser(int userId)
+        public IActionResult BanUser(string email)
         {
-            throw new NotImplementedException();
+            _adminService.BanUser(email);
+            return RedirectToAction("GetUsersList", "Admin");
+        }
+
+        public IActionResult UnbanUser(string email)
+        {
+            _adminService.UnbanUser(email);
+            return RedirectToAction("GetUsersList", "Admin");
         }
 
         public void SeeUserStatistic(int userId)
