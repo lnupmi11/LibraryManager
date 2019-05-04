@@ -6,42 +6,45 @@ using LibraryManager.DAL;
 using Microsoft.AspNetCore.Mvc;
 using LibraryManager.BLL.Interfaces;
 using LibraryManager.DTO.Models;
+using LibraryManager.DTO.Models.Manage;
 
 
 namespace LibraryManager.Controllers
 {
     public class SearchController : Controller
     {
-        ILanguageService _languageService;
+        private readonly IBookService _bookService;
+        private readonly IGenreService _genreService;
 
-        public SearchController(ILanguageService languageService)
+        public SearchController(IBookService bookService, IGenreService genreService)
         {
-            _languageService = languageService;
+            _bookService = bookService;
+            _genreService = genreService;
         }
 
-        public IActionResult Index()
+        [HttpPost]
+        public IActionResult SearchBook(LibraryIndexViewModel model)
         {
-            var language = ShowLanguage();
-            return View(language);
-        }
+            if (model.SearchCategory == "Title")
+            {
+                var book = _bookService.GetAll().FirstOrDefault(x => x.Title.ToLower().Contains(model.SearchValue.ToLower()));
 
+                if (book == null)
+                {
+                    return RedirectToAction("Index", "Library");//TODO add error page etc.
+                }
+                return View("../Library/Open", book);
+            }
+            else 
+            {
+                var books = _bookService.GetAll().Where(x => model.SearchValue.ToLower().Contains(x.Author.LastName.ToLower()));
 
-        public IEnumerable<LanguageDTO> ShowLanguage()
-        {
-            var allLanguage = _languageService.GetAll();
-            return (allLanguage);
-        }
-
-        public IActionResult SearchBook(string bookName)
-        {
-            //var book = _unitOfWork.BookRepository.Get(bookName);
-            //if (book == null)
-            //{
-            //    //TODO: Return 404 page.
-            //    return null;
-            //}
-
-            return View(/*book*/);
+                if (!books.Any())
+                {
+                    return RedirectToAction("Index", "Library");//TODO add error page etc.
+                }
+                return View(books);
+            }
         }
 
         public IActionResult SortByCategory()

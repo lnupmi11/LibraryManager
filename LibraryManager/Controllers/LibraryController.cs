@@ -61,7 +61,7 @@ namespace LibraryManagerControllers
                 Email = "john@gmail.com",
                 UserName = "john",               
             };
-            var Password = "MyNameIsJohnDoe1_%";
+            var Password = "1";//"MyNameIsJohnDoe1_%";
 
             var admin = new User
             {
@@ -70,7 +70,7 @@ namespace LibraryManagerControllers
                 Email = "eladmino@gmail.com",
                 UserName = "eladmino",
             };
-            var adminPassword = "MyNameIsElAdmino1_%";
+            var adminPassword = "1"; //"MyNameIsElAdmino1_%";
 
             var res =  await _userManager.CreateAsync(tempUser, Password);
             var res1 = await _userManager.AddToRoleAsync(tempUser, "User");
@@ -103,6 +103,19 @@ namespace LibraryManagerControllers
             }
 
             return View(book);
+        }
+
+        public IActionResult OpenByGenre(int id)
+        {
+            var genre = _genreService.Find(id);
+            if (genre == null)
+            {
+                Response.StatusCode = 404;
+            }
+
+            var books = _bookService.GetAll().Where(x => x.Genres.All(y => y.GenreName == genre.GenreName));
+
+            return View(books);
         }
 
         public IActionResult OpenRandom()
@@ -158,7 +171,7 @@ namespace LibraryManagerControllers
             if (TempData["wasInitialized"] == null || ((bool?)TempData["wasInitialized"]).Value != true)
             {
                 TempData["genreIndex"] = new int?(0);
-                TempData["displayedGenres"] = new int?(2);
+                TempData["displayedGenres"] = new int?(4);
                 TempData["wasInitialized"] = new bool?(true);
             }
         }
