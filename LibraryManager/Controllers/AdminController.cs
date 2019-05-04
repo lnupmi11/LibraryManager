@@ -7,6 +7,7 @@ using LibraryManager.BLL.Services;
 using LibraryManager.DAL.Context;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Repositories;
+using LibraryManager.DTO.Models.Manage;
 using LibraryManager.DTO.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,11 +18,13 @@ namespace LibraryManager.API.Controllers
     {
         private readonly IBookService _bookService;
         private readonly IGenreService _genreService;
+        private readonly IAdminService _adminService;
 
-        public AdminController(IBookService bookService,IGenreService genreService)
+        public AdminController(IBookService bookService, IGenreService genreService, IAdminService adminService)
         {
             _bookService = bookService;
             _genreService = genreService;
+            _adminService = adminService;
         }
 
         [HttpGet]
@@ -42,24 +45,27 @@ namespace LibraryManager.API.Controllers
             return RedirectToAction("Index", "Library");
         }
 
+        [HttpGet]
+        public IActionResult GetUsersList()
+        {
+            var users = _adminService.GetUsersList();
+            var UsersListViewModel = new AdminUsersListViewModel {
+                UserDTOs = users
+            };
+
+            return View(UsersListViewModel);
+        }
 
         public void BanUser(int userId)
         {
             throw new NotImplementedException();
         }
 
-        //must return userStatisticDTO
         public void SeeUserStatistic(int userId)
         {
             throw new NotImplementedException();
         }
 
-        //must return ienumerable<userDTO>
-        public void SeeUsersList()
-        {
-            throw new NotImplementedException();
-        }
-
-
+     
     }
 }

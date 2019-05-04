@@ -1,0 +1,65 @@
+﻿@using LibraryManager.DTO.Models.Manage
+@using Microsoft.AspNetCore.Identity
+@using LibraryManager.DAL.Entities
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@model AdminUsersListViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+else
+{
+    Layout = "~/Views/Shared/_GuestLayout.cshtml";
+}
+
+<div>
+    <h2>All users data:</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Full name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.UserDTOs)
+            {
+                if (!user.IsBanned)
+                {
+                    <tr>
+                        <td>@user.FirstName  @user.LastName</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>Active</td>
+                        <td><button type="button" class="btn btn-danger">Ban User</button></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="danger">
+                        <td>@user.FirstName  @user.LastName</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>BLOCKED</td>
+                        <td><button type="button" class="btn btn-success">Unban User</button></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+

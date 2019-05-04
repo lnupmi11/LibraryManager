@@ -66,9 +66,26 @@ namespace LibraryManagerControllers
                 LastName = "Doe",
                 Email = "john@gmail.com",
                 UserName = "john", 
-                IsBanned = false
+                IsBanned = true
             };
             var Password = "1";//"MyNameIsJohnDoe1_%";
+            var tempUser1 = new User
+            {
+                FirstName = "John2",
+                LastName = "Doe2",
+                Email = "joh2n@gmail.com",
+                UserName = "johnq2",
+                IsBanned = false
+            };
+
+            var tempUser2 = new User
+            {
+                FirstName = "John4",
+                LastName = "Doe4",
+                Email = "john14@gmaiwl.com",
+                UserName = "johw124n",
+                IsBanned = true
+            };
 
             var admin = new User
             {
@@ -82,6 +99,10 @@ namespace LibraryManagerControllers
 
             var res =  await _userManager.CreateAsync(tempUser, Password);
             var res1 = await _userManager.AddToRoleAsync(tempUser, "User");
+            var res5 = await _userManager.CreateAsync(tempUser1, Password);
+            var res6 = await _userManager.AddToRoleAsync(tempUser1, "User");
+            var res7 = await _userManager.CreateAsync(tempUser2, Password);
+            var res8 = await _userManager.AddToRoleAsync(tempUser2, "User");
 
             var res2 = await _userManager.CreateAsync(admin, adminPassword);
             var res3 = await _userManager.AddToRoleAsync(admin, "Admin");
