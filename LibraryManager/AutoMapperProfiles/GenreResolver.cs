@@ -8,23 +8,23 @@ using AutoMapper;
 
 namespace LibraryManager.AutoMapperProfiles
 {
-    public class GenreResolver: IValueResolver<BookDTO, Book, ICollection<BookGenre>>
+    public class GenreResolver : IValueResolver<BookDTO, Book, ICollection<BookGenre>>
     {
         public ICollection<BookGenre> Resolve(BookDTO source, Book destination, ICollection<BookGenre> destMember, ResolutionContext context)
-    {
-        var genres = new List<BookGenre>();
-
-        foreach (var genre in source.Genres)
         {
+            var genres = new List<BookGenre>();
+
+            foreach (var genre in source.Genres)
+            {
                 var bookGenre = new BookGenre
                 {
-                    Book = destination,
+                    Book = new Book { Title = source.Title, Author = new Author {FirstName=source.Author.FirstName } },
                     Genre = new Genre { GenreName = genre.GenreName }
                 };
                 genres.Add(bookGenre);
-        }
+            }
 
-        return genres;
+            return genres;
+        }
     }
-}
 }

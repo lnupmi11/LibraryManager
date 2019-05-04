@@ -16,9 +16,14 @@ namespace LibraryManager.DAL.Entities
             get
             {
                 if (Books == null)
+                {
                     return 0;
-
+                }
                 return Books.Count;
+            }
+            set
+            {
+                this.NumberOfBooks = value;
             }
         }
 
