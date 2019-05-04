@@ -13,7 +13,7 @@ namespace LibraryManager.DAL.Entities
         
         public string LastName { get; set; }
             
-        
+        public bool IsBanned { get; set; }
         //FIXING UserId1 bug 
         // Maybe we should create model of WishList and ReadBookColection separatly and link records
         // there with userId instead of expanding user entity?

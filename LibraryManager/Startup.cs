@@ -57,6 +57,7 @@ namespace LibraryManager
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAdminService, AdminService>();
           
             services.AddAutoMapper();
             services.AddMemoryCache();

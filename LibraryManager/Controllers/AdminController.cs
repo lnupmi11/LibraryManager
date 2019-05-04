@@ -38,5 +38,25 @@ namespace LibraryManager.API.Controllers
             }
             return RedirectToAction("Index", "Library");
         }
+
+
+        public void BanUser(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        //must return userStatisticDTO
+        public void SeeUserStatistic(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        //must return ienumerable<userDTO>
+        public void SeeUsersList()
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

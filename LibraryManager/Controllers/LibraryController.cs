@@ -7,6 +7,7 @@ using LibraryManager.BLL.Interfaces;
 using LibraryManager.DTO.Models.Manage;
 using Microsoft.AspNetCore.Identity;
 using LibraryManager.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryManagerControllers
 {
@@ -18,18 +19,22 @@ namespace LibraryManagerControllers
 
 
         //Temporary
+        private readonly IAdminService _adminService;
+
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signinManager;
 
         public LibraryController(IBookService bookService, IUserService userService, IGenreService genreService, RoleManager<IdentityRole> roleManager,UserManager<User> userManager,
-            SignInManager<User>signInManager)
+            SignInManager<User>signInManager, IAdminService adminService)
         {
             _bookService = bookService;
             _userService = userService;
             _genreService = genreService;
 
             //Temporary
+            _adminService = adminService;
+
             _roleManager = roleManager;
             _signinManager = signInManager;
             _userManager = userManager;
@@ -38,6 +43,7 @@ namespace LibraryManagerControllers
 
         public async Task<ActionResult> Index()
         {
+            _adminService.GetUsersList();
             var books = _bookService.GetAll();
             var genres = _genreService.GetAll();
 
@@ -59,7 +65,8 @@ namespace LibraryManagerControllers
                 FirstName = "John",
                 LastName = "Doe",
                 Email = "john@gmail.com",
-                UserName = "john",               
+                UserName = "john", 
+                IsBanned = false
             };
             var Password = "1";//"MyNameIsJohnDoe1_%";
 
@@ -69,6 +76,7 @@ namespace LibraryManagerControllers
                 LastName = "Admino",
                 Email = "eladmino@gmail.com",
                 UserName = "eladmino",
+                IsBanned = false
             };
             var adminPassword = "1"; //"MyNameIsElAdmino1_%";
 
