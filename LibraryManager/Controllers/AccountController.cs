@@ -13,12 +13,12 @@ namespace LibraryManager.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
-        private readonly SignInManager<User> _manager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AccountController(IAccountService accountService, SignInManager<User> manager)
+        public AccountController(IAccountService accountService, SignInManager<User> signInManager)
         {
             this._accountService = accountService;
-            this._manager = manager;
+            this._signInManager = signInManager;
         }
 
         [HttpGet]
@@ -66,15 +66,24 @@ namespace LibraryManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _accountService.Login(model);
-                if (result)
+                var isUserBanned = await _accountService.IsUserBanned(model);
+                if (!isUserBanned)
                 {
-                    return RedirectToAction("Index", "Home");
+                    var result = await _accountService.Login(model);
+
+                    if (result)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Wrong login or(and) password");
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Wrong login or(and) password");
-                }                
+                    ModelState.AddModelError("", "You are banned and can not use this website");
+                }
             }
             return View(model);
         }
