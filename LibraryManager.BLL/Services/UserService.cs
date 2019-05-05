@@ -20,15 +20,6 @@ namespace LibraryManager.BLL.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-       
-        public void AddBookToWishList(string userId, int bookId)
-        {
-            //Don't works because userId is encrypted and when we push it to DB we cannot tie 2 tables.
-            _unitOfWork.UserBookRepository.Create(new UserBook {
-                UserId = userId,
-                BookId = bookId
-            });
-        }
 
         public void ChangeUserName(User user, string name)
         {

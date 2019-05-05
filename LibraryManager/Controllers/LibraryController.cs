@@ -131,8 +131,15 @@ namespace LibraryManagerControllers
             {
                 Response.StatusCode = 404;
             }
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var isBookInWishList = _bookService.isBookAlreadyInUserWishList(userId, id);
 
-            return View(book);
+            var libraryOpenViewModel = new LibraryOpenViewModel
+            {
+                BookDTO = book,
+                IsBookInWishList = isBookInWishList
+            };
+            return View(libraryOpenViewModel);
         }
 
         public IActionResult OpenByGenre(int id)
@@ -154,13 +161,21 @@ namespace LibraryManagerControllers
             var random = new Random();
             var randomBookId = random.Next(1, numberOfBooks + 1);
             var randomBook = _bookService.Find(randomBookId);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+            var isBookAlreadyInWishList = _bookService.isBookAlreadyInUserWishList(userId, randomBookId);
             if (randomBook == null)
             {
                 Response.StatusCode = 404;
             }
 
-            return View("Open", randomBook);
+            var LibraryOpenViewModel = new LibraryOpenViewModel
+            {
+                BookDTO = randomBook,
+                IsBookInWishList = isBookAlreadyInWishList
+            };
+
+            return View("Open", LibraryOpenViewModel);
         }
 
 
@@ -181,11 +196,23 @@ namespace LibraryManagerControllers
             }
         }
 
-        public void AddBookToWishList(int bookId)
+        public IActionResult AddBookToWishList(int bookId)
         {
+            //TODO:create pop up notifying whether book was added or not.
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            _userService.AddBookToWishList(userId,bookId);     
+            _bookService.AddBookToWishList(userId,bookId);
+            return RedirectToAction("Open", "Library", new { id = bookId });
         }
+
+        public IActionResult DeleteBookFromWishList(int bookId)
+        {
+            //TODO:create pop up notifying whether book was added or not.
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _bookService.DeleteBookFromWishList(userId, bookId);
+            return RedirectToAction("Open", "Library", new { id = bookId });
+        }
+
+
 
         private void InitializeTempData()
         {
