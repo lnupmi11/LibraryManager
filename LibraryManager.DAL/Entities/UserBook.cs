@@ -8,11 +8,11 @@ namespace LibraryManager.DAL.Entities
 {
     public class UserBook
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0),DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string UserId { get; set; }
         
         public User User { get; set; }
-
+        [Key, Column(Order = 1)]
         public int BookId { get; set; }
 
         public Book Book { get; set; }
