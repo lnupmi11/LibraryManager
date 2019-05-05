@@ -62,9 +62,10 @@ else
                 <td>Active</td>
                 <td>
                     @Html.ActionLink("See more info", "GetDetailedUserInfo", "Admin",
-                         new {
-                           email = user.Email
-                       },
+                     new
+                     {
+                          userName = @user.UserName
+                    },
                        htmlAttributes: new {
                            @class = "btn btn-info btn-block",
                            @role = "button"
@@ -93,9 +94,10 @@ else
                 <td>In ban</td>
                 <td>
                     @Html.ActionLink("See more info", "GetDetailedUserInfo", "Admin",
-                         new {
-                           email = user.Email
-                       },
+                         new
+                         {
+                             userName = @user.UserName
+                         },
                        htmlAttributes: new {
                            @class = "btn btn-info btn-block",
                            @role = "button"

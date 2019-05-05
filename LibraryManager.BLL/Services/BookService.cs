@@ -57,9 +57,9 @@ namespace LibraryManager.BLL.Services
             return false;
         }
 
-        public void Create(BookDTO BookDTO)
+        public void Create(BookDTO bookDTO)
         {
-            var book = _mapper.Map<Book>(BookDTO);
+            var book = _mapper.Map<Book>(bookDTO);
             _unitOfWork.BookRepository.Create(book);
             _unitOfWork.Save();
         }
@@ -91,9 +91,9 @@ namespace LibraryManager.BLL.Services
             return booksDTO;
         }
 
-        public void Update(BookDTO BookDTO)
+        public void Update(BookDTO bookDTO)
         {
-            var book = _mapper.Map<Book>(BookDTO);
+            var book = _mapper.Map<Book>(bookDTO);
             _unitOfWork.BookRepository.Update(book);
             _unitOfWork.Save();
         }

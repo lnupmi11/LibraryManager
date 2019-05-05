@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LibraryManager.BLL.Interfaces
 {
@@ -11,7 +12,7 @@ namespace LibraryManager.BLL.Interfaces
         //Ask mentor and consider whether we need to hold all this here or move to userService
         bool BanUser(string email);
         bool UnbanUser(string email);
-        void GetUserStatistic();
+        Task<UserExtendedDTO> GetDetailedUserInfoAsync(string userName);
         IEnumerable<UserDTO> GetUsersList();
         #endregion
     }

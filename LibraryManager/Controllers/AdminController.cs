@@ -68,11 +68,20 @@ namespace LibraryManager.API.Controllers
             return RedirectToAction("GetUsersList", "Admin");
         }
 
-        public void SeeUserStatistic(int userId)
+        public IActionResult GetDetailedUserInfo(string userName)
         {
-            throw new NotImplementedException();
-        }
+            //Change later
+            if (userName == null)
+            {
+                RedirectToAction("Index", "Home");
+            }
+            var extendedUserDTO =  _adminService.GetDetailedUserInfoAsync(userName).Result;
 
-     
+            if(extendedUserDTO.BooksInWishList==0)
+            {
+                RedirectToAction("Index", "Home");
+            }
+            return View(extendedUserDTO);
+        } 
     }
 }

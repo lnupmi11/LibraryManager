@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using LibraryManager.DAL.Entities
+@using LibraryManager.DTO.Models;
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@model UserExtendedDTO
+
+
+
+<body>
+    <div style=" text-align:center">
+        <h2>Detailed <span style="color:grey"> @Model.UserDTO.FirstName @Model.UserDTO.LastName </span> information</h2>
+    </div>
+    <br />
+
+    <div>
+        <div class="col-sm-4"> 
+             <img src="~/images/mock-300x400.png" alt=@Model.UserDTO.UserName /> 
+        </div>
+        <div style="background-color:cornsilk;position:relative;height:400px;" class="col-lg-8">
+            <h3>Fullname: @Model.UserDTO.FirstName @Model.UserDTO.LastName</h3>
+            <h3>Email: @Model.UserDTO.Email </h3>
+            <h3>Role: @Model.UserDTO.Role </h3>
+            <h3>Username: @Model.UserDTO.UserName </h3>
+            <h3>Books wishlist:</h3>
+            @{ 
+                foreach(var book in Model.WishList)
+                {
+                    <h4>@book.Title </h4><h5>by @book.Author.FirstName @book.Author.LastName</h5>
+                }
+            }
+
+        </div>
+    </div>
+</body>
