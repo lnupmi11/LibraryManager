@@ -33,7 +33,7 @@ namespace LibraryManager.Controllers
                 {
                     return RedirectToAction("Index", "Library");//TODO add error page etc.
                 }
-                return View("../Library/Open", book);
+                return RedirectToAction("Open", "Library", new { id = book.Id });
             }
             else 
             {
