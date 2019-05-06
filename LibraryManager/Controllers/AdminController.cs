@@ -9,6 +9,7 @@ using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Repositories;
 using LibraryManager.DTO.Models.Manage;
 using LibraryManager.DTO.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -28,6 +29,7 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             ViewData["BookGenre"] = new SelectList(_genreService.GetAll(), "Id", "GenreName");
@@ -35,6 +37,7 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index(BookDTO book)
         {
 
@@ -46,6 +49,7 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetUsersList()
         {
             var users = _adminService.GetUsersList();
@@ -55,19 +59,19 @@ namespace LibraryManager.API.Controllers
 
             return View(UsersListViewModel);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult BanUser(string email)
         {
             _adminService.BanUser(email);
             return RedirectToAction("GetUsersList", "Admin");
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult UnbanUser(string email)
         {
             _adminService.UnbanUser(email);
             return RedirectToAction("GetUsersList", "Admin");
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult GetDetailedUserInfo(string userName)
         {
             //Change later
