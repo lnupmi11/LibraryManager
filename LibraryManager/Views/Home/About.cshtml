@@ -1,4 +1,20 @@
 ﻿<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+@if (User.IsInRole("User"))
+{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@if (User.IsInRole("Admin"))
+{
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    Layout = "~/Views/Shared/_GuestLayout.cshtml";
+}
 <style>
     body {
         font-family: "Times New Roman", Georgia, Serif;
@@ -10,20 +26,20 @@
     }
 </style>
 <body>
-<div class="w3-content" style="max-width:1100px">
-    <div class="w3-row w3-padding-64" id="about">
-        <div class="w3-col m6 w3-padding-large w3-hide-small">
-            <img src="http://i63.tinypic.com/1fjlad.gif" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="600" height="750">
+    <div class="w3-content" style="max-width:1100px">
+        <div class="w3-row w3-padding-64" id="about">
+            <div class="w3-col m6 w3-padding-large w3-hide-small">
+                <img src="http://i63.tinypic.com/1fjlad.gif" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="600" height="750">
+            </div>
+
+            <div class="w3-col m6 w3-padding-large">
+                <h1 class="w3-center">About Library</h1><br>
+                <h5 class="w3-center">Since 2019</h5>
+                <p class="w3-large">The Online Library's mission is to develop and maintain online resources and services in support of the present and future teaching, learning and research needs of the users.System provides access to thousands of e-books from anywhere with an internet connection.It helps users to do everything they need(search book,see statistic,add books to wishlist etc.)</p>
+                <p class="w3-large w3-text-grey w3-hide-medium"></p>
+            </div>
         </div>
 
-        <div class="w3-col m6 w3-padding-large">
-            <h1 class="w3-center">About Library</h1><br>
-            <h5 class="w3-center">Since 2019</h5>
-            <p class="w3-large">The Online Library's mission is to develop and maintain online resources and services in support of the present and future teaching, learning and research needs of the users.System provides access to thousands of e-books from anywhere with an internet connection.It helps users to do everything they need(search book,see statistic,add books to wishlist etc.)</p>
-            <p class="w3-large w3-text-grey w3-hide-medium"></p>
-        </div>
+        <hr />
     </div>
-
-    <hr />
-</div>
 </body>

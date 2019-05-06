@@ -1,9 +1,30 @@
 ﻿<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@if (User.IsInRole("User"))
+{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@if (User.IsInRole("Admin"))
+{
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    Layout = "~/Views/Shared/_GuestLayout.cshtml";
+}
 <style>
-    body {font-family: "Lato", sans-serif}
-    .mySlides {display: none}
+    body {
+        font-family: "Lato", sans-serif
+    }
+
+    .mySlides {
+        display: none
+    }
 </style>
 
 <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
