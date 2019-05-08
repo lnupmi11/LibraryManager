@@ -131,8 +131,13 @@ namespace LibraryManagerControllers
             {
                 Response.StatusCode = 404;
             }
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var isBookInWishList = _bookService.isBookAlreadyInUserWishList(userId, id);
+
+            var isBookInWishList = false;
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                isBookInWishList = _bookService.isBookAlreadyInUserWishList(userId, id);
+            }
 
             var libraryOpenViewModel = new LibraryOpenViewModel
             {
@@ -161,9 +166,14 @@ namespace LibraryManagerControllers
             var random = new Random();
             var randomBookId = random.Next(1, numberOfBooks + 1);
             var randomBook = _bookService.Find(randomBookId);
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var isBookAlreadyInWishList = false;
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var isBookAlreadyInWishList = _bookService.isBookAlreadyInUserWishList(userId, randomBookId);
+                isBookAlreadyInWishList = _bookService.isBookAlreadyInUserWishList(userId, randomBookId);
+            }
+
             if (randomBook == null)
             {
                 Response.StatusCode = 404;
@@ -192,10 +202,10 @@ namespace LibraryManagerControllers
             else
             {
                 book.Rating += rating;
-                _bookService.Update(book);
+                //_bookService.Update(book);
             }
         }
-
+        [Authorize(Roles = "User")]
         public IActionResult AddBookToWishList(int bookId)
         {
             //TODO:create pop up notifying whether book was added or not.
@@ -203,7 +213,7 @@ namespace LibraryManagerControllers
             _bookService.AddBookToWishList(userId,bookId);
             return RedirectToAction("Open", "Library", new { id = bookId });
         }
-
+        [Authorize(Roles = "User")]
         public IActionResult DeleteBookFromWishList(int bookId)
         {
             //TODO:create pop up notifying whether book was added or not.

@@ -6,6 +6,7 @@ using System.Security.Claims;
 using LibraryManager.BLL.Interfaces;
 using LibraryManager.DAL.Interfaces;
 using LibraryManager.DAL.Entities;
+using LibraryManager.DTO.Models.Manage;
 using LibraryManager.DTO.Models;
 
 namespace LibraryManager.BLL.Services
@@ -91,7 +92,7 @@ namespace LibraryManager.BLL.Services
             return booksDTO;
         }
 
-        public void Update(BookDTO bookDTO)
+        public void Update(EditBookViewModel bookDTO)
         {
             var book = _mapper.Map<Book>(bookDTO);
             _unitOfWork.BookRepository.Update(book);
