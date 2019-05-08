@@ -15,6 +15,7 @@ namespace LibraryManager.DAL.Context
         public DbSet<Book> Books { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Language> Languages { get; set; }
+        public DbSet<UserBook> UserBooks { get; set; }
 
 
         public LibraryManagerContext() { }
@@ -22,7 +23,7 @@ namespace LibraryManager.DAL.Context
         public LibraryManagerContext(DbContextOptions<LibraryManagerContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+             Database.EnsureCreated();   
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

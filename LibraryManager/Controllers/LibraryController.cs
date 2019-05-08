@@ -7,6 +7,8 @@ using LibraryManager.BLL.Interfaces;
 using LibraryManager.DTO.Models.Manage;
 using Microsoft.AspNetCore.Identity;
 using LibraryManager.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace LibraryManagerControllers
 {
@@ -18,18 +20,22 @@ namespace LibraryManagerControllers
 
 
         //Temporary
+        private readonly IAdminService _adminService;
+
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signinManager;
 
         public LibraryController(IBookService bookService, IUserService userService, IGenreService genreService, RoleManager<IdentityRole> roleManager,UserManager<User> userManager,
-            SignInManager<User>signInManager)
+            SignInManager<User>signInManager, IAdminService adminService)
         {
             _bookService = bookService;
             _userService = userService;
             _genreService = genreService;
 
             //Temporary
+            _adminService = adminService;
+
             _roleManager = roleManager;
             _signinManager = signInManager;
             _userManager = userManager;
@@ -38,6 +44,7 @@ namespace LibraryManagerControllers
 
         public async Task<ActionResult> Index()
         {
+            _adminService.GetUsersList();
             var books = _bookService.GetAll();
             var genres = _genreService.GetAll();
 
@@ -59,9 +66,27 @@ namespace LibraryManagerControllers
                 FirstName = "John",
                 LastName = "Doe",
                 Email = "john@gmail.com",
-                UserName = "john",               
+                UserName = "john", 
+                IsBanned = true
             };
             var Password = "1";//"MyNameIsJohnDoe1_%";
+            var tempUser1 = new User
+            {
+                FirstName = "John2",
+                LastName = "Doe2",
+                Email = "joh2n@gmail.com",
+                UserName = "johnq2",
+                IsBanned = false
+            };
+
+            var tempUser2 = new User
+            {
+                FirstName = "John4",
+                LastName = "Doe4",
+                Email = "john14@gmaiwl.com",
+                UserName = "johw124n",
+                IsBanned = true
+            };
 
             var admin = new User
             {
@@ -69,11 +94,16 @@ namespace LibraryManagerControllers
                 LastName = "Admino",
                 Email = "eladmino@gmail.com",
                 UserName = "eladmino",
+                IsBanned = false
             };
             var adminPassword = "1"; //"MyNameIsElAdmino1_%";
 
             var res =  await _userManager.CreateAsync(tempUser, Password);
             var res1 = await _userManager.AddToRoleAsync(tempUser, "User");
+            var res5 = await _userManager.CreateAsync(tempUser1, Password);
+            var res6 = await _userManager.AddToRoleAsync(tempUser1, "User");
+            var res7 = await _userManager.CreateAsync(tempUser2, Password);
+            var res8 = await _userManager.AddToRoleAsync(tempUser2, "User");
 
             var res2 = await _userManager.CreateAsync(admin, adminPassword);
             var res3 = await _userManager.AddToRoleAsync(admin, "Admin");
@@ -102,7 +132,32 @@ namespace LibraryManagerControllers
                 Response.StatusCode = 404;
             }
 
-            return View(book);
+            var isBookInWishList = false;
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                isBookInWishList = _bookService.isBookAlreadyInUserWishList(userId, id);
+            }
+
+            var libraryOpenViewModel = new LibraryOpenViewModel
+            {
+                BookDTO = book,
+                IsBookInWishList = isBookInWishList
+            };
+            return View(libraryOpenViewModel);
+        }
+
+        public IActionResult OpenByGenre(int id)
+        {
+            var genre = _genreService.Find(id);
+            if (genre == null)
+            {
+                Response.StatusCode = 404;
+            }
+
+            var books = _bookService.GetAll().Where(x => x.Genres.All(y => y.GenreName == genre.GenreName));
+
+            return View(books);
         }
 
         public IActionResult OpenRandom()
@@ -111,33 +166,31 @@ namespace LibraryManagerControllers
             var random = new Random();
             var randomBookId = random.Next(1, numberOfBooks + 1);
             var randomBook = _bookService.Find(randomBookId);
+            var isBookAlreadyInWishList = false;
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                isBookAlreadyInWishList = _bookService.isBookAlreadyInUserWishList(userId, randomBookId);
+            }
 
             if (randomBook == null)
             {
                 Response.StatusCode = 404;
             }
 
-            return View("Open", randomBook);
+            var LibraryOpenViewModel = new LibraryOpenViewModel
+            {
+                BookDTO = randomBook,
+                IsBookInWishList = isBookAlreadyInWishList
+            };
+
+            return View("Open", LibraryOpenViewModel);
         }
 
 
         #region Actions
-
-        public void AddToWishlist(string userId, int bookId)
-        {
-            var currentUser = _userService.GetUser(userId);
-            var currentBook = _bookService.Find(bookId);
-
-            //if (currentUser.WishList.Contains(currentBook))
-            //{
-            //    currentUser.WishList.ToList().Remove(currentBook);
-            //}
-            //else
-            //{
-            //    currentUser.WishList.Append(currentBook);
-            //}
-        }
-
+        
         public void RateBook(int bookId, int rating)
         {
             var book = _bookService.Find(bookId);
@@ -152,13 +205,31 @@ namespace LibraryManagerControllers
                 //_bookService.Update(book);
             }
         }
+        [Authorize(Roles = "User")]
+        public IActionResult AddBookToWishList(int bookId)
+        {
+            //TODO:create pop up notifying whether book was added or not.
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _bookService.AddBookToWishList(userId,bookId);
+            return RedirectToAction("Open", "Library", new { id = bookId });
+        }
+        [Authorize(Roles = "User")]
+        public IActionResult DeleteBookFromWishList(int bookId)
+        {
+            //TODO:create pop up notifying whether book was added or not.
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _bookService.DeleteBookFromWishList(userId, bookId);
+            return RedirectToAction("Open", "Library", new { id = bookId });
+        }
+
+
 
         private void InitializeTempData()
         {
             if (TempData["wasInitialized"] == null || ((bool?)TempData["wasInitialized"]).Value != true)
             {
                 TempData["genreIndex"] = new int?(0);
-                TempData["displayedGenres"] = new int?(2);
+                TempData["displayedGenres"] = new int?(4);
                 TempData["wasInitialized"] = new bool?(true);
             }
         }

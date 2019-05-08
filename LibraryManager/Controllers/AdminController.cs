@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LibraryManager.BLL.Interfaces;
 using LibraryManager.BLL.Services;
 using LibraryManager.BLL.Interfaces;
 using LibraryManager.DAL.Context;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Repositories;
+using LibraryManager.DTO.Models.Manage;
+using LibraryManager.DTO.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LibraryManager.DTO.Models.Manage;
@@ -15,31 +19,42 @@ namespace LibraryManager.API.Controllers
 {
     public class AdminController : Controller
     {
+<<<<<<< HEAD
         private readonly LibraryManagerContext _context;
         private readonly IBookService _bookService;
+=======
+        private readonly IBookService _bookService;
+        private readonly IGenreService _genreService;
+        private readonly IAdminService _adminService;
+>>>>>>> 1d354a83516f154958ef1fa411d98174ce80764b
 
-        public AdminController(LibraryManagerContext context)
+        public AdminController(IBookService bookService, IGenreService genreService, IAdminService adminService)
         {
-            _context = context;
+            _bookService = bookService;
+            _genreService = genreService;
+            _adminService = adminService;
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
-            ViewData["BookGenre"] = new SelectList(_context.Genres, "Id", "GenreName");
+            ViewData["BookGenre"] = new SelectList(_genreService.GetAll(), "Id", "GenreName");
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(Book book)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Index(BookDTO book)
         {
+
             if (ModelState.IsValid)
             {
-                _context.Add(book);
-                _context.SaveChanges();
+                _bookService.Create(book);
             }
             return RedirectToAction("Index", "Library");
         }
+<<<<<<< HEAD
         [HttpPost]
         public IActionResult Edit(EditBookViewModel bookDTO)
         {
@@ -49,5 +64,47 @@ namespace LibraryManager.API.Controllers
             }
             return View(bookDTO);
         }
+=======
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetUsersList()
+        {
+            var users = _adminService.GetUsersList();
+            var UsersListViewModel = new AdminUsersListViewModel {
+                UserDTOs = users
+            };
+
+            return View(UsersListViewModel);
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult BanUser(string email)
+        {
+            _adminService.BanUser(email);
+            return RedirectToAction("GetUsersList", "Admin");
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult UnbanUser(string email)
+        {
+            _adminService.UnbanUser(email);
+            return RedirectToAction("GetUsersList", "Admin");
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetDetailedUserInfo(string userName)
+        {
+            //Change later
+            if (userName == null)
+            {
+                RedirectToAction("Index", "Home");
+            }
+            var extendedUserDTO =  _adminService.GetDetailedUserInfoAsync(userName).Result;
+
+            if(extendedUserDTO.BooksInWishList==0)
+            {
+                RedirectToAction("Index", "Home");
+            }
+            return View(extendedUserDTO);
+        } 
+>>>>>>> 1d354a83516f154958ef1fa411d98174ce80764b
     }
 }

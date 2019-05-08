@@ -24,6 +24,40 @@ namespace LibraryManager.BLL.Services
             _mapper = mapper;
         }
 
+        public void AddBookToWishList(string userId, int bookId)
+        {
+            var isBookAlreadyInWishList = isBookAlreadyInUserWishList(userId, bookId);
+            if (!isBookAlreadyInWishList)
+            {
+                _unitOfWork.UserBookRepository.Create(new UserBook
+                {
+                    UserId = userId,
+                    BookId = bookId
+                });
+            }
+        }
+
+        public void DeleteBookFromWishList(string userId, int bookId)
+        {
+            var isBookAlreadyInWishList = isBookAlreadyInUserWishList(userId, bookId);
+            if (isBookAlreadyInWishList)
+            {
+                _unitOfWork.UserBookRepository.Delete(userId, bookId);
+            }
+        }
+
+        public bool isBookAlreadyInUserWishList(string userId, int bookId)
+        {
+            var userBookRecord = _unitOfWork.UserBookRepository.Get(userId, bookId);
+            //Even if record is deleted we receive model but the fields are 0 ro null.
+            //Consider about changing this condition.
+            if (userBookRecord.BookId != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void Create(BookDTO bookDTO)
         {
             var book = _mapper.Map<Book>(bookDTO);
@@ -40,9 +74,9 @@ namespace LibraryManager.BLL.Services
         public BookDTO Find(int id)
         {
             var book = _unitOfWork.BookRepository.Get(id);
-            var bookDTO = _mapper.Map<BookDTO>(book);
+            var BookDTO = _mapper.Map<BookDTO>(book);
 
-            return bookDTO;
+            return BookDTO;
         }
 
         public IEnumerable<BookDTO> GetAll()

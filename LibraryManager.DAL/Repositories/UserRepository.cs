@@ -32,7 +32,10 @@ namespace LibraryManager.DAL.Repositories
 
         public User Get(string id)
         {
-            return GetAll().FirstOrDefault(u => u.Id == id);
+            var userWishList = _dbContext.UserBooks.Where(ub => ub.UserId == id);
+            var user = GetAll().FirstOrDefault(u => u.Id == id);
+            user.WishList = userWishList.ToList();
+            return user;
         }
 
         public IEnumerable<User> GetAll()

@@ -236,6 +236,10 @@ namespace LibraryManager.DAL.Seeding
             {
                 GenreName = "Novel"
             });
+            list.Add(new Genre()
+            {
+                GenreName = "Biography"
+            });
             return list;
         }
         private static async Task LanguageSeed(LibraryManagerContext context)
@@ -338,6 +342,7 @@ namespace LibraryManager.DAL.Seeding
             };
             return list;
         }
+
 
         private static async Task BookLanguageSeed(LibraryManagerContext context)
         {

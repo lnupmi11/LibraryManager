@@ -64,7 +64,6 @@ namespace LibraryManager.BLL.Services
         {
             var result =  await
               _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
-
             if (result.Succeeded)
             {
                 return true;
@@ -78,6 +77,16 @@ namespace LibraryManager.BLL.Services
         public async void Logout()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<bool> IsUserBanned(LoginViewModel model)
+        {
+            var user = await _userManager.FindByNameAsync(model.Username);
+            if(user.IsBanned)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

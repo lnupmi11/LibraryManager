@@ -4,14 +4,16 @@ using LibraryManager.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LibraryManager.DAL.Migrations
 {
     [DbContext(typeof(LibraryManagerContext))]
-    partial class LibraryManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20190505172927_migrat")]
+    partial class migrat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,7 +172,8 @@ namespace LibraryManager.DAL.Migrations
 
             modelBuilder.Entity("LibraryManager.DAL.Entities.UserBook", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("BookId");
 
@@ -178,9 +181,9 @@ namespace LibraryManager.DAL.Migrations
 
                     b.HasKey("UserId", "BookId");
 
-                    b.HasIndex("BookId");
+                    b.HasAlternateKey("BookId", "UserId");
 
-                    b.ToTable("UserBook");
+                    b.ToTable("UserBooks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

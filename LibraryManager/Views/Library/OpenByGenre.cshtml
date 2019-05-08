@@ -31,7 +31,10 @@
     {
         <div class="col-sm-4 text-center">
             <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id"><h2>@book.Title</h2></a>
-            <h5>@book.Author.FirstName  @book.Author.LastName</h5>
+            @foreach (var genre in book.Genres)
+            {
+                <h5>@genre.GenreName</h5>
+            }
             <img src="~/images/mock-200x300.jpg" class="img-rounded mx-auto d-block" alt="@book.Title" />
         </div>
     }

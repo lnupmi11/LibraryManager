@@ -15,6 +15,7 @@ namespace LibraryManager.BLL.Interfaces
        Task<bool> DoesUsernameExsists(string email);
        Task<bool> RegisterNewUser(RegisterViewModel model);
        Task<bool> Login(LoginViewModel model);
+       Task<bool> IsUserBanned(LoginViewModel model);
        void Logout();
     }
 }

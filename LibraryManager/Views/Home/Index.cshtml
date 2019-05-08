@@ -14,7 +14,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
-else
+@if (User.IsInRole("Admin"))
+{
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+@if (!User.Identity.IsAuthenticated)
 {
     Layout = "~/Views/Shared/_GuestLayout.cshtml";
 }

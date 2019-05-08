@@ -17,11 +17,12 @@
         : ((int?)TempData["genreIndex"]).Value;
 
     var displayedGenres = ((int?)TempData["displayedGenres"]).Value >= numberOfGenres
-        ? numberOfGenres - 1
-        : ((int?)TempData["displayedGenres"]).Value;
+        ? numberOfGenres
+        : 4;
+    //((int?)TempData["displayedGenres"]).Value;
 
     TempData.Keep();
-} 
+}
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -29,12 +30,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
-else
+@if (User.IsInRole("Admin"))
+{
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+@if (!User.Identity.IsAuthenticated)
 {
     Layout = "~/Views/Shared/_GuestLayout.cshtml";
 }
 
-<hr/>
+<hr />
 
 <form method="post" asp-controller="Search" asp-action="SearchBook">
     <section class="search-sec">
@@ -42,57 +49,56 @@ else
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-                        
-                            <div class="col-lg-4 col-md-4 col-sm-12 p-0">
-                                <select asp-for="SearchCategory" class="form-control search-slt" id="exampleFormControlSelect1">
-                                    <option>Title</option>
-                                    <option>Author</option>
-                                    <option>Genre</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 p-0">
-                                <input type="text" asp-for="SearchValue" class="form-control search-slt" placeholder="Enter">
-                            </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                            <select asp-for="SearchCategory" class="form-control search-slt" id="exampleFormControlSelect1">
+                                <option>Title</option>
+                                <option>Author</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 p-0">
+                            <input type="text" asp-for="SearchValue" class="form-control search-slt" placeholder="Enter">
+                        </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 p-0">
                             <input type="submit" class="btn btn-danger wrn-btn" value="Search">
                         </div>
-                        
+
 
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    </form>
+</form>
 
-    <div class="content">
-        <div id="genreSection" class="container text-center">
-            <div class="col-sm-2 alert alert-dark">
-                <a asp-controller="Library" asp-action="DecreaseValue" class="btn">&#8249;</a>
-            </div>
-            <div class="col-sm-8">
-                @for (var i = genreIndex % numberOfGenres; i != (genreIndex + displayedGenres) % (numberOfGenres); i = (i + 1) % numberOfGenres)
-                {
-                    <div class="col-sm-3">
-                        <img src="~/images/mock-100x100.png" class="img-rounded mx-auto d-block" alt="@Model.GenreDTOs.ElementAt(i).GenreName">
-                        <h5>@Model.GenreDTOs.ElementAt(i).GenreName</h5>
-                        <h6>@Model.GenreDTOs.ElementAt(i).NumberOfBooks</h6>
-                    </div>
-                }
-            </div>
-            <div class="col-sm-2 alert alert-dark">
-                <a asp-controller="Library" asp-action="IncreaseValue" class="btn">&#8250;</a>
-            </div>
+<div class="content">
+    <div id="genreSection" class="container text-center">
+        <div class="col-sm-2 alert alert-dark">
+            <a asp-controller="Library" asp-action="DecreaseValue" class="btn">&#8249;</a>
         </div>
-
-        <div id="itemsSection" class="container">
-            @foreach (var book in Model.BookDTOs)
+        <div class="col-sm-8">
+            @for (var i = genreIndex % numberOfGenres; i != (genreIndex + displayedGenres) % (numberOfGenres); i = (i + 1) % numberOfGenres)
             {
-                <div class="col-sm-4 text-center">
-                    <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id"><h2>@book.Title</h2></a>
-                    <h5>@book.Author.FirstName  @book.Author.LastName</h5>
-                    <img src="~/images/mock-200x300.jpg" class="img-rounded mx-auto d-block" alt="@book.Title" />
+                <div class="col-sm-3">
+                    <img src="~/images/mock-100x100.png" class="img-rounded mx-auto d-block" alt="@Model.GenreDTOs.ElementAt(i).GenreName">
+                    <a asp-controller="Library" asp-action="OpenByGenre" asp-route-id="@Model.GenreDTOs.ElementAt(i).Id"><h5>@Model.GenreDTOs.ElementAt(i).GenreName</h5></a>
+                    <h6>@Model.GenreDTOs.ElementAt(i).NumberOfBooks</h6>
                 </div>
             }
         </div>
+        <div class="col-sm-2 alert alert-dark">
+            <a asp-controller="Library" asp-action="IncreaseValue" class="btn">&#8250;</a>
+        </div>
     </div>
+
+    <div id="itemsSection" class="container">
+        @foreach (var book in Model.BookDTOs)
+        {
+            <div class="col-sm-4 text-center">
+                <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id"><h2>@book.Title</h2></a>
+                <h5>@book.Author.FirstName  @book.Author.LastName</h5>
+                <img src="~/images/mock-200x300.jpg" class="img-rounded mx-auto d-block" alt="@book.Title" />
+            </div>
+        }
+    </div>
+</div>
