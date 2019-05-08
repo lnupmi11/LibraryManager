@@ -170,7 +170,8 @@ namespace LibraryManager.DAL.Migrations
 
             modelBuilder.Entity("LibraryManager.DAL.Entities.UserBook", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("BookId");
 
@@ -178,9 +179,9 @@ namespace LibraryManager.DAL.Migrations
 
                     b.HasKey("UserId", "BookId");
 
-                    b.HasIndex("BookId");
+                    b.HasAlternateKey("BookId", "UserId");
 
-                    b.ToTable("UserBook");
+                    b.ToTable("UserBooks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

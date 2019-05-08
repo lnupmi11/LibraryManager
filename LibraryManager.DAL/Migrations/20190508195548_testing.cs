@@ -2,7 +2,7 @@
 
 namespace LibraryManager.DAL.Migrations
 {
-    public partial class Linkingbookwithlanguage1 : Migration
+    public partial class testing : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

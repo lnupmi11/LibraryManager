@@ -29,6 +29,5 @@ namespace LibraryManager.DAL.Entities
 
         public string Description { get; set; }
 
-        public Book() { }
     }
 }

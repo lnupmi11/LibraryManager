@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManager.DAL.Migrations
 {
     [DbContext(typeof(LibraryManagerContext))]
-    [Migration("20190427163738_ChangedGanreId")]
-    partial class ChangedGanreId
+    [Migration("20190508195751_dropping testField")]
+    partial class droppingtestField
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,6 +45,8 @@ namespace LibraryManager.DAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AuthorId");
+
+                    b.Property<string>("Description");
 
                     b.Property<int>("NumberOfPages");
 
@@ -128,6 +130,8 @@ namespace LibraryManager.DAL.Migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<bool>("IsBanned");
+
                     b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
@@ -168,7 +172,8 @@ namespace LibraryManager.DAL.Migrations
 
             modelBuilder.Entity("LibraryManager.DAL.Entities.UserBook", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("BookId");
 
@@ -176,9 +181,9 @@ namespace LibraryManager.DAL.Migrations
 
                     b.HasKey("UserId", "BookId");
 
-                    b.HasIndex("BookId");
+                    b.HasAlternateKey("BookId", "UserId");
 
-                    b.ToTable("UserBook");
+                    b.ToTable("UserBooks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
