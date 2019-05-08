@@ -149,7 +149,7 @@ namespace LibraryManagerControllers
             else
             {
                 book.Rating += rating;
-                _bookService.Update(book);
+                //_bookService.Update(book);
             }
         }
 
