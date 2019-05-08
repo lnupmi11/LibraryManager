@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using LibraryManager.BLL.Interfaces;
 using LibraryManager.BLL.Services;
-using LibraryManager.BLL.Interfaces;
 using LibraryManager.DAL.Context;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Repositories;
@@ -13,20 +12,14 @@ using LibraryManager.DTO.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using LibraryManager.DTO.Models.Manage;
 
 namespace LibraryManager.API.Controllers
 {
     public class AdminController : Controller
     {
-<<<<<<< HEAD
-        private readonly LibraryManagerContext _context;
-        private readonly IBookService _bookService;
-=======
         private readonly IBookService _bookService;
         private readonly IGenreService _genreService;
         private readonly IAdminService _adminService;
->>>>>>> 1d354a83516f154958ef1fa411d98174ce80764b
 
         public AdminController(IBookService bookService, IGenreService genreService, IAdminService adminService)
         {
@@ -54,7 +47,7 @@ namespace LibraryManager.API.Controllers
             }
             return RedirectToAction("Index", "Library");
         }
-<<<<<<< HEAD
+
         [HttpPost]
         public IActionResult Edit(EditBookViewModel bookDTO)
         {
@@ -64,7 +57,6 @@ namespace LibraryManager.API.Controllers
             }
             return View(bookDTO);
         }
-=======
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
@@ -105,6 +97,5 @@ namespace LibraryManager.API.Controllers
             }
             return View(extendedUserDTO);
         } 
->>>>>>> 1d354a83516f154958ef1fa411d98174ce80764b
     }
 }

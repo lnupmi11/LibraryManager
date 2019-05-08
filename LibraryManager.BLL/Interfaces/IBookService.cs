@@ -12,14 +12,9 @@ namespace LibraryManager.BLL.Interfaces
         void Create(BookDTO bookDTO);
         BookDTO Find(int id);
         void Delete(int id);
-<<<<<<< HEAD
         void Update(EditBookViewModel bookDTO);
-=======
-        void Update(BookDTO bookDTO);
-
         bool isBookAlreadyInUserWishList(string userId, int bookId);
         void AddBookToWishList(string userId, int bookId);
         void DeleteBookFromWishList(string userId, int bookId);
->>>>>>> 1d354a83516f154958ef1fa411d98174ce80764b
     }
 }

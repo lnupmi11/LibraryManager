@@ -30,16 +30,11 @@
         <h4 style="padding:20px">Rating: @Model.BookDTO.Rating </h4>
         @if (User.Identity.IsAuthenticated)
         {
-<<<<<<< HEAD
-            @if (User.IsInRole("Admin"))
-=======
-
             if (User.IsInRole("Admin"))
             {
                 <button type="button" class="btn btn-warning">Edit</button>
             }
             if (User.IsInRole("User"))
->>>>>>> 1d354a83516f154958ef1fa411d98174ce80764b
             {
                 if (Model.IsBookInWishList)
                 {
