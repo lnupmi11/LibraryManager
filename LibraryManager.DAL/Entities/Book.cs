@@ -18,10 +18,6 @@ namespace LibraryManager.DAL.Entities
         public ICollection<BookLanguage> Languages { get; set; }
 
         public ICollection<UserBook> Users { get; set; }
-
-      //  public IEnumerable<Genre> GenresCollection { get; set; }
-        
-       // public IEnumerable<Language> AvailableLanguagesCollection { get; set; }
         
         public double Rating { get; set; }
         

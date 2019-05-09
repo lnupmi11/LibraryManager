@@ -18,6 +18,8 @@ namespace LibraryManager.DTO.Models
 
         public double Rating;
 
+        public string Description;
+
         public int NumberOfPages;
     }
 }

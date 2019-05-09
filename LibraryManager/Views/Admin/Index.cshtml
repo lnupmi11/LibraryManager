@@ -1,4 +1,4 @@
-﻿@model LibraryManager.DAL.Entities.Book
+﻿@model LibraryManager.DTO.Models.BookDTO
 
 <div class="form-style-6">
     <h1>Create new book</h1>
@@ -12,20 +12,20 @@
                     <input asp-for="Title" class="form-control" />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                @*<div class="form-group">
                     <label asp-for="Author.FirstName" class="control-label"></label>
                     <input asp-for="Author.FirstName" class="form-control" />
                     <span asp-validation-for="Author.FirstName" class="text-danger"></span>
-                </div>
+                </div>*@
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                @*<div class="form-group">
                     <b>Genres</b>
                     <select asp-for="Genres" class="form-control" asp-items="ViewBag.BookGenre"></select>
-                </div>
+                </div>*@
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>

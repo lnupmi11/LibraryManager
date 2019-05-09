@@ -7,9 +7,11 @@ using LibraryManager.BLL.Interfaces;
 using LibraryManager.DTO.Models.Manage;
 using Microsoft.AspNetCore.Identity;
 using LibraryManager.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryManagerControllers
 {
+    [AllowAnonymous]
     public class LibraryController : Controller
     {
         private readonly IBookService _bookService;
