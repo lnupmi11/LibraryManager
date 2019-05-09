@@ -1,33 +1,82 @@
-﻿@model LibraryManager.DTO.Models.Manage.EditBookViewModel;
-<h2>Edit book</h2>
-<form method="post" asp-controller="Admin" asp-action="Edit">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="Title"></label><br />
-        <input asp-for="Title" />
-        <span asp-validation-for="Title"></span>
-    </div>
-    <div>
-        <label asp-for="Description"></label><br />
-        <input asp-for="Description" />
-        <span asp-validation-for="Description"></span>
-    </div>
-    <div>
-        <label asp-for="Rating"></label><br />
-        <input asp-for="Rating" />
-        <span asp-validation-for="Rating"></span>
-    </div>
-    <div>
-        <label asp-for="NumberOfPages"></label><br />
-        <input asp-for="NumberOfPages" />
-        <span asp-validation-for="NumberOfPages"></span>
-    </div>
-    <div>
-        <label asp-for="Author"></label><br />
-        <input asp-for="Author" />
-        <span asp-validation-for="Author"></span>
-    </div>
-    <div>
-        <input type="submit" value="Edit" />
-    </div>
-</form>
+﻿@if (User.IsInRole("Admin"))
+{
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+ @model LibraryManager.DTO.Models.Manage.EditBookViewModel;
+<p></p>
+<h1>Edit book</h1>
+<div class="center">
+    <form method="post" asp-controller="Admin" asp-action="Edit">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <label asp-for="Title"></label><br />
+            <input type="text" asp-for="Title" />
+            <span asp-validation-for="Title"></span>
+        </div>
+        <div>
+            <label asp-for="Description"></label><br />
+            <input type="text" asp-for="Description" />
+            <span asp-validation-for="Description"></span>
+        </div>
+        <div>
+            <label asp-for="Rating"></label><br />
+            <input type="text" asp-for="Rating" />
+            <span asp-validation-for="Rating"></span>
+        </div>
+        <div>
+            <label asp-for="NumberOfPages"></label><br />
+            <input type="text" asp-for="NumberOfPages" />
+            <span asp-validation-for="NumberOfPages"></span>
+        </div>
+        <div>
+            <label asp-for="Author"></label><br />
+            <input type="text" asp-for="Author" />
+            <span asp-validation-for="Author"></span>
+        </div>
+        <div>
+            <input type="submit" value="Edit" />
+        </div>
+    </form>
+</div>
+
+<style type="text/css">
+    .center {
+        margin: auto;
+        width: 60%;
+    }
+
+    h1 {
+        margin: auto;
+        width: 60%;
+        text-align: center;
+        background-color: #577284;
+        color: white;
+    }
+
+    input[type=text], select {
+        width: 100%;
+        padding: 7px 15px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 100%;
+        background-color: #577284;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        input[type=submit]:hover {
+            background-color: #7390a3;
+        }
+</style>
