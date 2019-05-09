@@ -87,13 +87,13 @@ namespace LibraryManager.API.Controllers
             //Change later
             if (userName == null)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Library");
             }
             var extendedUserDTO =  _adminService.GetDetailedUserInfoAsync(userName).Result;
 
             if(extendedUserDTO.BooksInWishList==0)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Library");
             }
             return View(extendedUserDTO);
         } 

@@ -39,7 +39,7 @@ namespace LibraryManager.Controllers
                     var result = await _accountService.RegisterNewUser(model);
                     if (result)
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Library");
                     }
                 }
                 else if(doesEmailExists)
@@ -73,7 +73,7 @@ namespace LibraryManager.Controllers
 
                     if (result)
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Library");
                     }
                     else
                     {

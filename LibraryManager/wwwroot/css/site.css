@@ -65,11 +65,12 @@ body {
     border-radius: 0;
 }
 
-a a:visited{
+.a-item {
     color: black !important;
 }
 
-a:hover {
-    background-color: #cccccc !important;
-
+.a-item:visited {
+    color: black !important;
 }
+
+    .a-item:hover { background-color: #55595c !important; }
