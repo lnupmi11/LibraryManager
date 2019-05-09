@@ -1,0 +1,23 @@
+﻿@model LibraryManager.DTO.Models.Manage.EditBookViewModel;
+<h2>Edit book</h2>
+<form method="post" asp-controller="Admin" asp-action="Edit">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Title"></label><br />
+        <input asp-for="Title" />
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div>
+        <label asp-for="Rating"></label><br />
+        <input asp-for="Rating" />
+        <span asp-validation-for="Rating"></span>
+    </div>
+    <div>
+        <label asp-for="NumberOfPages"></label><br />
+        <input asp-for="NumberOfPages" />
+        <span asp-validation-for="NumberOfPages"></span>
+    </div>
+    <div>
+        <input type="submit" value="Edit" />
+    </div>
+</form>

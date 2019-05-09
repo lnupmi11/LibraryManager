@@ -3,32 +3,78 @@
 }
 
 @using LibraryManager.DTO.Models;
-@model BookDTO
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+@model LibraryOpenViewModel
+
+@if (User.IsInRole("User"))
+{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@if (User.IsInRole("Admin"))
+{
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    Layout = "~/Views/Shared/_GuestLayout.cshtml";
+}
 
 <div id="content" class="container">
     <div id="imageSection" class="alert col-sm-4">
-        <img src="~/images/mock-300x400.png" class="img img-rounded mx-auto d-block" alt="@Model.Title"/>
-        <h4 style="padding:20px">Rating: @Model.Rating </h4>
+        <img src="~/images/mock-300x400.png" class="img img-rounded mx-auto d-block" alt="@Model.BookDTO.Title" />
+        <h4 style="padding:20px">Rating: @Model.BookDTO.Rating </h4>
         @if (User.Identity.IsAuthenticated)
         {
-           
-            @if (User.IsInRole("Admin"))
+            if (User.IsInRole("Admin"))
             {
-                <button type="button" class="btn btn-warning">Edit</button>        
+                <button type="button" class="btn btn-warning">Edit</button>
             }
-        <button class="btn btn-primary btn-success">Add to wishlist</button>
+            if (User.IsInRole("User"))
+            {
+                if (Model.IsBookInWishList)
+                {
+                    @Html.ActionLink("Delete from wish list", "DeleteBookFromWishList", "Library",
+                        new
+                        {
+                            bookId = Model.BookDTO.Id
+                        },
+                        htmlAttributes: new
+                        {
+                            @class = "btn btn-danger btn-lg",
+                            @role = "button"
+                        })
+                }
+                else
+                {
+                    @Html.ActionLink("Add to wish list", "AddBookToWishList", "Library",
+                        new
+                        {
+                            bookId = Model.BookDTO.Id
+                        },
+                        htmlAttributes: new
+                        {
+                            @class = "btn btn-success btn-lg",
+                            @role = "button"
+                        })
+                }
+            }
         }
     </div>
     <div id="descriptionSection" class="alert col-sm-8">
-        <h2>@Model.Title</h2>
-        <h4>by @Model.Author.FirstName @Model.Author.LastName</h4>
+        <h2>@Model.BookDTO.Title</h2>
+        <h4>by @Model.BookDTO.Author.FirstName @Model.BookDTO.Author.LastName</h4>
         <h4>Published in //TODO:Add year</h4>
         <br />
         <h4>Genres:</h4>
-            @foreach (var genre in Model.Genres)
-            {
-                <h4>@genre.GenreName </h4>
-            }
+        @foreach (var genre in Model.BookDTO.Genres)
+        {
+            <h4>@genre.GenreName </h4>
+        }
         <div class="card">
             <div class="card-body">
                 //TODO: Add Description to book.

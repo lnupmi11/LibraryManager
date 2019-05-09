@@ -1,0 +1,119 @@
+﻿@using LibraryManager.DTO.Models.Manage
+@using Microsoft.AspNetCore.Identity
+@using LibraryManager.DAL.Entities
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@model AdminUsersListViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (User.IsInRole("Admin"))
+{
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+
+<div>
+    <h2>All users data:</h2>
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Full name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- PUT CODE BELOW IN SWITCH AND TRY TO delete redundant code-->
+            @foreach (var user in Model.UserDTOs)
+            { 
+                if (user.Role=="Admin")
+                {
+            <tr class="info">
+                <td>@user.FirstName  @user.LastName</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.Role</td>
+                <td>Admin</td>
+                <td><button class="btn btn-warning btn-block">You can't see my info ;)</button></td>
+                <td><button class="btn btn-warning btn-block">You can't ban me ;)</button></td>
+            </tr>
+                }
+
+                else if (!user.IsBanned)
+                {
+            <tr class="success">
+                <td>@user.FirstName  @user.LastName</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.Role</td>
+                <td>Active</td>
+                <td>
+                    @Html.ActionLink("See more info", "GetDetailedUserInfo", "Admin",
+                     new
+                     {
+                          userName = @user.UserName
+                    },
+                       htmlAttributes: new {
+                           @class = "btn btn-info btn-block",
+                           @role = "button"
+                       })
+                </td>
+                <td>
+                    @Html.ActionLink("Ban User", "BanUser", "Admin",
+                          new
+                          {
+                              email = user.Email
+                          },
+                        htmlAttributes: new {
+                            @class = "btn btn-danger btn-block",
+                            @role = "button"
+                        })
+                </td>
+            </tr>
+                }
+                else
+                {
+            <tr class="danger">
+                <td>@user.FirstName  @user.LastName</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.Role</td>
+                <td>In ban</td>
+                <td>
+                    @Html.ActionLink("See more info", "GetDetailedUserInfo", "Admin",
+                         new
+                         {
+                             userName = @user.UserName
+                         },
+                       htmlAttributes: new {
+                           @class = "btn btn-info btn-block",
+                           @role = "button"
+                       })
+                </td>
+                <td>
+                    @Html.ActionLink("Unblock", "UnbanUser", "Admin",
+                         new {
+                           email = user.Email
+                       },
+                       htmlAttributes: new {
+                           @class = "btn btn-success btn-block",
+                           @role = "button"
+                       })
+                </td>
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+

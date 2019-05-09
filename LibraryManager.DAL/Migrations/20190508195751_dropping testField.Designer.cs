@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManager.DAL.Migrations
 {
     [DbContext(typeof(LibraryManagerContext))]
-    [Migration("20190422114340_Linking book with language1")]
-    partial class Linkingbookwithlanguage1
+    [Migration("20190508195751_dropping testField")]
+    partial class droppingtestField
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,9 +46,7 @@ namespace LibraryManager.DAL.Migrations
 
                     b.Property<int>("AuthorId");
 
-                    b.Property<int>("GenreId");
-
-                    b.Property<int>("LanguageId");
+                    b.Property<string>("Description");
 
                     b.Property<int>("NumberOfPages");
 
@@ -60,11 +58,33 @@ namespace LibraryManager.DAL.Migrations
 
                     b.HasIndex("AuthorId");
 
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("LibraryManager.DAL.Entities.BookGenre", b =>
+                {
+                    b.Property<int>("BookId");
+
+                    b.Property<int>("GenreId");
+
+                    b.HasKey("BookId", "GenreId");
+
                     b.HasIndex("GenreId");
+
+                    b.ToTable("BookGenre");
+                });
+
+            modelBuilder.Entity("LibraryManager.DAL.Entities.BookLanguage", b =>
+                {
+                    b.Property<int>("BookId");
+
+                    b.Property<int>("LanguageId");
+
+                    b.HasKey("BookId", "LanguageId");
 
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("Books");
+                    b.ToTable("BookLanguage");
                 });
 
             modelBuilder.Entity("LibraryManager.DAL.Entities.Genre", b =>
@@ -86,13 +106,9 @@ namespace LibraryManager.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BookId");
-
                     b.Property<string>("LanguageName");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookId");
 
                     b.ToTable("Languages");
                 });
@@ -113,6 +129,8 @@ namespace LibraryManager.DAL.Migrations
                     b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName");
+
+                    b.Property<bool>("IsBanned");
 
                     b.Property<string>("LastName");
 
@@ -150,6 +168,22 @@ namespace LibraryManager.DAL.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("LibraryManager.DAL.Entities.UserBook", b =>
+                {
+                    b.Property<string>("UserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BookId");
+
+                    b.Property<bool>("IsRead");
+
+                    b.HasKey("UserId", "BookId");
+
+                    b.HasAlternateKey("BookId", "UserId");
+
+                    b.ToTable("UserBooks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -218,11 +252,9 @@ namespace LibraryManager.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -253,11 +285,9 @@ namespace LibraryManager.DAL.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -272,23 +302,45 @@ namespace LibraryManager.DAL.Migrations
                         .WithMany("Books")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LibraryManager.DAL.Entities.BookGenre", b =>
+                {
+                    b.HasOne("LibraryManager.DAL.Entities.Book", "Book")
+                        .WithMany("Genres")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LibraryManager.DAL.Entities.Genre", "Genre")
-                        .WithMany("Book")
+                        .WithMany("Books")
                         .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LibraryManager.DAL.Entities.BookLanguage", b =>
+                {
+                    b.HasOne("LibraryManager.DAL.Entities.Book", "Book")
+                        .WithMany("Languages")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LibraryManager.DAL.Entities.Language", "Language")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("LibraryManager.DAL.Entities.Language", b =>
+            modelBuilder.Entity("LibraryManager.DAL.Entities.UserBook", b =>
                 {
-                    b.HasOne("LibraryManager.DAL.Entities.Book")
-                        .WithMany("AvailableLanguagesCollection")
-                        .HasForeignKey("BookId");
+                    b.HasOne("LibraryManager.DAL.Entities.Book", "Book")
+                        .WithMany("Users")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LibraryManager.DAL.Entities.User", "User")
+                        .WithMany("WishList")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

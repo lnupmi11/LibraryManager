@@ -1,4 +1,10 @@
-﻿@model LibraryManager.DTO.Models.BookDTO
+﻿@model LibraryManager.DAL.Entities.Book
+@if (User.IsInRole("Admin"))
+{
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
 
 <div class="form-style-6">
     <h1>Create new book</h1>
@@ -32,7 +38,7 @@
             </form>
         </div>
     </div>
-    </div>
+</div>
 
 
 

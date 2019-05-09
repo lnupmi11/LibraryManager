@@ -20,22 +20,6 @@ namespace LibraryManager.BLL.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public void AddBookToWishList(User user, BookDTO bookDTO)
-        {
-            var book = _mapper.Map<Book>(bookDTO);
-
-            //if (user.WishList.Contains(book))
-            //{
-            //    user.WishList.Remove(book);
-            //}
-            //else
-            //{
-            //    user.WishList.Add(book);
-            //}
-
-            _unitOfWork.UserRepository.Update(user);
-            _unitOfWork.Save();
-        }
 
         public void ChangeUserName(User user, string name)
         {
@@ -67,7 +51,7 @@ namespace LibraryManager.BLL.Services
 
         public User GetUser(string id)
         {
-            var user = _unitOfWork.UserRepository.Get(id);
+           var user = _unitOfWork.UserRepository.Get(id);
 
             return user;
         }
@@ -77,5 +61,6 @@ namespace LibraryManager.BLL.Services
             _unitOfWork.UserRepository.Update(user);
             _unitOfWork.Save();
         }
+
     }
 }
