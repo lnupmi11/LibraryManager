@@ -106,6 +106,23 @@ namespace LibraryManager.API.Controllers
                 return RedirectToAction("Index", "Library");
             }
             return View(extendedUserDTO);
+<<<<<<< HEAD
+=======
+        } 
+
+        public BookDTO CreateBookModelToDTO(AddNewBookModel addNewBookModel)
+        {
+            BookDTO bookDTO = new BookDTO {
+                Title = addNewBookModel.Title,
+                Author = new AuthorDTO() { FirstName = addNewBookModel.AuthorName,LastName=addNewBookModel.AuthorSurname },
+                Genres = new List<GenreDTO>() { new GenreDTO() {Id=int.Parse((addNewBookModel.SelectedGenre)) } },
+                Languages = new List<LanguageDTO>(),
+                Description = addNewBookModel.Description,
+                Rating = addNewBookModel.Rating,
+                NumberOfPages = addNewBookModel.NumberOfPages
+            };
+            return bookDTO;
+>>>>>>> eb28042c1964f7b1f61c79d92b2a2a3acac9f057
         }
 
     }
