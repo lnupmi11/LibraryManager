@@ -72,7 +72,7 @@ namespace LibraryManager.DAL.Seeding
                 //LanguageId = 2,
                 NumberOfPages = 400,
                 Rating = 8,
-                Title = "Call of the wild"
+                Title = "Call of the Wild"
             });
             list.Add(new Book()
             {
@@ -116,7 +116,7 @@ namespace LibraryManager.DAL.Seeding
                 //LanguageId = 1,
                 NumberOfPages = 100,
                 Rating = 7,
-                Title = "Lorelei"
+                Title = "The Lorelei"
             });
             list.Add(new Book()
             {
@@ -326,7 +326,7 @@ namespace LibraryManager.DAL.Seeding
                 },
                 new BookGenre()
                 {
-                    Book = context.Books.FirstOrDefault(b => b.Title == "Lorelei"),
+                    Book = context.Books.FirstOrDefault(b => b.Title == "The Lorelei"),
                     Genre = context.Genres.FirstOrDefault(g => g.GenreName == "Poem")
                 },
                 new BookGenre()
@@ -419,12 +419,12 @@ namespace LibraryManager.DAL.Seeding
                 },
                 new BookLanguage()
                 {
-                    Book = context.Books.FirstOrDefault(b => b.Title == "Lorelei" ),
+                    Book = context.Books.FirstOrDefault(b => b.Title == "The Lorelei" ),
                     Language = context.Languages.FirstOrDefault(l => l.LanguageName == "English")
                 },
                 new BookLanguage()
                 {
-                    Book = context.Books.FirstOrDefault(b => b.Title == "Lorelei" ),
+                    Book = context.Books.FirstOrDefault(b => b.Title == "The Lorelei" ),
                     Language = context.Languages.FirstOrDefault(l => l.LanguageName == "German")
                 },
                 new BookLanguage()

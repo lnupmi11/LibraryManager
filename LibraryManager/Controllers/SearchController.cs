@@ -31,20 +31,18 @@ namespace LibraryManager.Controllers
 
                 if (book == null)
                 {
-                    return RedirectToAction("Index", "Library");//TODO add error page etc.
+                    return RedirectToAction("Index", "Library");
                 }
                 return RedirectToAction("Open", "Library", new { id = book.Id });
             }
-            else 
-            {
-                var books = _bookService.GetAll().Where(x => model.SearchValue.ToLower().Contains(x.Author.LastName.ToLower()));
 
-                if (!books.Any())
-                {
-                    return RedirectToAction("Index", "Library");//TODO add error page etc.
-                }
-                return View(books);
+            var books = _bookService.GetAll().Where(x => model.SearchValue.ToLower().Contains(x.Author.LastName.ToLower()));
+
+            if (!books.Any())
+            {
+                return RedirectToAction("Index", "Library");
             }
+            return View(books);
         }
 
         public IActionResult SortByCategory()

@@ -13,18 +13,8 @@ namespace LibraryManager.DAL.Entities
 
         [NotMapped]
         public int NumberOfBooks {
-            get
-            {
-                if (Books == null)
-                {
-                    return 0;
-                }
-                return Books.Count;
-            }
-            set
-            {
-                this.NumberOfBooks = value;
-            }
+            get => Books?.Count ?? 0;
+            set => this.NumberOfBooks = value;
         }
 
         public ICollection<BookGenre> Books { get; set; }

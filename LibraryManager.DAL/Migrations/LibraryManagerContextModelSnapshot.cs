@@ -52,6 +52,8 @@ namespace LibraryManager.DAL.Migrations
 
                     b.Property<string>("Title");
 
+                    b.Property<int>("Year");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");

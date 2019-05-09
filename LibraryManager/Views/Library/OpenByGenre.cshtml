@@ -27,15 +27,26 @@
 }
 
 <div id="itemsSection" class="container">
-    @foreach (var book in Model)
+    @if (Model.Count() > 0)
     {
-        <div class="col-sm-4 text-center">
-            <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id"><h2>@book.Title</h2></a>
-            @foreach (var genre in book.Genres)
-            {
-                <h5>@genre.GenreName</h5>
-            }
-            <img src="~/images/mock-200x300.jpg" class="img-rounded mx-auto d-block" alt="@book.Title" />
+        foreach (var book in Model)
+        {
+            <div class="col-sm-4 text-center">
+                <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id">
+                    <h2>@book.Title</h2>
+                </a>
+                @foreach (var genre in book.Genres)
+                {
+                    <h5>@genre.GenreName</h5>
+                }
+                <img src="~/images/@book.ImageName" width="200" height="300" class="img-rounded mx-auto d-block" alt="@book.Title" />
+            </div>
+        }
+    }
+    else
+    {
+        <div class="row">
+            <h1>Sorry, No books was.</h1>
         </div>
     }
 </div>

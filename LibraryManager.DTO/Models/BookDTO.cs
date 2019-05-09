@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using LibraryManager.DTO.Checker;
 
 namespace LibraryManager.DTO.Models
 {
@@ -21,5 +22,19 @@ namespace LibraryManager.DTO.Models
         public string Description;
 
         public int NumberOfPages;
+
+        public int Year;
+
+        public string ImageName
+        {
+            get
+            {
+                if (Title == null)
+                    return "Default.png";
+
+                var imageName = Title + ".png";
+                return ImageChecker.ImageExists(imageName) ? "Default.png" : imageName;
+            }
+        }
     }
 }
