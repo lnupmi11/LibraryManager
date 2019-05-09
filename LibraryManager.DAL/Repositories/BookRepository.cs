@@ -40,8 +40,8 @@ namespace LibraryManager.DAL.Repositories
         public void Create(Book item)
         {
             _dbContext.Add(item);
-            _dbContext.Set<BookGenre>().AddAsync(new BookGenre());
-            _dbContext.SaveChangesAsync();
+            //_dbContext.Set<BookGenre>().AddAsync(new BookGenre() {BookId=item.Id,GenreId=item. });
+            //_dbContext.SaveChangesAsync();
         }
 
         public void Update(Book item)

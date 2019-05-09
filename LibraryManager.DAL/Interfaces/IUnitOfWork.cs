@@ -21,6 +21,8 @@ namespace LibraryManager.DAL.Interfaces
         
         IManyToManyRepository<UserBook,string, int> UserBookRepository { get; set; }
 
+        IManyToManyRepository<BookGenre, int, int> BookGenreRepository { get; set; }
+
         void Save();
     }
 }

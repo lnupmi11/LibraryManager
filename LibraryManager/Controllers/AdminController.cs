@@ -30,21 +30,21 @@ namespace LibraryManager.API.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            AddNewBookModel addNewBookModel = new AddNewBookModel() { Genres = new SelectList(_genreService.GetAll(), "Id", "GenreName")};
             ViewData["BookGenre"] = new SelectList(_genreService.GetAll(), "Id", "GenreName");
-            return View();
+            return View(addNewBookModel);
         }
 
         [HttpPost]
-        public IActionResult Index(BookDTO book)
+        public IActionResult Index(AddNewBookModel book)
         {
-
+            BookDTO bookDTO = CreateBookModelToDTO(book);
             if (ModelState.IsValid)
             {
-                _bookService.Create(book);
+                _bookService.Create(bookDTO);
             }
             return RedirectToAction("Index", "Library");
         }
-
         [HttpGet]
         public IActionResult GetUsersList()
         {
@@ -71,6 +71,20 @@ namespace LibraryManager.API.Controllers
         public void SeeUserStatistic(int userId)
         {
             throw new NotImplementedException();
+        }
+
+        public BookDTO CreateBookModelToDTO(AddNewBookModel addNewBookModel)
+        {
+            BookDTO bookDTO = new BookDTO {
+                Title = addNewBookModel.Title,
+                Author = new AuthorDTO() { FirstName = addNewBookModel.Author },
+                Genres = new List<GenreDTO>() { new GenreDTO() {Id=int.Parse((addNewBookModel.SelectedGenre)) } },
+                Languages = new List<LanguageDTO>(),
+                Description = addNewBookModel.Description,
+                Rating = addNewBookModel.Rating,
+                NumberOfPages = addNewBookModel.NumberOfPages
+            };
+            return bookDTO;
         }
 
      

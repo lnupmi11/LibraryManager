@@ -7,6 +7,7 @@ using LibraryManager.BLL.Interfaces;
 using LibraryManager.DAL.Interfaces;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DTO.Models;
+using System.Linq;
 
 namespace LibraryManager.BLL.Services
 {
@@ -59,8 +60,19 @@ namespace LibraryManager.BLL.Services
 
         public void Create(BookDTO BookDTO)
         {
+            //var genre = _unitOfWork.GenreRepository.GetAll().Where(x=>x.GenreName==BookDTO.Genres.FirstOrDefault().GenreName).FirstOrDefault();
+            
             var book = _mapper.Map<Book>(BookDTO);
+
+
             _unitOfWork.BookRepository.Create(book);
+            _unitOfWork.Save();
+
+            var _book=_unitOfWork.BookRepository.GetAll().Where(x => x.Title == BookDTO.Title).FirstOrDefault();
+
+            BookGenre bookGenre = new BookGenre() { BookId = _book.Id, GenreId = BookDTO.Genres.FirstOrDefault().Id };
+
+            _unitOfWork.BookGenreRepository.Create(bookGenre);
             _unitOfWork.Save();
         }
 
