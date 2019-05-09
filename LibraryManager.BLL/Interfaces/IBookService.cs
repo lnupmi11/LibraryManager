@@ -9,12 +9,13 @@ namespace LibraryManager.BLL.Interfaces
     public interface IBookService
     {
         IEnumerable<BookDTO> GetAll();
-        void Create(BookDTO bookDTO);
+        void Create(AddNewBookModel bookModel);
         BookDTO Find(int id);
         void Delete(int id);
         void Update(EditBookViewModel bookDTO);
         bool isBookAlreadyInUserWishList(string userId, int bookId);
         void AddBookToWishList(string userId, int bookId);
         void DeleteBookFromWishList(string userId, int bookId);
+        EditBookViewModel EditBookDTOToModel(BookDTO bookDTO);
     }
 }

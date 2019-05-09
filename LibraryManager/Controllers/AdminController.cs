@@ -41,21 +41,32 @@ namespace LibraryManager.API.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Index(AddNewBookModel book)
         {
-            BookDTO bookDTO = CreateBookModelToDTO(book);
             if (ModelState.IsValid)
             {
-                _bookService.Create(bookDTO);
+                _bookService.Create(book);
             }
             return RedirectToAction("Index", "Library");
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(int id)
+        {
+
+            BookDTO book = _bookService.Find(id);
+            EditBookViewModel BookModel = _bookService.EditBookDTOToModel(book);
+            //ViewData["BookGenre"] = new SelectList(_genreService.GetAll(), "Id", "GenreName");
+            return View(BookModel);
+        }
+
         [HttpPost]
-        public IActionResult Edit(EditBookViewModel bookDTO)
+        public IActionResult Edit(EditBookViewModel bookModel)
         {
             if (ModelState.IsValid)
             {
-                _bookService.Update(bookDTO);
+                _bookService.Update(bookModel);
             }
-            return View(bookDTO);
+            return RedirectToAction("Open", "Library", new { id = bookModel.Id });
         }
         [HttpGet]
         [Authorize(Roles = "Admin")]
@@ -95,20 +106,6 @@ namespace LibraryManager.API.Controllers
                 return RedirectToAction("Index", "Library");
             }
             return View(extendedUserDTO);
-        } 
-
-        public BookDTO CreateBookModelToDTO(AddNewBookModel addNewBookModel)
-        {
-            BookDTO bookDTO = new BookDTO {
-                Title = addNewBookModel.Title,
-                Author = new AuthorDTO() { FirstName = addNewBookModel.Author },
-                Genres = new List<GenreDTO>() { new GenreDTO() {Id=int.Parse((addNewBookModel.SelectedGenre)) } },
-                Languages = new List<LanguageDTO>(),
-                Description = addNewBookModel.Description,
-                Rating = addNewBookModel.Rating,
-                NumberOfPages = addNewBookModel.NumberOfPages
-            };
-            return bookDTO;
         }
 
     }

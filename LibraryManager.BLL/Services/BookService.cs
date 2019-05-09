@@ -59,15 +59,16 @@ namespace LibraryManager.BLL.Services
             return false;
         }
 
-        public void Create(BookDTO bookDTO)
+        public void Create(AddNewBookModel bookModel)
         {
-            var book = _mapper.Map<Book>(BookDTO);
+            var bookDTO = CreateBookModelToDTO(bookModel);
+            var book = _mapper.Map<Book>(bookDTO);
             _unitOfWork.BookRepository.Create(book);
             _unitOfWork.Save();
 
-            var _book=_unitOfWork.BookRepository.GetAll().Where(x => x.Title == BookDTO.Title).FirstOrDefault();
+            var _book=_unitOfWork.BookRepository.GetAll().Where(x => x.Title == bookDTO.Title).FirstOrDefault();
 
-            BookGenre bookGenre = new BookGenre() { BookId = _book.Id, GenreId = BookDTO.Genres.FirstOrDefault().Id };
+            BookGenre bookGenre = new BookGenre() { BookId = _book.Id, GenreId = bookDTO.Genres.FirstOrDefault().Id };
 
             _unitOfWork.BookGenreRepository.Create(bookGenre);
             _unitOfWork.Save();
@@ -100,8 +101,57 @@ namespace LibraryManager.BLL.Services
             return booksDTO;
         }
 
-        public void Update(EditBookViewModel bookDTO)
+        public BookDTO CreateBookModelToDTO(AddNewBookModel addNewBookModel)
         {
+            BookDTO bookDTO = new BookDTO
+            {
+                Title = addNewBookModel.Title,
+                Author = new AuthorDTO() { FirstName = addNewBookModel.Author },
+                Genres = new List<GenreDTO>() { new GenreDTO() { Id = int.Parse((addNewBookModel.SelectedGenre)) } },
+                Languages = new List<LanguageDTO>(),
+                Description = addNewBookModel.Description,
+                Rating = addNewBookModel.Rating,
+                NumberOfPages = addNewBookModel.NumberOfPages
+            };
+            return bookDTO;
+        }
+
+        public BookDTO EditBookModelToDTO(EditBookViewModel addNewBookModel)
+        {
+            BookDTO bookDTO = new BookDTO
+            {
+                Id = addNewBookModel.Id,
+                Title = addNewBookModel.Title,
+                Author = new AuthorDTO() { FirstName = addNewBookModel.Author, Id=1 },
+                Genres = new List<GenreDTO>(),
+                Languages = new List<LanguageDTO>(),
+                Description = addNewBookModel.Description,
+                Rating = addNewBookModel.Rating,
+                NumberOfPages = addNewBookModel.NumberOfPages
+            };
+            return bookDTO;
+        }
+
+        public EditBookViewModel EditBookDTOToModel(BookDTO bookDTO)
+        {
+            EditBookViewModel bookModel = new EditBookViewModel
+            {
+                Id = bookDTO.Id,
+                Title = bookDTO.Title,
+                Author = bookDTO.Author.FirstName,
+                //Genres = new List<GenreDTO>() { new GenreDTO() { Id = int.Parse((addNewBookModel.SelectedGenre)) } },
+                //Languages = new List<LanguageDTO>(),
+                Description = bookDTO.Description,
+                Rating = bookDTO.Rating,
+                NumberOfPages = bookDTO.NumberOfPages
+            };
+            return bookModel;
+        }
+
+
+        public void Update(EditBookViewModel bookModel)
+        {
+            var bookDTO = EditBookModelToDTO(bookModel);
             var book = _mapper.Map<Book>(bookDTO);
             _unitOfWork.BookRepository.Update(book);
             _unitOfWork.Save();
