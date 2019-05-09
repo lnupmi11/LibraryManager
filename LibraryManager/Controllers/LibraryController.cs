@@ -12,6 +12,7 @@ using System.Security.Claims;
 
 namespace LibraryManagerControllers
 {
+    [AllowAnonymous]
     public class LibraryController : Controller
     {
         private readonly IBookService _bookService;

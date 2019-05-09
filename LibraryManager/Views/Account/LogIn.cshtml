@@ -1,19 +1,25 @@
 ﻿@model LibraryManager.DTO.Models.Manage.LoginViewModel;
 <h2>Login to your account</h2>
 <form method="post" asp-controller="Account" asp-action="Login">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="Username"></label><br />
-        <input asp-for="Username" />
-        <span asp-validation-for="Username"></span>
-    </div>
-    <div>
-        <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <br />
-    <div>
-        <input type="submit" value="Login" />
+    <div class="form-group row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <div class="form-group">
+                <label asp-for="Username"></label><br />
+                <span asp-validation-for="Username" class="input-group-text"></span>
+                <input asp-for="Username" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password"></label><br />
+                <span asp-validation-for="Password" class="input-group-text"></span>
+                <input asp-for="Password" class="form-control" aria-label="Password" />
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Login</button>
+            </div>
+        </div>
     </div>
 </form>
