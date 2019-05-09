@@ -61,25 +61,14 @@ namespace LibraryManager.BLL.Services
 
         public void Create(AddNewBookModel bookModel)
         {
-<<<<<<< HEAD
             var bookDTO = CreateBookModelToDTO(bookModel);
             var book = _mapper.Map<Book>(bookDTO);
-            _unitOfWork.BookRepository.Create(book);
-            _unitOfWork.Save();
-
-            var _book=_unitOfWork.BookRepository.GetAll().Where(x => x.Title == bookDTO.Title).FirstOrDefault();
-
-            BookGenre bookGenre = new BookGenre() { BookId = _book.Id, GenreId = bookDTO.Genres.FirstOrDefault().Id };
-=======
-            var book = _mapper.Map<Book>(bookDTO);
-            book.Genres = new List<BookGenre>() { new BookGenre() { BookId =book.Id, GenreId = bookDTO.Genres.FirstOrDefault().Id } };
             _unitOfWork.BookRepository.Create(book);
             _unitOfWork.Save();
 
             //var _book=_unitOfWork.BookRepository.GetAll().Where(x => x.Title == bookDTO.Title).FirstOrDefault();
 
             //BookGenre bookGenre = new BookGenre() { BookId = _book.Id, GenreId = bookDTO.Genres.FirstOrDefault().Id };
->>>>>>> eb28042c1964f7b1f61c79d92b2a2a3acac9f057
 
             //_unitOfWork.BookGenreRepository.Create(bookGenre);
             //_unitOfWork.Save();
@@ -117,7 +106,7 @@ namespace LibraryManager.BLL.Services
             BookDTO bookDTO = new BookDTO
             {
                 Title = addNewBookModel.Title,
-                Author = new AuthorDTO() { FirstName = addNewBookModel.Author },
+                Author = new AuthorDTO() { FirstName = addNewBookModel.AuthorName },
                 Genres = new List<GenreDTO>() { new GenreDTO() { Id = int.Parse((addNewBookModel.SelectedGenre)) } },
                 Languages = new List<LanguageDTO>(),
                 Description = addNewBookModel.Description,
