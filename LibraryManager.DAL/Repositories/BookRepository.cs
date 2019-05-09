@@ -55,7 +55,7 @@ namespace LibraryManager.DAL.Repositories
             var book = Get(id);
             if (book != null)
                 _dbContext.Books.Remove(book);
-            _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
         }
     }
 }

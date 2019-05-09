@@ -33,6 +33,7 @@
             if (User.IsInRole("Admin"))
             {
                 <button type="button" class="btn btn-warning" onclick="location.href='@Url.Action("Edit", "Admin", new { id = Model.BookDTO.Id })'">Edit</button>
+                <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Delete", "Admin", new { id = Model.BookDTO.Id })'">Delete</button>
             }
             if (User.IsInRole("User"))
             {

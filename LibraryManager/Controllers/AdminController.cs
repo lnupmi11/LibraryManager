@@ -60,6 +60,7 @@ namespace LibraryManager.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(EditBookViewModel bookModel)
         {
             if (ModelState.IsValid)
@@ -68,6 +69,15 @@ namespace LibraryManager.API.Controllers
             }
             return RedirectToAction("Open", "Library", new { id = bookModel.Id });
         }
+
+        
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int id)
+        {
+            _bookService.Delete(id);
+            return RedirectToAction("Index", "Library");
+        }
+
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult GetUsersList()
