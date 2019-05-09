@@ -17,6 +17,7 @@ namespace LibraryManager.DAL
         private IRepository<Language, int> languageRepository;
         private IRepository<Genre, int> genreRepository;
         private IManyToManyRepository<UserBook, string,int> userBookRepository;
+        private IManyToManyRepository<BookGenre, int, int> bookGenreRepository { get; set; }
 
 
         public UnitOfWork(LibraryManagerContext context)
@@ -123,6 +124,24 @@ namespace LibraryManager.DAL
             set
             {
                 this.userBookRepository = value ?? new UserBookRepository(context);
+            }
+        }
+
+        public IManyToManyRepository<BookGenre, int, int> BookGenreRepository
+        {
+            get
+            {
+                if (this.bookGenreRepository == null)
+                {
+                    this.bookGenreRepository = new BookGenreRepository(context);
+                }
+
+                return bookGenreRepository;
+
+            }
+            set
+            {
+                this.bookGenreRepository = value ?? new BookGenreRepository(context);
             }
         }
 

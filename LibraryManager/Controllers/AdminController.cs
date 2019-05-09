@@ -32,22 +32,22 @@ namespace LibraryManager.API.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
+            AddNewBookModel addNewBookModel = new AddNewBookModel() { Genres = new SelectList(_genreService.GetAll(), "Id", "GenreName")};
             ViewData["BookGenre"] = new SelectList(_genreService.GetAll(), "Id", "GenreName");
-            return View();
+            return View(addNewBookModel);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult Index(BookDTO book)
+        public IActionResult Index(AddNewBookModel book)
         {
-
+            BookDTO bookDTO = CreateBookModelToDTO(book);
             if (ModelState.IsValid)
             {
-                _bookService.Create(book);
+                _bookService.Create(bookDTO);
             }
             return RedirectToAction("Index", "Library");
         }
-
         [HttpPost]
         public IActionResult Edit(EditBookViewModel bookDTO)
         {
@@ -57,7 +57,6 @@ namespace LibraryManager.API.Controllers
             }
             return View(bookDTO);
         }
-
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult GetUsersList()
@@ -97,5 +96,20 @@ namespace LibraryManager.API.Controllers
             }
             return View(extendedUserDTO);
         } 
+
+        public BookDTO CreateBookModelToDTO(AddNewBookModel addNewBookModel)
+        {
+            BookDTO bookDTO = new BookDTO {
+                Title = addNewBookModel.Title,
+                Author = new AuthorDTO() { FirstName = addNewBookModel.Author },
+                Genres = new List<GenreDTO>() { new GenreDTO() {Id=int.Parse((addNewBookModel.SelectedGenre)) } },
+                Languages = new List<LanguageDTO>(),
+                Description = addNewBookModel.Description,
+                Rating = addNewBookModel.Rating,
+                NumberOfPages = addNewBookModel.NumberOfPages
+            };
+            return bookDTO;
+        }
+
     }
 }
