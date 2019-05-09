@@ -101,7 +101,7 @@ namespace LibraryManager.API.Controllers
         {
             BookDTO bookDTO = new BookDTO {
                 Title = addNewBookModel.Title,
-                Author = new AuthorDTO() { FirstName = addNewBookModel.Author },
+                Author = new AuthorDTO() { FirstName = addNewBookModel.AuthorName,LastName=addNewBookModel.AuthorSurname },
                 Genres = new List<GenreDTO>() { new GenreDTO() {Id=int.Parse((addNewBookModel.SelectedGenre)) } },
                 Languages = new List<LanguageDTO>(),
                 Description = addNewBookModel.Description,

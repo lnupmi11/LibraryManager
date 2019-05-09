@@ -62,15 +62,16 @@ namespace LibraryManager.BLL.Services
         public void Create(BookDTO bookDTO)
         {
             var book = _mapper.Map<Book>(bookDTO);
+            book.Genres = new List<BookGenre>() { new BookGenre() { BookId =book.Id, GenreId = bookDTO.Genres.FirstOrDefault().Id } };
             _unitOfWork.BookRepository.Create(book);
             _unitOfWork.Save();
 
-            var _book=_unitOfWork.BookRepository.GetAll().Where(x => x.Title == bookDTO.Title).FirstOrDefault();
+            //var _book=_unitOfWork.BookRepository.GetAll().Where(x => x.Title == bookDTO.Title).FirstOrDefault();
 
-            BookGenre bookGenre = new BookGenre() { BookId = _book.Id, GenreId = bookDTO.Genres.FirstOrDefault().Id };
+            //BookGenre bookGenre = new BookGenre() { BookId = _book.Id, GenreId = bookDTO.Genres.FirstOrDefault().Id };
 
-            _unitOfWork.BookGenreRepository.Create(bookGenre);
-            _unitOfWork.Save();
+            //_unitOfWork.BookGenreRepository.Create(bookGenre);
+            //_unitOfWork.Save();
         }
 
         public void Delete(int id)
