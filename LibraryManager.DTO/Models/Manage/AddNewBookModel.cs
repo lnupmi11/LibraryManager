@@ -12,7 +12,10 @@ namespace LibraryManager.DTO.Models.Manage
         public string Title { get; set; }
 
         [Required]
-        public string Author { get; set; }
+        public string AuthorName { get; set; }
+
+        [Required]
+        public string AuthorSurname { get; set; }
 
         public SelectList Genres { get; set; }
 
