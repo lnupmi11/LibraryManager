@@ -30,10 +30,10 @@ namespace LibraryManager.DTO.Models
             get
             {
                 if (Title == null)
-                    return "Default.png";
+                    return "DefaultBook.png";
 
                 var imageName = Title + ".png";
-                return ImageChecker.ImageExists(imageName) ? "Default.png" : imageName;
+                return ImageChecker.ImageExists(imageName) ? imageName : "DefaultBook.png";
             }
         }
     }

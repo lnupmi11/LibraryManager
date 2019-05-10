@@ -10,9 +10,10 @@ namespace LibraryManager.DTO.Checker
     {
         public static bool ImageExists(string imageName)
         {
-            string[] files = Directory.GetFiles(@"..\LibraryManager\wwwroot\images\");
+            var path = @"..\LibraryManager\wwwroot\images\";
+            var files = Directory.GetFiles(path);
 
-            return files.Contains(imageName);
+            return files.Contains(path + imageName);
         }
     }
 }
