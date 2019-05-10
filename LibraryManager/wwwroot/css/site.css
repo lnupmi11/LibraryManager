@@ -66,11 +66,30 @@ body {
 }
 
 .a-item {
-    color: black !important;
+    color: #4d4d4d !important;
+    text-decoration: none !important;
 }
 
 .a-item:visited {
     color: black !important;
 }
 
-.a-item:hover { background-color: #55595c !important; }
+.a-item:hover {
+    background-color: #cccccc !important;
+    color: black !important;
+}
+
+.book {
+    height: 450px !important;
+}
+
+.border {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.margin-center {
+    margin-top: auto;
+    margin-bottom: auto;
+}

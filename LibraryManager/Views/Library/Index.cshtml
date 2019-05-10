@@ -89,7 +89,7 @@
             @for (var i = genreIndex % numberOfGenres; i != (genreIndex + displayedGenres) % (numberOfGenres); i = (i + 1) % numberOfGenres)
             {
                 <a asp-controller="Library" asp-action="OpenByGenre" asp-route-id="@Model.GenreDTOs.ElementAt(i).Id" class="a-item">
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 a-item">
                         <img src="~/images/@Model.GenreDTOs.ElementAt(i).ImageName" width="100" , height="100" class="img-rounded mx-auto d-block" alt="@Model.GenreDTOs.ElementAt(i).GenreName">
                         <h5>@Model.GenreDTOs.ElementAt(i).GenreName</h5>
                         <h6>@Model.GenreDTOs.ElementAt(i).NumberOfBooks</h6>
@@ -105,8 +105,8 @@
     <div id="itemsSection" class="container">
         @foreach (var book in Model.BookDTOs)
         {
-            <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id" class="a-item">
-                <div class="col-sm-4 text-center">
+            <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id">
+                <div class="col-sm-4 text-center a-item book">
                     <h2>@book.Title</h2>
                     <h5>@book.Author.FirstName  @book.Author.LastName</h5>
                     <img src="~/images/@book.ImageName" width="200" height="300" class="img-rounded mx-auto d-block" alt="@book.Title" />

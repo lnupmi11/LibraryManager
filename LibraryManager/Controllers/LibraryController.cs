@@ -108,6 +108,7 @@ namespace LibraryManagerControllers
 
             var res2 = await _userManager.CreateAsync(admin, adminPassword);
             var res3 = await _userManager.AddToRoleAsync(admin, "Admin");
+            var res4 = await _userManager.AddToRoleAsync(admin, "User");
 
             return View(libraryIndexViewModel);
         }

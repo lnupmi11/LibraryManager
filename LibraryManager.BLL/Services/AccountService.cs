@@ -82,7 +82,7 @@ namespace LibraryManager.BLL.Services
         public async Task<bool> IsUserBanned(LoginViewModel model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
-            if(user.IsBanned)
+            if(user == null || user.IsBanned)
             {
                 return true;
             }

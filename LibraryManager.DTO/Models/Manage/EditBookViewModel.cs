@@ -18,8 +18,13 @@ namespace LibraryManager.DTO.Models.Manage
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Author")]
-        public string Author { get; set; }
+        [Display(Name = "AuthorName")]
+        public string AuthorName { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "AuthorSSurame")]
+        public string AuthorSurname { get; set; }
 
         //[Required]
         //[Display(Name = "Genres")]
@@ -39,6 +44,8 @@ namespace LibraryManager.DTO.Models.Manage
         [DataType(DataType.Text)]
         [Display(Name = "Description")]
         public string Description { get; set; }
+
+        public int Year { get; set; }
 
         //[Required]
         //[DataType(DataType.Text)]

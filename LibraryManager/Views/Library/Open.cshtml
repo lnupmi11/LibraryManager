@@ -28,60 +28,72 @@
     <div id="imageSection" class="alert col-sm-4">
         <img src="~/images/@Model.BookDTO.ImageName" width="300" height="450" class="img img-rounded mx-auto d-block" alt="@Model.BookDTO.Title" />
         <h4 style="padding:20px">Rating: @Model.BookDTO.Rating </h4>
-        @if (User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
         {
-            if (User.IsInRole("Admin"))
+            if (Model.IsBookInWishList)
             {
-                <button type="button" class="btn btn-warning" onclick="location.href='@Url.Action("Edit", "Admin", new { id = Model.BookDTO.Id })'">Edit</button>
-                <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Delete", "Admin", new { id = Model.BookDTO.Id })'">Delete</button>
+                @Html.ActionLink("Delete from wish list", "DeleteBookFromWishList", "Library",
+                    new
+                    {
+                        bookId = Model.BookDTO.Id
+                    },
+                    htmlAttributes: new
+                    {
+                        @class = "btn btn-danger btn-lg",
+                        @role = "button"
+                    })
             }
-            if (User.IsInRole("User"))
+            else
             {
-                if (Model.IsBookInWishList)
-                {
-                    @Html.ActionLink("Delete from wish list", "DeleteBookFromWishList", "Library",
-                        new
-                        {
-                            bookId = Model.BookDTO.Id
-                        },
-                        htmlAttributes: new
-                        {
-                            @class = "btn btn-danger btn-lg",
-                            @role = "button"
-                        })
-                }
-                else
-                {
-                    @Html.ActionLink("Add to wish list", "AddBookToWishList", "Library",
-                        new
-                        {
-                            bookId = Model.BookDTO.Id
-                        },
-                        htmlAttributes: new
-                        {
-                            @class = "btn btn-success btn-lg",
-                            @role = "button"
-                        })
-                }
+                @Html.ActionLink("Add to wish list", "AddBookToWishList", "Library",
+                    new
+                    {
+                        bookId = Model.BookDTO.Id
+                    },
+                    htmlAttributes: new
+                    {
+                        @class = "btn btn-success btn-lg",
+                        @role = "button"
+                    })
             }
         }
     </div>
     <div id="descriptionSection" class="alert col-sm-8">
-        <h2>@Model.BookDTO.Title</h2>
+        <div class="row">
+        <div class="col-md-8">
+            <h2>@Model.BookDTO.Title</h2>
+        </div>
+            <div class="col-md-4">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                <h2 class="margin-center">
+                    <button type="button" class="btn btn-info" onclick="location.href = '@Url.Action("Edit", "Admin", new {id = Model.BookDTO.Id})'">Edit</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href = '@Url.Action("Delete", "Admin", new {id = Model.BookDTO.Id})'">Delete</button>
+                </h2>
+                }
+            </div>
+        </div>
         <h4>by @Model.BookDTO.Author.FirstName @Model.BookDTO.Author.LastName</h4>
         <h4>Published in @Model.BookDTO.Year</h4>
-        <br />
+        <br/>
         <h4>Genres:</h4>
         @foreach (var genre in Model.BookDTO.Genres)
         {
             <a sp-controller="Library" asp-action="OpenByGenre" asp-route-id="@genre.Id" class="a-item">
-                <strong>@genre.GenreName </strong>
+                <h4>
+                    <strong>@genre.GenreName </strong>
+                </h4>
             </a>
         }
-        <div class="card">
-            <div class="card-body">
-                @Model.BookDTO.Description
-            </div>
+        <div class="border">
+            @if (Model.BookDTO.Description == null || Model.BookDTO.Description == "")
+            {
+                <p>Sorry, there is no description for this book.</p>
+            }
+            else
+            {
+                <p>@Model.BookDTO.Description</p>
+            }
         </div>
     </div>
 </div>

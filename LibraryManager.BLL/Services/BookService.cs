@@ -120,7 +120,7 @@ namespace LibraryManager.BLL.Services
             {
                 Id = addNewBookModel.Id,
                 Title = addNewBookModel.Title,
-                Author = new AuthorDTO() { FirstName = addNewBookModel.Author, Id=1 },
+                Author = new AuthorDTO() { FirstName = addNewBookModel.AuthorName, LastName = addNewBookModel.AuthorSurname},
                 Genres = new List<GenreDTO>(),
                 Languages = new List<LanguageDTO>(),
                 Description = addNewBookModel.Description,
@@ -136,7 +136,8 @@ namespace LibraryManager.BLL.Services
             {
                 Id = bookDTO.Id,
                 Title = bookDTO.Title,
-                Author = bookDTO.Author.FirstName,
+                AuthorName = bookDTO.Author.FirstName,
+                AuthorSurname = bookDTO.Author.LastName,
                 //Genres = new List<GenreDTO>() { new GenreDTO() { Id = int.Parse((addNewBookModel.SelectedGenre)) } },
                 //Languages = new List<LanguageDTO>(),
                 Description = bookDTO.Description,
