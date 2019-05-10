@@ -4,47 +4,52 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 
 }
- @model LibraryManager.DTO.Models.Manage.EditBookViewModel;
+@model LibraryManager.DTO.Models.Manage.EditBookViewModel;
 <p></p>
 <div class="jumbotron center">
     <h2>Edit @Model.Title</h2>
 </div>
 <div class="center">
     <form method="post" asp-controller="Admin">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="Title"></label><br/>
-        <input type="text" asp-for="Title"/>
-        <span asp-validation-for="Title"></span>
-    </div>
-    <div>
-        <label asp-for="Description"></label><br/>
-        <textarea rows ="5" type="text" asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description"></span>
-    </div>
-    <div>
-        <label asp-for="Year"></label><br/>
-        <input type="text" asp-for="Year"/>
-        <span asp-validation-for="Year"></span>
-    </div>
-    <div>
-        <label asp-for="NumberOfPages"></label><br/>
-        <input type="text" asp-for="NumberOfPages"/>
-        <span asp-validation-for="NumberOfPages"></span>
-    </div>
-    <div>
-        <label asp-for="AuthorName">Author Name</label><br/>
-        <input type="text" asp-for="AuthorName"/>
-        <span asp-validation-for="AuthorName"></span>
-    </div>
-    <div>
-        <label asp-for="AuthorSurname">Author Surname</label><br/>
-        <input type="text" asp-for="AuthorSurname"/>
-        <span asp-validation-for="AuthorSurname"></span>
-    </div>
-    <div>
-        <button type="submit" class="btn btn-success" >Create book</button>
-    </div>
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <label asp-for="Title"></label><br />
+            <input type="text" asp-for="Title" />
+            <span asp-validation-for="Title"></span>
+        </div>
+        <div>
+            <label asp-for="Description"></label><br />
+            <textarea rows="5" type="text" asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
+        <div>
+            <label asp-for="Rating"></label><br />
+            <input type="text" asp-for="Rating" />
+            <span asp-validation-for="Rating"></span>
+        </div>
+        <div>
+            <label asp-for="Year"></label><br />
+            <input type="text" asp-for="Year" />
+            <span asp-validation-for="Year"></span>
+        </div>
+        <div>
+            <label asp-for="NumberOfPages"></label><br />
+            <input type="text" asp-for="NumberOfPages" />
+            <span asp-validation-for="NumberOfPages"></span>
+        </div>
+        <div>
+            <label asp-for="AuthorName">Author Name</label><br />
+            <input type="text" asp-for="AuthorName" />
+            <span asp-validation-for="AuthorName"></span>
+        </div>
+        <div>
+            <label asp-for="AuthorSurname">Author Surname</label><br />
+            <input type="text" asp-for="AuthorSurname" />
+            <span asp-validation-for="AuthorSurname"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success">Create book</button>
+        </div>
     </form>
 </div>
 

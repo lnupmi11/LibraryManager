@@ -92,4 +92,6 @@ body {
 .margin-center {
     margin-top: auto;
     margin-bottom: auto;
+    padding: 25px;
+    float: left;
 }

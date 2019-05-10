@@ -164,26 +164,23 @@ namespace LibraryManagerControllers
 
         public IActionResult OpenRandom()
         {
-            var numberOfBooks = _bookService.GetAll().Count();
-            var random = new Random();
-            var randomBookId = random.Next(1, numberOfBooks + 1);
-            var randomBook = _bookService.Find(randomBookId);
+            var book = _bookService.GetRandom();
             var isBookAlreadyInWishList = false;
             if (User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-                isBookAlreadyInWishList = _bookService.isBookAlreadyInUserWishList(userId, randomBookId);
+                isBookAlreadyInWishList = _bookService.isBookAlreadyInUserWishList(userId, book.Id);
             }
 
-            if (randomBook == null)
+            if (book == null)
             {
                 Response.StatusCode = 404;
             }
 
             var LibraryOpenViewModel = new LibraryOpenViewModel
             {
-                BookDTO = randomBook,
+                BookDTO = book,
                 IsBookInWishList = isBookAlreadyInWishList
             };
 

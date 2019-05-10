@@ -109,7 +109,8 @@ namespace LibraryManager.BLL.Services
                 Languages = new List<LanguageDTO>(),
                 Description = addNewBookModel.Description,
                 Rating = addNewBookModel.Rating,
-                NumberOfPages = addNewBookModel.NumberOfPages
+                NumberOfPages = addNewBookModel.NumberOfPages,
+                Year = addNewBookModel.Year
             };
             return bookDTO;
         }
@@ -125,7 +126,8 @@ namespace LibraryManager.BLL.Services
                 Languages = new List<LanguageDTO>(),
                 Description = addNewBookModel.Description,
                 Rating = addNewBookModel.Rating,
-                NumberOfPages = addNewBookModel.NumberOfPages
+                NumberOfPages = addNewBookModel.NumberOfPages,
+                Year = addNewBookModel.Year
             };
             return bookDTO;
         }
@@ -142,7 +144,8 @@ namespace LibraryManager.BLL.Services
                 //Languages = new List<LanguageDTO>(),
                 Description = bookDTO.Description,
                 Rating = bookDTO.Rating,
-                NumberOfPages = bookDTO.NumberOfPages
+                NumberOfPages = bookDTO.NumberOfPages,
+                Year = bookDTO.Year
             };
             return bookModel;
         }
@@ -154,6 +157,16 @@ namespace LibraryManager.BLL.Services
             var book = _mapper.Map<Book>(bookDTO);
             _unitOfWork.BookRepository.Update(book);
             _unitOfWork.Save();
+        }
+
+        public BookDTO GetRandom()
+        {
+            var books = GetAll().ToList();
+            var random = new Random();
+            var index = random.Next(0, books.Count());
+            var randomBook = books[index];
+
+            return randomBook;
         }
     }
 }

@@ -63,13 +63,11 @@
         <div class="col-md-8">
             <h2>@Model.BookDTO.Title</h2>
         </div>
-            <div class="col-md-4">
+            <div class="col-md-4 margin-center">
                 @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                 {
-                <h2 class="margin-center">
                     <button type="button" class="btn btn-info" onclick="location.href = '@Url.Action("Edit", "Admin", new {id = Model.BookDTO.Id})'">Edit</button>
                     <button type="button" class="btn btn-danger" onclick="location.href = '@Url.Action("Delete", "Admin", new {id = Model.BookDTO.Id})'">Delete</button>
-                </h2>
                 }
             </div>
         </div>
