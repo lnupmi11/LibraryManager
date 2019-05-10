@@ -20,19 +20,23 @@
 
     <div>
         <div class="col-sm-4">
-            <img src="~/images/mock-300x400.png" alt=@Model.UserDTO.UserName />
+            <img src="~/images/@Model.ImageName" style="vertical-align:central" alt=@Model.UserDTO.UserName />
         </div>
-        <div style="background-color:cornsilk;position:relative;height:400px;" class="col-lg-8">
-            <h3>Fullname: @Model.UserDTO.FirstName @Model.UserDTO.LastName</h3>
-            <h3>Email: @Model.UserDTO.Email </h3>
-            <h3>Role: @Model.UserDTO.Role </h3>
-            <h3>Username: @Model.UserDTO.UserName </h3>
-            <h3>Books wishlist:</h3>
+        <div style="background-color:azure;position:relative;" class="col-lg-8">
+            <h4><b>Fullname:</b> @Model.UserDTO.FirstName @Model.UserDTO.LastName</h4>
+            <h4><b>Email:</b> @Model.UserDTO.Email </h4>
+            <h4><b>Role:</b> @Model.UserDTO.Role </h4>
+            <h4><b>Username:</b> @Model.UserDTO.UserName </h4>
+            <h3><b>Wishlist: </b></h3>
             @{
                 foreach (var book in Model.WishList)
                 {
-                    <h4>@book.Title </h4><h5>by @book.Author.FirstName @book.Author.LastName</h5>
+                    <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id" class="a-item">
+                        <h4> @book.Title </h4>
+                    </a>
                 }
+                @*<by @book.Author.FirstName @book.Author.LastName>*@
+
             }
 
         </div>
