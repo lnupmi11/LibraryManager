@@ -22,11 +22,14 @@ namespace LibraryManager.DTO.Models.Manage
         [Required]
         public int NumberOfPages { get; set; }
 
-        public double Rating { get; set; }
+        public int Rating { get; set; }
 
         [Required]
         public string Description { get; set; }
 
         public string SelectedGenre { get; set; }
+
+        public int Year { get; set; }
+        
     }
 }

@@ -74,7 +74,9 @@
         <h4>Genres:</h4>
         @foreach (var genre in Model.BookDTO.Genres)
         {
-            <h4>@genre.GenreName </h4>
+            <a sp-controller="Library" asp-action="OpenByGenre" asp-route-id="@genre.Id" class="a-item">
+                <strong>@genre.GenreName </strong>
+            </a>
         }
         <div class="card">
             <div class="card-body">

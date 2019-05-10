@@ -23,7 +23,7 @@ namespace LibraryManager.DTO.Models
                     return "Default.png";
 
                 var imageName = GenreName + ".png";
-                return ImageChecker.ImageExists(imageName) ? "Default.png" : imageName;
+                return ImageChecker.ImageExists(imageName) ? imageName : "Default.png";
             }
         }
     }
