@@ -135,16 +135,19 @@ namespace LibraryManagerControllers
             }
 
             var isBookInWishList = false;
+            var doesUserReadsBook = false;
             if (User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 isBookInWishList = _bookService.isBookAlreadyInUserWishList(userId, id);
+                doesUserReadsBook = _bookService.DoesUserReadsBook(userId, id);
             }
 
             var libraryOpenViewModel = new LibraryOpenViewModel
             {
                 BookDTO = book,
-                IsBookInWishList = isBookInWishList
+                IsBookInWishList = isBookInWishList,
+                DoesUserReadsBook = doesUserReadsBook
             };
             return View(libraryOpenViewModel);
         }
@@ -198,7 +201,24 @@ namespace LibraryManagerControllers
             return File(FileBytes, "application/pdf");
         }
 
+
         #region Actions
+        [Authorize(Roles = "User")]
+        public IActionResult StartReadingBook(int bookId)
+        { 
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _bookService.StartReadingBook(userId, bookId);
+            return RedirectToAction("Open", "Library", new { id = bookId });
+        }
+
+        [Authorize(Roles = "User")]
+        public IActionResult StopReadingBook(int bookId)
+        {
+     
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _bookService.StopReadingBook(userId, bookId);
+            return RedirectToAction("Open", "Library", new { id = bookId });
+        }
 
         public void RateBook(int bookId, int rating)
         {

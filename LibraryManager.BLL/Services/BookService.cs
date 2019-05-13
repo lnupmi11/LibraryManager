@@ -168,5 +168,40 @@ namespace LibraryManager.BLL.Services
 
             return randomBook;
         }
+
+        public bool DoesUserReadsBook(string userId,int bookId)
+        {
+           var userBook =  _unitOfWork.UserBookRepository.Get(userId, bookId);
+            return userBook.IsRead;
+        }
+
+        public void StartReadingBook(string userId, int bookId)
+        {
+            var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
+            if (item.Book == null && item.User==null)
+            {
+                var itemToCreate = new UserBook()
+                {
+                    BookId = bookId,
+                    UserId = userId,
+                    IsRead = true
+                };
+
+                _unitOfWork.UserBookRepository.Create(itemToCreate);
+            }
+            else
+            {
+                item.IsRead = true;
+                _unitOfWork.UserBookRepository.Update(item);
+            }
+        }
+
+        public void StopReadingBook(string userId, int bookId)
+        {
+            var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
+            item.IsRead = false;
+            _unitOfWork.UserBookRepository.Update(item);
+        }
+
     }
 }

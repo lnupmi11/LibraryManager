@@ -56,8 +56,38 @@
                         @role = "button"
                     })
             }
-        }
-    </div>
+
+            @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+            {
+                if (Model.DoesUserReadsBook)
+                {
+                    @Html.ActionLink("Stop reading", "StopReadingBook", "Library",
+                                 new
+                                 {
+                                     bookId = Model.BookDTO.Id
+                                 },
+                                 htmlAttributes: new
+                                 {
+                                     @class = "btn btn-danger btn-lg",
+                                     @role = "button"
+                                 })
+                }
+                else
+                {
+                    @Html.ActionLink("Read Book", "StartReadingBook", "Library",
+                                 new
+                                 {
+                                     bookId = Model.BookDTO.Id
+                                 },
+                                 htmlAttributes: new
+                                 {
+                                     @class = "btn btn-success btn-lg",
+                                     @role = "button"
+                                 })
+                    }
+                }
+            }
+        </div>
     <div id="descriptionSection" class="alert col-sm-8">
         <div class="row">
             <div class="col-md-8">

@@ -18,5 +18,8 @@ namespace LibraryManager.BLL.Interfaces
         void DeleteBookFromWishList(string userId, int bookId);
         EditBookViewModel EditBookDTOToModel(BookDTO bookDTO);
         BookDTO GetRandom();
+        bool DoesUserReadsBook(string userId, int bookId);
+        void StopReadingBook(string userId, int bookId);
+        void StartReadingBook(string userId, int bookId);
     }
 }
