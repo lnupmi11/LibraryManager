@@ -64,7 +64,7 @@ namespace LibraryManager.BLL.Services
             var bookDTO = CreateBookModelToDTO(bookModel);
             var book = _mapper.Map<Book>(bookDTO);
             book.Author =
-                _unitOfWork.AuthorRepository.GetAll().First(a => a.FirstName == bookModel.AuthorName && a.LastName == bookModel.AuthorSurname) ??
+                _unitOfWork.AuthorRepository.GetAll().FirstOrDefault(a => a.FirstName == bookModel.AuthorName && a.LastName == bookModel.AuthorSurname) ??
                 new Author() {FirstName = bookModel.AuthorName, LastName = bookModel.AuthorSurname};
             book.Genres = new List<BookGenre>() { new BookGenre() { BookId = book.Id, GenreId = bookDTO.Genres.FirstOrDefault().Id } };
 

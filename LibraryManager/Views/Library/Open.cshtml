@@ -60,9 +60,9 @@
     </div>
     <div id="descriptionSection" class="alert col-sm-8">
         <div class="row">
-        <div class="col-md-8">
-            <h2>@Model.BookDTO.Title</h2>
-        </div>
+            <div class="col-md-8">
+                <a href="@Url.Action("GetReport", "Library", new{title = Model.BookDTO.Title})" target="_blank"><h2>@Model.BookDTO.Title</h2></a>
+            </div>
             <div class="col-md-4 margin-center">
                 @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                 {
@@ -73,7 +73,7 @@
         </div>
         <h4>by @Model.BookDTO.Author.FirstName @Model.BookDTO.Author.LastName</h4>
         <h4>Published in @Model.BookDTO.Year</h4>
-        <br/>
+        <br />
         <h4>Genres:</h4>
         @foreach (var genre in Model.BookDTO.Genres)
         {

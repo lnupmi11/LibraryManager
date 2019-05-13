@@ -16,6 +16,11 @@
         <form method="post" enctype="multipart/form-data" asp-controller="Admin">
             <div asp-validation-summary="ModelOnly"></div>
             <div>
+                <label asp-for="PDF">PDF-File</label><br />
+                <input type="file" asp-for="PDF" name="pdffiles"/>
+                
+            </div>
+            <div>
                 <label asp-for="Title"></label><br />
                 <input type="text" asp-for="Title" />
                 <span asp-validation-for="Title"></span>

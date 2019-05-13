@@ -50,6 +50,7 @@ namespace LibraryManager.API.Controllers
             if (ModelState.IsValid)
             {
                 AddImage(book);
+                AddPdf(book);
                 _bookService.Create(book);
             }
             return RedirectToAction("Index", "Library");
@@ -129,6 +130,27 @@ namespace LibraryManager.API.Controllers
         {
             var files = HttpContext.Request.Form.Files;
 
+            if (files.Count > 1)
+            {
+                var file = files.ElementAt(1);
+                if (file.Length > 0)
+                {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var physicalWebRootPath = _hostingEnvironment.ContentRootPath;
+                    fileName = "wwwroot\\images" + $@"\{model.Title}" + ".png";
+
+                    using (FileStream fs = System.IO.File.Create($"{physicalWebRootPath}\\{fileName}"))
+                    {
+                        file.CopyTo(fs);
+                        fs.Flush();
+                    }
+                }
+            }
+        }
+        private void AddPdf(AddNewBookModel model)
+        {
+            var files = HttpContext.Request.Form.Files;
+
             if (files.Count > 0)
             {
                 var file = files.ElementAt(0);
@@ -136,8 +158,7 @@ namespace LibraryManager.API.Controllers
                 {
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     var physicalWebRootPath = _hostingEnvironment.ContentRootPath;
-                    //var newFileName = model.Image + FileExtension;
-                    fileName = "wwwroot\\images" + $@"\{model.Title}" + ".png";
+                    fileName = "wwwroot\\images" + $@"\{model.Title}" + ".pdf";
 
                     using (FileStream fs = System.IO.File.Create($"{physicalWebRootPath}\\{fileName}"))
                     {

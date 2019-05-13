@@ -31,6 +31,7 @@ namespace LibraryManager.DTO.Models.Manage
 
         public int Year { get; set; }
         public string Image { get; set; }
+        public string PDF { get; set; }
         
     }
 }

@@ -186,10 +186,20 @@ namespace LibraryManagerControllers
 
             return View("Open", LibraryOpenViewModel);
         }
-
+        public FileResult GetReport(string title)
+        {
+            string ReportURL = "wwwroot\\images\\" + title + ".pdf";
+            if (!System.IO.File.Exists(ReportURL))
+            {
+                byte[] FileBytesDefault = System.IO.File.ReadAllBytes("wwwroot\\images\\ROZKLAD.pdf");
+                return File(FileBytesDefault, "application/pdf");
+            }
+            byte[] FileBytes = System.IO.File.ReadAllBytes(ReportURL);
+            return File(FileBytes, "application/pdf");
+        }
 
         #region Actions
-        
+
         public void RateBook(int bookId, int rating)
         {
             var book = _bookService.Find(bookId);
