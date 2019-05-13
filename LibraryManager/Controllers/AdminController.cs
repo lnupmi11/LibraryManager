@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using LibraryManager.BLL.Interfaces;
 using LibraryManager.BLL.Services;
@@ -10,6 +12,8 @@ using LibraryManager.DAL.Repositories;
 using LibraryManager.DTO.Models.Manage;
 using LibraryManager.DTO.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -20,12 +24,14 @@ namespace LibraryManager.API.Controllers
         private readonly IBookService _bookService;
         private readonly IGenreService _genreService;
         private readonly IAdminService _adminService;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public AdminController(IBookService bookService, IGenreService genreService, IAdminService adminService)
+        public AdminController(IBookService bookService, IGenreService genreService, IAdminService adminService, IHostingEnvironment host)
         {
             _bookService = bookService;
             _genreService = genreService;
             _adminService = adminService;
+            _hostingEnvironment = host;
         }
 
         [HttpGet]
@@ -43,6 +49,7 @@ namespace LibraryManager.API.Controllers
         {
             if (ModelState.IsValid)
             {
+                AddImage(book);
                 _bookService.Create(book);
             }
             return RedirectToAction("Index", "Library");
@@ -118,5 +125,28 @@ namespace LibraryManager.API.Controllers
             return View(extendedUserDTO);
 
         }
+        private void AddImage(AddNewBookModel model)
+        {
+            var files = HttpContext.Request.Form.Files;
+
+            if (files.Count > 0)
+            {
+                var file = files.ElementAt(0);
+                if (file.Length > 0)
+                {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var physicalWebRootPath = _hostingEnvironment.ContentRootPath;
+                    //var newFileName = model.Image + FileExtension;
+                    fileName = "wwwroot\\images" + $@"\{model.Title}" + ".png";
+
+                    using (FileStream fs = System.IO.File.Create($"{physicalWebRootPath}\\{fileName}"))
+                    {
+                        file.CopyTo(fs);
+                        fs.Flush();
+                    }
+                }
+            }
+        }
     }
+    
 }

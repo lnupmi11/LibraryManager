@@ -13,36 +13,36 @@
         <h2>Create book</h2>
     </div>
     <div class="center">
-        <form method="post" asp-controller="Admin">
+        <form method="post" enctype="multipart/form-data" asp-controller="Admin">
             <div asp-validation-summary="ModelOnly"></div>
             <div>
-                <label asp-for="Title"></label><br/>
-                <input type="text" asp-for="Title"/>
+                <label asp-for="Title"></label><br />
+                <input type="text" asp-for="Title" />
                 <span asp-validation-for="Title"></span>
             </div>
             <div>
-                <label asp-for="Description"></label><br/>
-                <textarea rows ="5" type="text" asp-for="Description" class="form-control"></textarea>
+                <label asp-for="Description"></label><br />
+                <textarea rows="5" type="text" asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description"></span>
             </div>
             <div>
-                <label asp-for="Year"></label><br/>
-                <input type="text" asp-for="Year"/>
+                <label asp-for="Year"></label><br />
+                <input type="text" asp-for="Year" />
                 <span asp-validation-for="Year"></span>
             </div>
             <div>
-                <label asp-for="NumberOfPages"></label><br/>
-                <input type="text" asp-for="NumberOfPages"/>
+                <label asp-for="NumberOfPages"></label><br />
+                <input type="text" asp-for="NumberOfPages" />
                 <span asp-validation-for="NumberOfPages"></span>
             </div>
             <div>
-                <label asp-for="AuthorName">Author Name</label><br/>
-                <input type="text" asp-for="AuthorName"/>
+                <label asp-for="AuthorName">Author Name</label><br />
+                <input type="text" asp-for="AuthorName" />
                 <span asp-validation-for="AuthorName"></span>
             </div>
             <div>
-                <label asp-for="AuthorSurname">Author Surname</label><br/>
-                <input type="text" asp-for="AuthorSurname"/>
+                <label asp-for="AuthorSurname">Author Surname</label><br />
+                <input type="text" asp-for="AuthorSurname" />
                 <span asp-validation-for="AuthorSurname"></span>
             </div>
             <div class="form-group">
@@ -50,7 +50,12 @@
                 <p></p>
                 @Html.DropDownListFor(m => m.SelectedGenre, Model.Genres, "Select Genre")
             </div>
-            <br/>
+            <div>
+                <label asp-for="Image">Image</label><br />
+                <input type="file" asp-for="Image" name="files"/>
+                
+            </div>
+            <br />
             <div>
                 <button type="submit" class="btn btn-success">Create book</button>
             </div>
