@@ -71,8 +71,6 @@
                                 </span>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -107,9 +105,18 @@
         {
             <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id">
                 <div class="col-sm-4 text-center a-item book">
+                    @if (book.Title.Length <= 25)
+                    {
+                        <h2>@book.Title</h2>
+                        <br />
+                        <h5>@book.Author.FirstName  @book.Author.LastName</h5>
+                        <img src="~/images/@book.ImageName" width="200" height="300" class="img-rounded mx-auto d-block" alt="@book.Title" />
+                    }
+                    else {
                     <h2>@book.Title</h2>
                     <h5>@book.Author.FirstName  @book.Author.LastName</h5>
                     <img src="~/images/@book.ImageName" width="200" height="300" class="img-rounded mx-auto d-block" alt="@book.Title" />
+                    }
                 </div>
             </a>
         }
