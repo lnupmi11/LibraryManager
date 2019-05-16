@@ -64,7 +64,7 @@ namespace LibraryManager.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) 
             {
                 var isUserBanned = await _accountService.IsUserBanned(model);
                 if (!isUserBanned)

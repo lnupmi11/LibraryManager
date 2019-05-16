@@ -169,6 +169,19 @@ namespace LibraryManager.BLL.Services
             return randomBook;
         }
 
+        public IEnumerable<BookDTO> BooksCurrentlyReadByUser(string userId)
+        {
+            var userBooks = _unitOfWork.UserBookRepository.GetAll().
+                Where(x => x.IsRead == true && x.UserId == userId);
+
+            var booksDTO = new List<BookDTO>();
+             foreach(var book in userBooks)
+            {
+                booksDTO.Add(_mapper.Map<BookDTO>(_unitOfWork.BookRepository.Get(book.BookId)));
+            }
+            return booksDTO.ToList();
+        }
+
         public bool DoesUserReadsBook(string userId,int bookId)
         {
            var userBook =  _unitOfWork.UserBookRepository.Get(userId, bookId);
@@ -178,8 +191,8 @@ namespace LibraryManager.BLL.Services
         public void StartReadingBook(string userId, int bookId)
         {
             var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
-            if (item.Book == null && item.User==null)
-            {
+            if (item.UserId==null)
+            {   
                 var itemToCreate = new UserBook()
                 {
                     BookId = bookId,

@@ -189,6 +189,17 @@ namespace LibraryManagerControllers
 
             return View("Open", LibraryOpenViewModel);
         }
+        [HttpGet]
+        public IActionResult UserLibrary()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var books = _bookService.BooksCurrentlyReadByUser(userId).ToList();
+            var model = new GetBooksThatUserIsReadingNow()
+            {
+                CurrentlyReadingBooks = books
+            };
+            return View(model);
+        }
         public FileResult GetReport(string title)
         {
             string ReportURL = "wwwroot\\images\\" + title + ".pdf";
