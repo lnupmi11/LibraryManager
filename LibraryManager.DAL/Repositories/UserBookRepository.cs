@@ -40,20 +40,11 @@ namespace LibraryManager.DAL.Repositories
             }
             return result;
         }
-        //REMAKE TO LINQ!
-        public UserBook Get(string userId, int bookId)
+         public UserBook Get(string userId, int bookId)
         {
-            var userbooks = _dbContext.UserBooks.ToList();
-            foreach (var userbook in userbooks)
-            {
-                if (userbook.UserId == userId && userbook.BookId == bookId)
-                {
-                    return userbook;
-                }
-            }
-            //instead of returning null;
-            return new UserBook();
+            return _dbContext.UserBooks.FirstOrDefault(x => x.UserId == userId && x.BookId == bookId);
         }
+         
         public void Create(UserBook item)
         {
             _dbContext.Add(item);

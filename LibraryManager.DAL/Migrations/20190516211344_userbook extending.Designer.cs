@@ -4,14 +4,16 @@ using LibraryManager.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LibraryManager.DAL.Migrations
 {
     [DbContext(typeof(LibraryManagerContext))]
-    partial class LibraryManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20190516211344_userbook extending")]
+    partial class userbookextending
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,11 +179,9 @@ namespace LibraryManager.DAL.Migrations
 
                     b.Property<int>("BookId");
 
-                    b.Property<bool>("IsAlreadyFinished");
-
                     b.Property<bool>("IsInWishList");
 
-                    b.Property<bool>("IsReading");
+                    b.Property<bool>("IsRead");
 
                     b.HasKey("UserId", "BookId");
 

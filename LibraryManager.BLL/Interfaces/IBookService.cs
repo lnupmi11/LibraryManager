@@ -22,5 +22,6 @@ namespace LibraryManager.BLL.Interfaces
         void StopReadingBook(string userId, int bookId);
         void StartReadingBook(string userId, int bookId);
         IEnumerable<BookDTO> BooksCurrentlyReadByUser(string userId);
+        void FinishReadingBook(string userId, int bookId);
     }
 }

@@ -27,14 +27,26 @@ namespace LibraryManager.BLL.Services
 
         public void AddBookToWishList(string userId, int bookId)
         {
-            var isBookAlreadyInWishList = isBookAlreadyInUserWishList(userId, bookId);
-            if (!isBookAlreadyInWishList)
+            var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
+            if (item.IsReading != true)
             {
-                _unitOfWork.UserBookRepository.Create(new UserBook
+                if (item.UserId != null)
                 {
-                    UserId = userId,
-                    BookId = bookId
-                });
+                    item.IsInWishList = true;
+                    _unitOfWork.UserBookRepository.Update(item);
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    _unitOfWork.UserBookRepository.Create(new UserBook
+                    {
+                        UserId = userId,
+                        BookId = bookId,
+                        IsInWishList = true,
+                        IsReading = false
+                    });
+                    _unitOfWork.Save();
+                }
             }
         }
 
@@ -43,7 +55,10 @@ namespace LibraryManager.BLL.Services
             var isBookAlreadyInWishList = isBookAlreadyInUserWishList(userId, bookId);
             if (isBookAlreadyInWishList)
             {
-                _unitOfWork.UserBookRepository.Delete(userId, bookId);
+                var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
+                item.IsInWishList = false;
+                _unitOfWork.UserBookRepository.Update(item);
+                _unitOfWork.Save();
             }
         }
 
@@ -52,9 +67,9 @@ namespace LibraryManager.BLL.Services
             var userBookRecord = _unitOfWork.UserBookRepository.Get(userId, bookId);
             //Even if record is deleted we receive model but the fields are 0 ro null.
             //Consider about changing this condition.
-            if (userBookRecord.BookId != 0)
+            if (userBookRecord  != null)
             {
-                return true;
+                return userBookRecord.IsInWishList;
             }
             return false;
         }
@@ -172,7 +187,7 @@ namespace LibraryManager.BLL.Services
         public IEnumerable<BookDTO> BooksCurrentlyReadByUser(string userId)
         {
             var userBooks = _unitOfWork.UserBookRepository.GetAll().
-                Where(x => x.IsRead == true && x.UserId == userId);
+                Where(x => x.IsReading == true && x.UserId == userId);
 
             var booksDTO = new List<BookDTO>();
              foreach(var book in userBooks)
@@ -181,11 +196,22 @@ namespace LibraryManager.BLL.Services
             }
             return booksDTO.ToList();
         }
+        
+        public void FinishReadingBook(string userId, int bookId)
+        {
+            var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
+            if(item.UserId != null)
+            {
+                item.IsAlreadyFinished = true;
+                _unitOfWork.UserBookRepository.Update(item);
+                _unitOfWork.Save();
+            }
+        }
 
         public bool DoesUserReadsBook(string userId,int bookId)
         {
            var userBook =  _unitOfWork.UserBookRepository.Get(userId, bookId);
-            return userBook.IsRead;
+            return userBook.IsReading;
         }
 
         public void StartReadingBook(string userId, int bookId)
@@ -197,23 +223,27 @@ namespace LibraryManager.BLL.Services
                 {
                     BookId = bookId,
                     UserId = userId,
-                    IsRead = true
+                    IsReading = true,
+                    IsInWishList = false
                 };
 
                 _unitOfWork.UserBookRepository.Create(itemToCreate);
             }
             else
             {
-                item.IsRead = true;
+                item.IsReading = true;
+                item.IsInWishList = false;
                 _unitOfWork.UserBookRepository.Update(item);
+                _unitOfWork.Save();
             }
         }
 
         public void StopReadingBook(string userId, int bookId)
         {
             var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
-            item.IsRead = false;
+            item.IsReading = false;
             _unitOfWork.UserBookRepository.Update(item);
+            _unitOfWork.Save();
         }
 
     }

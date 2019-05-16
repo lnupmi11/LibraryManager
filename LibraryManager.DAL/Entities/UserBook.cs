@@ -17,6 +17,10 @@ namespace LibraryManager.DAL.Entities
 
         public Book Book { get; set; }
 
-        public bool IsRead { get; set; }
+        public bool IsReading { get; set; }
+
+        public bool IsInWishList { get; set; }
+
+        public bool IsAlreadyFinished { get; set; }
     }
 }
