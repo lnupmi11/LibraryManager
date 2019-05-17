@@ -186,14 +186,25 @@ namespace LibraryManager.BLL.Services
 
         public IEnumerable<BookDTO> BooksFromUserLibrary(string userId)
         {
-            var userBooks = _unitOfWork.UserBookRepository.GetAll().
-                Where(x => x.IsReading == true && x.UserId == userId);
+            
+
+            var books = from ubook in _unitOfWork.UserBookRepository.GetAll().
+                             Where(x => x.IsReading == true && x.UserId == userId)
+                             join
+                             book in _unitOfWork.BookRepository.GetAll()
+                             on ubook.BookId equals book.Id
+                             select new 
+                             {
+                                 Book = book,
+                                 IsFinished = ubook.IsAlreadyFinished
+                             };
+
 
             var booksDTO = new List<BookDTO>();
-            //!!! ADD ISFINISHED FIELD
-             foreach(var book in userBooks)
+           
+             foreach(var book in books)
             {
-                booksDTO.Add(_mapper.Map<BookDTO>(_unitOfWork.BookRepository.Get(book.BookId)));
+                booksDTO.Add(customBookMapper(book.Book,book.IsFinished));
             }
             return booksDTO.ToList();
         }
@@ -253,8 +264,11 @@ namespace LibraryManager.BLL.Services
 
         public float GetAlreadyReadBooksPercentage(string userId)
         {
-            var userBooks = _unitOfWork.UserBookRepository.GetAll()
-                .Where(x => x.UserId == userId);
+           
+            var userBooks = _unitOfWork.UserBookRepository.GetAll().
+                Where(x => x.UserId == userId && x.BookId == 3);
+
+            var userBooks1 = BooksFromUserLibrary(userId);
 
             int countOfReadBooks = 0;
 
@@ -269,9 +283,22 @@ namespace LibraryManager.BLL.Services
             return countOfReadBooks / userBooks.Count();
         }
 
-        public BookDTO customBookMapper(Book book)
+        public BookDTO customBookMapper(Book book, bool isFinished)
         {
-            return 
+            return new BookDTO
+            {
+                Id = book.Id,
+                Author = _mapper.Map<AuthorDTO>(book.Author),
+                Description = book.Description,
+                
+                Year = book.Year,
+                 
+                NumberOfPages = book.NumberOfPages,
+                Rating = book.Rating,
+                Title = book.Title,
+                IsFinished = isFinished,
+                
+            };
         }
 
     }

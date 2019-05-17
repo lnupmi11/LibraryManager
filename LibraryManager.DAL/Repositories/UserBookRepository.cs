@@ -24,7 +24,7 @@ namespace LibraryManager.DAL.Repositories
 
         public IEnumerable<UserBook> GetAll()
         {
-            return _dbContext.UserBooks.ToList();
+            return _dbContext.UserBooks;
         }
         //REMAKE TO LINQ!
         public IEnumerable<UserBook> GetAllAppropriate(string userId,int bookId)

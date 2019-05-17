@@ -41,43 +41,31 @@
             <th>Author</th>
             <th>Rating </th>
             <th>Number of pages</th>
-            <th></th>
+            <th>аааа</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var book in Model.CurrentlyReadingBooks)
         {
-            @if (!book.IsFinished)
+         
             {
-                <tr class="info">
-                    <td>@book.Title</td>
-                    <td>@book.Author.FirstName @book.Author.LastName</td>
-                    <td>@book.Rating</td>
-                    <td>@book.NumberOfPages</td>
-                    <td></td>
-                </tr>
-            }
-            else
-            {
-                <tr class="succes">
-                    <td>@book.Title</td>
-                    <td>@book.Author.FirstName @book.Author.LastName</td>
-                    <td>@book.Rating</td>
-                    <td>@book.NumberOfPages</td>
-                    <td>@{ 
-                           Html.ActionLink("Finish Reading", "FinishReadingBook", "Library",
-                            new
-                            {
-                                bookId = book.Id
-                        },
-                        htmlAttributes: new
-                        {
-                            @class = "btn btn-success btn-block",
-                            @role = "button"
-                        });
-                        }
-                    </td>
-                </tr>
+        <tr class="succes">
+            <td>@book.Title</td>
+            <td>@book.Author.FirstName @book.Author.LastName</td>
+            <td>@book.Rating</td>
+            <td>@book.NumberOfPages</td>
+            <td>
+                @Html.ActionLink("Finish reading book", "FinishReadingBook", "Library",
+                 new
+                 {
+                      bookId = @book.Id
+                },
+                   htmlAttributes: new {
+                       @class = "btn btn-success btn-block",
+                       @role = "button"
+                   })
+            </td>
+        </tr>
             }
         }
     </tbody>
