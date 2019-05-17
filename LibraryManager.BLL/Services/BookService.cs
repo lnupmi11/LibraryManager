@@ -211,13 +211,17 @@ namespace LibraryManager.BLL.Services
         public bool DoesUserReadsBook(string userId,int bookId)
         {
            var userBook =  _unitOfWork.UserBookRepository.Get(userId, bookId);
-            return userBook.IsReading;
+            if (userBook != null)
+            {
+                return userBook.IsReading;
+            }
+            return false;
         }
 
         public void StartReadingBook(string userId, int bookId)
         {
             var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
-            if (item.UserId==null)
+            if (item==null)
             {   
                 var itemToCreate = new UserBook()
                 {
