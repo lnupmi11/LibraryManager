@@ -193,12 +193,22 @@ namespace LibraryManagerControllers
         public IActionResult UserLibrary()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var books = _bookService.BooksCurrentlyReadByUser(userId).ToList();
+            var books = _bookService.BooksFromUserLibrary(userId).ToList();
+            var percent = _bookService.GetAlreadyReadBooksPercentage(userId);
             var model = new GetBooksThatUserIsReadingNow()
             {
-                CurrentlyReadingBooks = books
+                CurrentlyReadingBooks = books,
+                AlreadyReadBooksPercent = percent * 100
             };
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult FinishReadingBook(int bookId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _bookService.FinishReadingBook(userId,bookId);
+            return RedirectToAction("UserLibrary", "Library");
         }
         public FileResult GetReport(string title)
         {

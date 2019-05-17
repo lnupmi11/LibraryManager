@@ -184,12 +184,13 @@ namespace LibraryManager.BLL.Services
             return randomBook;
         }
 
-        public IEnumerable<BookDTO> BooksCurrentlyReadByUser(string userId)
+        public IEnumerable<BookDTO> BooksFromUserLibrary(string userId)
         {
             var userBooks = _unitOfWork.UserBookRepository.GetAll().
                 Where(x => x.IsReading == true && x.UserId == userId);
 
             var booksDTO = new List<BookDTO>();
+            //!!! ADD ISFINISHED FIELD
              foreach(var book in userBooks)
             {
                 booksDTO.Add(_mapper.Map<BookDTO>(_unitOfWork.BookRepository.Get(book.BookId)));
@@ -199,11 +200,11 @@ namespace LibraryManager.BLL.Services
         
         public void FinishReadingBook(string userId, int bookId)
         {
-            var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
-            if(item.UserId != null)
+            var userBook = _unitOfWork.UserBookRepository.Get(userId, bookId);
+            if(userBook.UserId != null)
             {
-                item.IsAlreadyFinished = true;
-                _unitOfWork.UserBookRepository.Update(item);
+                userBook.IsAlreadyFinished = true;
+                _unitOfWork.UserBookRepository.Update(userBook);
                 _unitOfWork.Save();
             }
         }
@@ -211,7 +212,7 @@ namespace LibraryManager.BLL.Services
         public bool DoesUserReadsBook(string userId,int bookId)
         {
            var userBook =  _unitOfWork.UserBookRepository.Get(userId, bookId);
-            if (userBook != null)
+            if (userBook.UserId != null)
             {
                 return userBook.IsReading;
             }
@@ -220,8 +221,8 @@ namespace LibraryManager.BLL.Services
 
         public void StartReadingBook(string userId, int bookId)
         {
-            var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
-            if (item==null)
+            var userBook = _unitOfWork.UserBookRepository.Get(userId, bookId);
+            if (userBook.UserId == null)
             {   
                 var itemToCreate = new UserBook()
                 {
@@ -235,9 +236,9 @@ namespace LibraryManager.BLL.Services
             }
             else
             {
-                item.IsReading = true;
-                item.IsInWishList = false;
-                _unitOfWork.UserBookRepository.Update(item);
+                userBook.IsReading = true;
+                userBook.IsInWishList = false;
+                _unitOfWork.UserBookRepository.Update(userBook);
                 _unitOfWork.Save();
             }
         }
@@ -248,6 +249,29 @@ namespace LibraryManager.BLL.Services
             item.IsReading = false;
             _unitOfWork.UserBookRepository.Update(item);
             _unitOfWork.Save();
+        }
+
+        public float GetAlreadyReadBooksPercentage(string userId)
+        {
+            var userBooks = _unitOfWork.UserBookRepository.GetAll()
+                .Where(x => x.UserId == userId);
+
+            int countOfReadBooks = 0;
+
+            foreach(var userbook in userBooks)
+            {
+                if (userbook.IsAlreadyFinished)
+                {
+                    countOfReadBooks++;
+                }
+            }
+
+            return countOfReadBooks / userBooks.Count();
+        }
+
+        public BookDTO customBookMapper(Book book)
+        {
+            return 
         }
 
     }

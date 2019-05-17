@@ -24,6 +24,7 @@ namespace LibraryManager.DTO.Models
         public int NumberOfPages;
 
         public int Year;
+        public bool IsFinished;
 
         public string ImageName
         {

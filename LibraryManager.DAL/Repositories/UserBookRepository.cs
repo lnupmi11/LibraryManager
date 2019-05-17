@@ -24,7 +24,7 @@ namespace LibraryManager.DAL.Repositories
 
         public IEnumerable<UserBook> GetAll()
         {
-            return _dbContext.UserBooks;
+            return _dbContext.UserBooks.ToList();
         }
         //REMAKE TO LINQ!
         public IEnumerable<UserBook> GetAllAppropriate(string userId,int bookId)
@@ -42,7 +42,8 @@ namespace LibraryManager.DAL.Repositories
         }
          public UserBook Get(string userId, int bookId)
         {
-            return _dbContext.UserBooks.FirstOrDefault(x => x.UserId == userId && x.BookId == bookId);
+            var userbook = _dbContext.UserBooks.FirstOrDefault(x => x.UserId == userId && x.BookId == bookId);
+            return userbook ?? new UserBook();
         }
          
         public void Create(UserBook item)
