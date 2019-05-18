@@ -28,33 +28,33 @@
     <div id="imageSection" class="alert col-sm-4">
         <img src="~/images/@Model.BookDTO.ImageName" width="300" height="450" class="img img-rounded mx-auto d-block" alt="@Model.BookDTO.Title" />
         <h4 style="padding:20px">Rating: @Model.BookDTO.Rating </h4>
-        @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+        @if (User.Identity.IsAuthenticated && User.IsInRole("User") && Model.BookDTO.IsFinished != true)
         {
             if (Model.IsBookInWishList)
             {
                 @Html.ActionLink("Delete from wish list", "DeleteBookFromWishList", "Library",
-                    new
-                    {
-                        bookId = Model.BookDTO.Id
-                    },
-                    htmlAttributes: new
-                    {
-                        @class = "btn btn-danger btn-lg",
-                        @role = "button"
-                    })
+                             new
+                             {
+                                 bookId = Model.BookDTO.Id
+                             },
+                             htmlAttributes: new
+                             {
+                                 @class = "btn btn-danger btn-lg",
+                                 @role = "button"
+                             })
             }
             else
             {
                 @Html.ActionLink("Add to wish list", "AddBookToWishList", "Library",
-                    new
-                    {
-                        bookId = Model.BookDTO.Id
-                    },
-                    htmlAttributes: new
-                    {
-                        @class = "btn btn-success btn-lg",
-                        @role = "button"
-                    })
+                             new
+                             {
+                                 bookId = Model.BookDTO.Id
+                             },
+                             htmlAttributes: new
+                             {
+                                 @class = "btn btn-success btn-lg",
+                                 @role = "button"
+                             })
             }
 
             @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
@@ -62,32 +62,38 @@
                 if (Model.DoesUserReadsBook)
                 {
                     @Html.ActionLink("Stop reading", "StopReadingBook", "Library",
-                                 new
-                                 {
-                                     bookId = Model.BookDTO.Id
-                                 },
-                                 htmlAttributes: new
-                                 {
-                                     @class = "btn btn-danger btn-lg",
-                                     @role = "button"
-                                 })
+                                          new
+                                          {
+                                              bookId = Model.BookDTO.Id
+                                          },
+                                          htmlAttributes: new
+                                          {
+                                              @class = "btn btn-danger btn-lg",
+                                              @role = "button"
+                                          })
                 }
                 else
                 {
                     @Html.ActionLink("Read Book", "StartReadingBook", "Library",
-                                 new
-                                 {
-                                     bookId = Model.BookDTO.Id
-                                 },
-                                 htmlAttributes: new
-                                 {
-                                     @class = "btn btn-success btn-lg",
-                                     @role = "button"
-                                 })
-                    }
+                                          new
+                                          {
+                                              bookId = Model.BookDTO.Id
+                                          },
+                                          htmlAttributes: new
+                                          {
+                                              @class = "btn btn-success btn-lg",
+                                              @role = "button"
+                                          })
                 }
             }
-        </div>
+        }
+        else
+        {
+            <h3>You already have read finished reading this book</h3>
+        }
+        
+
+    </div>
     <div id="descriptionSection" class="alert col-sm-8">
         <div class="row">
             <div class="col-md-8">

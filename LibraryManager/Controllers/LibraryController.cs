@@ -136,9 +136,11 @@ namespace LibraryManagerControllers
 
             var isBookInWishList = false;
             var doesUserReadsBook = false;
+            
             if (User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                book.IsFinished = _bookService.IsBookFinished(userId, id);
                 isBookInWishList = _bookService.isBookAlreadyInUserWishList(userId, id);
                 doesUserReadsBook = _bookService.DoesUserReadsBook(userId, id);
             }
@@ -189,6 +191,15 @@ namespace LibraryManagerControllers
 
             return View("Open", LibraryOpenViewModel);
         }
+
+        [HttpGet]
+        public IActionResult GetUserWishList()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var books = _bookService.GetBooksFromWishList(userId);
+            return View(books);
+        }
+
         [HttpGet]
         public IActionResult UserLibrary()
         {

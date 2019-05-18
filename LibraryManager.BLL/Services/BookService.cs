@@ -28,13 +28,15 @@ namespace LibraryManager.BLL.Services
         public void AddBookToWishList(string userId, int bookId)
         {
             var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
-            if (item.IsReading != true)
+            if (item != null && item.IsReading != true)
             {
-                if (item.UserId != null)
+                if (item != null && item.IsAlreadyFinished != true)
                 {
+
                     item.IsInWishList = true;
                     _unitOfWork.UserBookRepository.Update(item);
                     _unitOfWork.Save();
+
                 }
                 else
                 {
@@ -48,8 +50,13 @@ namespace LibraryManager.BLL.Services
                     _unitOfWork.Save();
                 }
             }
+            
         }
 
+        public bool IsBookFinished(string userId, int bookId)
+        {  
+           return  _unitOfWork.UserBookRepository.Get(userId, bookId).IsAlreadyFinished;      
+        }
         public void DeleteBookFromWishList(string userId, int bookId)
         {
             var isBookAlreadyInWishList = isBookAlreadyInUserWishList(userId, bookId);
@@ -65,13 +72,36 @@ namespace LibraryManager.BLL.Services
         public bool isBookAlreadyInUserWishList(string userId, int bookId)
         {
             var userBookRecord = _unitOfWork.UserBookRepository.Get(userId, bookId);
-            //Even if record is deleted we receive model but the fields are 0 ro null.
-            //Consider about changing this condition.
-            if (userBookRecord  != null)
+            if (userBookRecord  != null )
             {
                 return userBookRecord.IsInWishList;
             }
             return false;
+        }
+
+
+        private IEnumerable<BookDTO> getBooks(string userId)
+        {
+
+            var books = from ubook in _unitOfWork.UserBookRepository.GetAll().
+                             Where(x=>x.UserId == userId)
+                        join
+                        book in _unitOfWork.BookRepository.GetAll()
+                        on ubook.BookId equals book.Id
+                        select new
+                        {
+                            Book = book,
+                            IsFinished = ubook.IsAlreadyFinished
+                        };
+
+
+            var booksDTO = new List<BookDTO>();
+
+            foreach (var book in books)
+            {
+                booksDTO.Add(customBookMapper(book.Book, book.IsFinished));
+            }
+            return booksDTO.ToList();
         }
 
         public void Create(AddNewBookModel bookModel)
@@ -188,7 +218,7 @@ namespace LibraryManager.BLL.Services
         {
 
             var books = from ubook in _unitOfWork.UserBookRepository.GetAll().
-                             Where(x => x.IsInWishList ==false && x.UserId == userId)
+                             Where(x=>x.IsReading==true && x.IsInWishList ==false && x.UserId == userId)
                              join
                              book in _unitOfWork.BookRepository.GetAll()
                              on ubook.BookId equals book.Id
@@ -232,7 +262,7 @@ namespace LibraryManager.BLL.Services
         public void StartReadingBook(string userId, int bookId)
         {
             var userBook = _unitOfWork.UserBookRepository.Get(userId, bookId);
-            if (userBook.UserId == null)
+            if (userBook == null)
             {   
                 var itemToCreate = new UserBook()
                 {
@@ -244,7 +274,7 @@ namespace LibraryManager.BLL.Services
 
                 _unitOfWork.UserBookRepository.Create(itemToCreate);
             }
-            else
+            else if(userBook.IsAlreadyFinished!=true)
             {
                 userBook.IsReading = true;
                 userBook.IsInWishList = false;
@@ -263,7 +293,6 @@ namespace LibraryManager.BLL.Services
 
         public float GetAlreadyReadBooksPercentage(string userId)
         {
-
             var userBooks = BooksFromUserLibrary(userId);
 
             float countOfReadBooks = 0;
@@ -300,5 +329,19 @@ namespace LibraryManager.BLL.Services
             };
         }
 
+        public IEnumerable<BookDTO> GetBooksFromWishList(string userId)
+        {
+           var books = getBooks(userId);
+           var wishedBooks = new List<BookDTO>();
+           foreach(var book in books)
+            {
+               if(isBookAlreadyInUserWishList(userId,book.Id))
+                    {
+                    book.IsFinished = false;
+                    wishedBooks.Add(book);
+                    }
+            }
+            return wishedBooks;
+        }
     }
 }

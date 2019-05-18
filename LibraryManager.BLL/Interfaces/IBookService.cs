@@ -24,5 +24,7 @@ namespace LibraryManager.BLL.Interfaces
         IEnumerable<BookDTO> BooksFromUserLibrary(string userId);
         void FinishReadingBook(string userId, int bookId);
         float GetAlreadyReadBooksPercentage(string userId);
+        IEnumerable<BookDTO> GetBooksFromWishList(string userId);
+        bool IsBookFinished(string userId, int bookId);
     }
 }
