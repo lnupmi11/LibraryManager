@@ -22,7 +22,7 @@ namespace LibraryManager.DAL.Repositories
             _userRepository = new UserRepository(dbContext);
         }
 
-        public IEnumerable<UserBook> GetAll()
+        public IQueryable<UserBook> GetAll()
         {
             return _dbContext.UserBooks;
         }

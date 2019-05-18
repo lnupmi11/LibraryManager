@@ -3,6 +3,7 @@ using LibraryManager.DAL.Entities;
 using LibraryManager.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace LibraryManager.DAL.Repositories
@@ -36,7 +37,7 @@ namespace LibraryManager.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<BookGenre> GetAll()
+        public IQueryable<BookGenre> GetAll()
         {
             throw new NotImplementedException();
         }

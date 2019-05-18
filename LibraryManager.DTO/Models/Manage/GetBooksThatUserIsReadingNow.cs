@@ -7,6 +7,6 @@ namespace LibraryManager.DTO.Models.Manage
     public class GetBooksThatUserIsReadingNow
     {
         public List<BookDTO> CurrentlyReadingBooks { get; set; }
-        public float AlreadyReadBooksPercent { get; set; }
+        public int AlreadyReadBooksPercent { get; set; }
     }
 }

@@ -194,11 +194,11 @@ namespace LibraryManagerControllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var books = _bookService.BooksFromUserLibrary(userId).ToList();
-            var percent = _bookService.GetAlreadyReadBooksPercentage(userId);
+            var percent = _bookService.GetAlreadyReadBooksPercentage(userId)*100;
             var model = new GetBooksThatUserIsReadingNow()
             {
                 CurrentlyReadingBooks = books,
-                AlreadyReadBooksPercent = percent * 100
+                AlreadyReadBooksPercent = (int)percent  
             };
             return View(model);
         }

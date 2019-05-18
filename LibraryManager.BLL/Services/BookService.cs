@@ -186,10 +186,9 @@ namespace LibraryManager.BLL.Services
 
         public IEnumerable<BookDTO> BooksFromUserLibrary(string userId)
         {
-            
 
             var books = from ubook in _unitOfWork.UserBookRepository.GetAll().
-                             Where(x => x.IsReading == true && x.UserId == userId)
+                             Where(x => x.IsInWishList ==false && x.UserId == userId)
                              join
                              book in _unitOfWork.BookRepository.GetAll()
                              on ubook.BookId equals book.Id
@@ -264,23 +263,23 @@ namespace LibraryManager.BLL.Services
 
         public float GetAlreadyReadBooksPercentage(string userId)
         {
-           
-            var userBooks = _unitOfWork.UserBookRepository.GetAll().
-                Where(x => x.UserId == userId && x.BookId == 3);
 
-            var userBooks1 = BooksFromUserLibrary(userId);
+            var userBooks = BooksFromUserLibrary(userId);
 
-            int countOfReadBooks = 0;
+            float countOfReadBooks = 0;
 
             foreach(var userbook in userBooks)
             {
-                if (userbook.IsAlreadyFinished)
+                if (userbook.IsFinished)
                 {
                     countOfReadBooks++;
                 }
             }
-
-            return countOfReadBooks / userBooks.Count();
+            if (countOfReadBooks != 0 && userBooks.Count() != 0)
+            {
+                return countOfReadBooks / userBooks.Count();
+            }
+            return 0;
         }
 
         public BookDTO customBookMapper(Book book, bool isFinished)
