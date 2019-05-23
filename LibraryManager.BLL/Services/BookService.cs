@@ -9,6 +9,7 @@ using LibraryManager.DAL.Entities;
 using LibraryManager.DTO.Models.Manage;
 using LibraryManager.DTO.Models;
 using System.Linq;
+using System.Collections;
 
 namespace LibraryManager.BLL.Services
 {
@@ -28,34 +29,35 @@ namespace LibraryManager.BLL.Services
         public void AddBookToWishList(string userId, int bookId)
         {
             var item = _unitOfWork.UserBookRepository.Get(userId, bookId);
-            if (item != null && item.IsReading != true)
+            if (item == null)
             {
-                if (item != null && item.IsAlreadyFinished != true)
+                item = new UserBook()
                 {
-
-                    item.IsInWishList = true;
-                    _unitOfWork.UserBookRepository.Update(item);
-                    _unitOfWork.Save();
-
-                }
-                else
-                {
-                    _unitOfWork.UserBookRepository.Create(new UserBook
-                    {
-                        UserId = userId,
-                        BookId = bookId,
-                        IsInWishList = true,
-                        IsReading = false
-                    });
-                    _unitOfWork.Save();
-                }
+                    UserId = userId,
+                    BookId = bookId,
+                    IsAlreadyFinished = false,
+                    IsInWishList = false,
+                    IsReading = false
+                };
+                _unitOfWork.UserBookRepository.Create(item);
+                _unitOfWork.Save();
             }
-            
+            else if (item.IsReading != true && item.IsAlreadyFinished != true)
+            {
+                item.IsInWishList = true;
+                _unitOfWork.UserBookRepository.Update(item);
+                _unitOfWork.Save();
+            }
         }
 
         public bool IsBookFinished(string userId, int bookId)
         {  
-           return  _unitOfWork.UserBookRepository.Get(userId, bookId).IsAlreadyFinished;      
+           var  item = _unitOfWork.UserBookRepository.Get(userId, bookId); 
+           if(item!=null)
+            {
+                return item.IsAlreadyFinished;
+            }
+            return false;
         }
         public void DeleteBookFromWishList(string userId, int bookId)
         {
@@ -342,6 +344,30 @@ namespace LibraryManager.BLL.Services
                     }
             }
             return wishedBooks;
+        }
+
+        public Dictionary<string, int> GetUserBooksByGenreStatistics(string userId)
+        {
+            var books = getBooks(userId)
+                .Where(book=>book.IsFinished==true).ToList();
+
+            Dictionary<string, int> dictionary = new Dictionary<string,int>();
+           
+            foreach(var book in books)
+            {
+                foreach (var genre in book.Genres)
+                {
+                    if (dictionary.ContainsKey(genre.GenreName))
+                    {
+                        dictionary[genre.GenreName]++;
+                    }
+                    else
+                    {
+                        dictionary[genre.GenreName] = 1;
+                    }
+                }
+            }
+            return dictionary;
         }
     }
 }

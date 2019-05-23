@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using LibraryManager.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using LibraryManager.DTO.Models;
 
 namespace LibraryManagerControllers
 {
@@ -282,8 +283,18 @@ namespace LibraryManagerControllers
             _bookService.DeleteBookFromWishList(userId, bookId);
             return RedirectToAction("Open", "Library", new { id = bookId });
         }
-
-
+        [HttpGet]
+        [Authorize(Roles = "User")]
+        public IActionResult GetUserStatistic()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var readBooksByGenreCount = _bookService.GetUserBooksByGenreStatistics(userId);
+            var model = new UserStatisticsDTO()
+            {
+                ReadBooksByGenreCount = readBooksByGenreCount
+            };
+            return View(model);
+        }
 
         private void InitializeTempData()
         {

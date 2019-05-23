@@ -1,0 +1,62 @@
+﻿@using LibraryManager.DAL.Entities
+@using Microsoft.AspNetCore.Identity
+@using LibraryManager.DTO.Models
+@model  UserStatisticsDTO
+
+@{
+    ViewBag.Title = "title";
+}
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@if (User.IsInRole("Admin"))
+{
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    Layout = "~/Views/Shared/_GuestLayout.cshtml";
+}
+
+
+
+<div style="background-color:aliceblue;">
+    @{
+
+        <canvas id="doughnut-chart1" width="450" height="450"></canvas>
+
+    }
+
+</div>
+<script>
+    var a = new function () {
+        new Chart(document.getElementById("doughnut-chart1"), {
+            type: 'doughnut',
+            data: {
+                labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+                datasets: [
+                    {
+                        label: "Population (millions)",
+                        backgroundColor: ["red", "purple", "blue", "green", "orange"],
+                        data: [2, 5267, 734, 784, 433]
+                    }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Predicted world population (millions) in 2050'
+                }
+            }
+        });
+    }
+</script>

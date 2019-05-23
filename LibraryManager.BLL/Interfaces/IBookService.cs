@@ -26,5 +26,6 @@ namespace LibraryManager.BLL.Interfaces
         float GetAlreadyReadBooksPercentage(string userId);
         IEnumerable<BookDTO> GetBooksFromWishList(string userId);
         bool IsBookFinished(string userId, int bookId);
+        Dictionary<string, int> GetUserBooksByGenreStatistics(string userId);
     }
 }
