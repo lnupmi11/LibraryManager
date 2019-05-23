@@ -43,7 +43,7 @@ namespace LibraryManager.DAL.Repositories
          public UserBook Get(string userId, int bookId)
         {
             var userbook = _dbContext.UserBooks.FirstOrDefault(x => x.UserId == userId && x.BookId == bookId);
-            return userbook ?? new UserBook();
+            return userbook;
         }
          
         public void Create(UserBook item)

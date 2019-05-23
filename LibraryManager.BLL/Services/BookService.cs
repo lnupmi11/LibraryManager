@@ -241,7 +241,7 @@ namespace LibraryManager.BLL.Services
         public void FinishReadingBook(string userId, int bookId)
         {
             var userBook = _unitOfWork.UserBookRepository.Get(userId, bookId);
-            if(userBook.UserId != null)
+            if(userBook != null)
             {
                 userBook.IsAlreadyFinished = true;
                 _unitOfWork.UserBookRepository.Update(userBook);
@@ -252,7 +252,7 @@ namespace LibraryManager.BLL.Services
         public bool DoesUserReadsBook(string userId,int bookId)
         {
            var userBook =  _unitOfWork.UserBookRepository.Get(userId, bookId);
-            if (userBook.UserId != null)
+            if (userBook!= null)
             {
                 return userBook.IsReading;
             }
