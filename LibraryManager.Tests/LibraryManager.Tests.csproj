@@ -19,6 +19,8 @@
   <ItemGroup>
     <ProjectReference Include="..\LibraryManager.BLL\LibraryManager.BLL.csproj" />
     <ProjectReference Include="..\LibraryManager.DAL\LibraryManager.DAL.csproj" />
+    <ProjectReference Include="..\LibraryManager.DTO\LibraryManager.DTO.csproj" />
+    <ProjectReference Include="..\LibraryManager\LibraryManager.API.csproj" />
   </ItemGroup>
 
 </Project>

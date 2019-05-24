@@ -27,7 +27,7 @@
     <div id="imageSection" class="alert col-sm-4">
         <img src="~/images/@Model.BookDTO.ImageName" width="300" height="450" class="img img-rounded mx-auto d-block" alt="@Model.BookDTO.Title" />
         <h4 style="padding:20px">
-            @if (User.Identity.IsAuthenticated && User.IsInRole("User") && Model.BookDTO.IsFinished != true)
+            @if (User.Identity.IsAuthenticated && User.IsInRole("User") && (Model.BookDTO.IsFinished || Model.DoesUserReadsBook))
             {
                 if (Model.IsBookRated)
                 {
@@ -58,7 +58,7 @@
             }
             Rating: @Model.BookDTO.Rating
         </h4>
-        @if (User.Identity.IsAuthenticated && User.IsInRole("User") && Model.BookDTO.IsFinished != true)
+        @if (User.Identity.IsAuthenticated && User.IsInRole("User") && !Model.BookDTO.IsFinished)
         {
             if (Model.IsBookInWishList)
             {
@@ -135,7 +135,7 @@
             <div class="col-md-4 margin-center">
                 @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                 {
-                    <button type="button" class="btn btn-info" onclick="location.href = '@Url.Action("Edit", "Admin", new {id = Model.BookDTO.Id})'">Edit</button>
+                    <button type="button" class="btn btn-info" onclick="location.href = '@Url.Action("Edit", "Admin", new {id = Model.BookDTO.Id})'"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>Edit</button>
                     <button type="button" class="btn btn-danger" onclick="location.href = '@Url.Action("Delete", "Admin", new {id = Model.BookDTO.Id})'">Delete</button>
                 }
             </div>
@@ -153,7 +153,7 @@
             </a>
         }
         <div class="border">
-            @if (Model.BookDTO.Description == null || Model.BookDTO.Description == "")
+            @if (string.IsNullOrWhiteSpace(Model.BookDTO.Description))
             {
                 <p>Sorry, there is no description for this book.</p>
             }
