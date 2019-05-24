@@ -4,6 +4,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LibraryManager.Tests.CustomMocks
 {
@@ -16,5 +17,10 @@ namespace LibraryManager.Tests.CustomMocks
                new IdentityErrorDescriber(),
                new Mock<ILogger<MockRoleManager>>().Object)
         { }
+
+        public override Task<IdentityResult> CreateAsync(IdentityRole role)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
     }
 }

@@ -42,5 +42,16 @@ namespace LibraryManager.Tests.Controllers
                 mockBookService.Object, mockUserService.Object, mockGenreService.Object,
                 mockRoleManager, mockUserManager, mockSignInManager, mockAdminService.Object);
         }
+
+        [Fact]
+        public async void IndexTest()
+        {
+            mockBookService.Setup(m => m.GetAll()).Returns(new List<BookDTO>());
+            mockGenreService.Setup(m => m.GetAll()).Returns(new List<GenreDTO>());
+
+            var result = await libraryController.Index();
+
+            Assert.NotNull(result);
+        }
     }
 }

@@ -46,7 +46,6 @@ namespace LibraryManagerControllers
 
         public async Task<ActionResult> Index()
         {
-            _adminService.GetUsersList();
             var books = _bookService.GetAll();
             var genres = _genreService.GetAll();
 
