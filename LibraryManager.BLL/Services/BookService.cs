@@ -101,7 +101,7 @@ namespace LibraryManager.BLL.Services
 
             foreach (var book in books)
             {
-                booksDTO.Add(customBookMapper(book.Book, book.IsFinished));
+                booksDTO.Add(CustomBookMapper(book.Book, book.IsFinished));
             }
             return booksDTO.ToList();
         }
@@ -155,7 +155,6 @@ namespace LibraryManager.BLL.Services
                 Genres = new List<GenreDTO>() { new GenreDTO() { Id = int.Parse((addNewBookModel.SelectedGenre)) } },
                 Languages = new List<LanguageDTO>(),
                 Description = addNewBookModel.Description,
-                Rating = addNewBookModel.Rating,
                 NumberOfPages = addNewBookModel.NumberOfPages,
                 Year = addNewBookModel.Year
             };
@@ -235,7 +234,7 @@ namespace LibraryManager.BLL.Services
            
              foreach(var book in books)
             {
-                booksDTO.Add(customBookMapper(book.Book,book.IsFinished));
+                booksDTO.Add(CustomBookMapper(book.Book,book.IsFinished));
             }
             return booksDTO.ToList();
         }
@@ -313,7 +312,7 @@ namespace LibraryManager.BLL.Services
             return 0;
         }
 
-        public BookDTO customBookMapper(Book book, bool isFinished)
+        private BookDTO CustomBookMapper(Book book, bool isFinished)
         {
             return new BookDTO
             {
@@ -368,6 +367,59 @@ namespace LibraryManager.BLL.Services
                 }
             }
             return dictionary;
+        }
+
+        public bool IsBookRated(string userId, int bookId)
+        {
+            var userBookItem = _unitOfWork.UserBookRepository.Get(userId, bookId);
+
+            if (userBookItem == null)
+                return false;
+
+            return userBookItem.IsRated;
+        }
+
+        public void RateBook(string userId, int bookId)
+        {
+            var userBookItem = _unitOfWork.UserBookRepository.Get(userId, bookId);
+            if (userBookItem == null)
+            {
+                userBookItem = CreateNewUserBookItem(userId, bookId);
+            }
+
+            userBookItem.IsRated = userBookItem.IsRated ? false : true;
+            _unitOfWork.UserBookRepository.Update(userBookItem);
+            _unitOfWork.Save();
+
+            ChangeBookRatng(bookId);
+        }
+
+
+        private void ChangeBookRatng(int bookId)
+        {
+            var maxRating = 5.0;
+            var book = _unitOfWork.BookRepository.Get(bookId);
+            var numberOfAllUsers = _unitOfWork.UserRepository.GetAll().ToList().Count;
+            var numberOfUsersWhoRatedBook = _unitOfWork.UserBookRepository.GetAll().Where(ub => ub.BookId == bookId && ub.IsRated).Count();
+
+            book.Rating = maxRating * ((double)numberOfUsersWhoRatedBook / numberOfAllUsers);
+
+            _unitOfWork.BookRepository.Update(book);
+            _unitOfWork.Save();
+        }
+        private UserBook  CreateNewUserBookItem(string userId, int bookId)
+        {
+            var newUserBook = new UserBook
+            {
+                UserId = userId,
+                BookId = bookId
+            };
+
+            _unitOfWork.UserBookRepository.Create(newUserBook);
+            _unitOfWork.Save();
+
+            newUserBook = _unitOfWork.UserBookRepository.Get(userId, bookId);
+            return newUserBook;
         }
     }
 }

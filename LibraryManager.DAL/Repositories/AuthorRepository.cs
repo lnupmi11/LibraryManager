@@ -31,13 +31,11 @@ namespace LibraryManager.DAL.Repositories
         public void Create(Author item)
         {
             _dbContext.Authors.Add(item);
-            _dbContext.SaveChanges();
         }
 
         public void Update(Author item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
-            _dbContext.SaveChanges();
         }
 
         public void Delete(int id)
@@ -45,7 +43,6 @@ namespace LibraryManager.DAL.Repositories
             var author = Get(id);
             if (author != null)
                 _dbContext.Authors.Remove(author);
-            _dbContext.SaveChanges();
         }         
     }
 }

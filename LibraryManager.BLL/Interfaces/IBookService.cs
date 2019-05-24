@@ -27,5 +27,7 @@ namespace LibraryManager.BLL.Interfaces
         IEnumerable<BookDTO> GetBooksFromWishList(string userId);
         bool IsBookFinished(string userId, int bookId);
         Dictionary<string, int> GetUserBooksByGenreStatistics(string userId);
+        void RateBook(string userId, int bookId);
+        bool IsBookRated(string userId, int bookId);
     }
 }

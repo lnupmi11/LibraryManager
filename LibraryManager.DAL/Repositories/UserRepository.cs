@@ -27,7 +27,6 @@ namespace LibraryManager.DAL.Repositories
             var user = Get(id);
             if(user != null)
                 _dbContext.Users.Remove(user);
-            _dbContext.SaveChanges();
         }
 
         public User Get(string id)
@@ -46,7 +45,6 @@ namespace LibraryManager.DAL.Repositories
         public void Update(User item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
-            _dbContext.SaveChanges();
         }
     }
 }

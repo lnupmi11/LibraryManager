@@ -137,20 +137,23 @@ namespace LibraryManagerControllers
 
             var isBookInWishList = false;
             var doesUserReadsBook = false;
-            
+            var isBookRated = false;
+
             if (User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 book.IsFinished = _bookService.IsBookFinished(userId, id);
                 isBookInWishList = _bookService.isBookAlreadyInUserWishList(userId, id);
                 doesUserReadsBook = _bookService.DoesUserReadsBook(userId, id);
+                isBookRated = _bookService.IsBookRated(userId, id);
             }
 
             var libraryOpenViewModel = new LibraryOpenViewModel
             {
                 BookDTO = book,
                 IsBookInWishList = isBookInWishList,
-                DoesUserReadsBook = doesUserReadsBook
+                DoesUserReadsBook = doesUserReadsBook,
+                IsBookRated = isBookRated
             };
             return View(libraryOpenViewModel);
         }
@@ -253,20 +256,15 @@ namespace LibraryManagerControllers
             return RedirectToAction("Open", "Library", new { id = bookId });
         }
 
-        public void RateBook(int bookId, int rating)
+        [Authorize(Roles = "User")]
+        public IActionResult RateBook(int bookId)
         {
-            var book = _bookService.Find(bookId);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _bookService.RateBook(userId, bookId);
 
-            if (book == null)
-            {
-                Response.StatusCode = 404;
-            }
-            else
-            {
-                book.Rating += rating;
-                //_bookService.Update(book);
-            }
+            return RedirectToAction("Open", "Library", new { id = bookId });
         }
+
         [Authorize(Roles = "User")]
         public IActionResult AddBookToWishList(int bookId)
         {

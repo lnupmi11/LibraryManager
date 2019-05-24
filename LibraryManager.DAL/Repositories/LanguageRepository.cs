@@ -38,13 +38,11 @@ namespace LibraryManager.DAL.Repositories
         public void Create(Language item)
         {
             _dbContext.Add(item);
-            _dbContext.SaveChanges();
         }
 
         public void Update(Language item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
-            _dbContext.SaveChanges();
         }
 
         public void Delete(int id)
@@ -52,7 +50,6 @@ namespace LibraryManager.DAL.Repositories
             var language = Get(id);
             if (language != null)
                 _dbContext.Languages.Remove(language);
-            _dbContext.SaveChangesAsync();
         }
     }
 }

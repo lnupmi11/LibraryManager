@@ -49,7 +49,6 @@ namespace LibraryManager.DAL.Repositories
             item.Author = _dbContext.Authors.First(a => a.FirstName == item.Author.FirstName && a.LastName == item.Author.LastName) ??
                           new Author() {FirstName = item.Author.FirstName, LastName = item.Author.LastName};
             _dbContext.Entry(item).State = EntityState.Modified;
-            _dbContext.SaveChanges();
         }
 
         public void Delete(int id)
@@ -57,7 +56,6 @@ namespace LibraryManager.DAL.Repositories
             var book = Get(id);
             if (book != null)
                 _dbContext.Books.Remove(book);
-            _dbContext.SaveChanges();
         }
     }
 }

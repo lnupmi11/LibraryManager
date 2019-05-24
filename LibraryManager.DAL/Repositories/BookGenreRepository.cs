@@ -24,7 +24,6 @@ namespace LibraryManager.DAL.Repositories
         public void Create(BookGenre item)
         {
             _dbContext.Add(item);
-            _dbContext.SaveChanges();
         }
 
         public void Delete(int tId, int vId)

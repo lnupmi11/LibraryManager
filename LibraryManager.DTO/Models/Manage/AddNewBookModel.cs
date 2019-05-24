@@ -22,7 +22,6 @@ namespace LibraryManager.DTO.Models.Manage
         [Required]
         public int NumberOfPages { get; set; }
 
-        public int Rating { get; set; }
 
         [Required]
         public string Description { get; set; }
