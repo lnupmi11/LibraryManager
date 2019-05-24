@@ -37,10 +37,10 @@ namespace LibraryManager.Tests.Controllers
             mockAdminService = new Mock<IAdminService>();
             mockRoleManager = new MockRoleManager();
             mockSignInManager = new MockSignInManager();
-            mock
+            mockUserManager = new MockUserManager();
+            libraryController = new LibraryController(
+                mockBookService.Object, mockUserService.Object, mockGenreService.Object,
+                mockRoleManager, mockUserManager, mockSignInManager, mockAdminService.Object);
         }
-
-        [Fact]
-
     }
 }
