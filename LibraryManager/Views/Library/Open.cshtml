@@ -1,5 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Open";
+    if (User.IsInRole("Admin"))
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    }
+    else if (User.IsInRole("User"))
+    {
+
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_GuestLayout.cshtml";
+    }
 }
 
 @using LibraryManager.DTO.Models;
@@ -7,27 +23,41 @@
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @model LibraryOpenViewModel
 
-@if (User.IsInRole("User"))
-{
-
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
-}
-@if (User.IsInRole("Admin"))
-{
-
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-
-}
-@if (!User.Identity.IsAuthenticated)
-{
-    Layout = "~/Views/Shared/_GuestLayout.cshtml";
-}
-
 <div id="content" class="container">
     <div id="imageSection" class="alert col-sm-4">
         <img src="~/images/@Model.BookDTO.ImageName" width="300" height="450" class="img img-rounded mx-auto d-block" alt="@Model.BookDTO.Title" />
-        <h4 style="padding:20px">Rating: @Model.BookDTO.Rating </h4>
+        <h4 style="padding:20px">
+            @if (User.Identity.IsAuthenticated && User.IsInRole("User") && Model.BookDTO.IsFinished != true)
+            {
+                if (Model.IsBookRated)
+                {
+                    @Html.ActionLink("Dislike", "RateBook", "Library",
+                                               new
+                                               {
+                                                   bookId = Model.BookDTO.Id
+                                               },
+                                               htmlAttributes: new
+                                               {
+                                                   @class = "btn btn-danger",
+                                                   @role = "button"
+                                               })
+                }
+                else
+                {
+                    @Html.ActionLink("Like", "RateBook", "Library",
+                                               new
+                                               {
+                                                   bookId = Model.BookDTO.Id
+                                               },
+                                               htmlAttributes: new
+                                               {
+                                                   @class = "btn btn-success",
+                                                   @role = "button"
+                                               })
+                }
+            }
+            Rating: @Model.BookDTO.Rating
+        </h4>
         @if (User.Identity.IsAuthenticated && User.IsInRole("User") && Model.BookDTO.IsFinished != true)
         {
             if (Model.IsBookInWishList)
@@ -91,7 +121,7 @@
         {
             if (User.Identity.IsAuthenticated)
             {
-            <h3>You already have read finished reading this book</h3>
+                <h3>You already have read finished reading this book</h3>
             }
         }
 

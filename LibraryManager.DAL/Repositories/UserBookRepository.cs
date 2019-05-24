@@ -49,13 +49,11 @@ namespace LibraryManager.DAL.Repositories
         public void Create(UserBook item)
         {
             _dbContext.Add(item);
-            _dbContext.SaveChanges();
         }
 
         public void Update(UserBook item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
-            _dbContext.SaveChanges();
         }
 
         public void Delete(string userId, int bookId)
@@ -63,7 +61,6 @@ namespace LibraryManager.DAL.Repositories
             var userBook = Get(userId,bookId);
             if (userBook != null)
                 _dbContext.UserBooks.Remove(userBook);
-            _dbContext.SaveChangesAsync();
         }   
     }
 }

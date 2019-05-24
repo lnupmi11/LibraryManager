@@ -95,3 +95,11 @@ body {
     padding: 25px;
     float: left;
 }
+
+.fr{
+    float:right !important;
+}
+
+.fl{
+    float:left !important;
+}

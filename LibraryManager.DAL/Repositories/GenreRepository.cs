@@ -35,13 +35,11 @@ namespace LibraryManager.DAL.Repositories
         public void Create(Genre item)
         {
             _dbContext.Add(item);
-            _dbContext.SaveChanges();
         }
 
         public void Update(Genre item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
-            _dbContext.SaveChanges();
         }
 
         public void Delete(int id)
@@ -49,7 +47,6 @@ namespace LibraryManager.DAL.Repositories
             var genre = Get(id);
             if (genre != null)
                 _dbContext.Genres.Remove(genre);
-            _dbContext.SaveChangesAsync();
         }
 
     }

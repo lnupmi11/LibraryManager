@@ -22,5 +22,7 @@ namespace LibraryManager.DAL.Entities
         public bool IsInWishList { get; set; }
 
         public bool IsAlreadyFinished { get; set; }
+
+        public bool IsRated { get; set; }
     }
 }
