@@ -52,7 +52,7 @@
                 if (book.IsFinished)
                 {
                     <tr class="success">
-                        <td>@book.Title</td>
+                        <td><a href="~/Library/Open/@book.Id">@book.Title </a></td>
                         <td>@book.Author.FirstName @book.Author.LastName</td>
                         <td>@book.Rating</td>
                         <td>@book.NumberOfPages</td>
@@ -64,7 +64,7 @@
                 else
                 {
                     <tr class="info">
-                        <td>@book.Title</td>
+                        <td><a href="~/Library/Open/@book.Id">@book.Title </a></td>
                         <td>@book.Author.FirstName @book.Author.LastName</td>
                         <td>@book.Rating</td>
                         <td>@book.NumberOfPages</td>

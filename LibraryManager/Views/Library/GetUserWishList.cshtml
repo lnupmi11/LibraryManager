@@ -45,7 +45,7 @@
             foreach (var book in Model)
             {
                  <tr class="info">
-                     <td>@book.Title</td>
+                     <td><a href="~/Library/Open/@book.Id">@book.Title </a></td>
                      <td>@book.Author.FirstName @book.Author.LastName</td>
                      <td>@book.Rating</td>
                      <td>@book.NumberOfPages</td>
