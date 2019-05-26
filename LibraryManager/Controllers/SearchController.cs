@@ -47,6 +47,16 @@ namespace LibraryManager.Controllers
                 }
                 return View(book);
             }
+            else if (model.SearchCategory == "Year")
+            {
+                var book = _bookService.GetAll().Where(x => x.Year.ToString()==model.SearchValue).ToList();
+
+                if (book == null)
+                {
+                    return RedirectToAction("Index", "Library");
+                }
+                return View(book);
+            }
             var books = _bookService.GetAll().Where(x => model.SearchValue.ToLower().Contains(x.Author.LastName.ToLower()));
 
             if (!books.Any())
