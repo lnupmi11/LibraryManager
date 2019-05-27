@@ -28,11 +28,22 @@
 
 <h2 style="text-align:center">Login to your account</h2>
 <form method="post" asp-controller="Account" asp-action="Login">
+    <div asp-validation-summary="ModelOnly"></div>
     <div class="login">
-        <input asp-for="Username" class="form-control" placeholder="Username" id="username" />
-        <input asp-for="Password" class="form-control" placeholder="password" id="password" />
 
-        <input type="submit" class="btn btn-success" value="Login" />
+        <div class="form-group">
+            <span asp-validation-for="Username" class="input-group-text"></span>
+            <input asp-for="Username" class="form-control" placeholder="Username" id="username" />
+        </div>
+
+        <div class="form-group">
+            <span asp-validation-for="Password" class="input-group-text"></span>
+            <input asp-for="Password" class="form-control" placeholder="password" id="password" />
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" value="Login" />
+        </div>
     </div>
 </form>
 <div class="shadow"></div>

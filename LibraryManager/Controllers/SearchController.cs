@@ -15,11 +15,13 @@ namespace LibraryManager.Controllers
     {
         private readonly IBookService _bookService;
         private readonly IGenreService _genreService;
+        private readonly ILanguageService _languageService;
 
-        public SearchController(IBookService bookService, IGenreService genreService)
+        public SearchController(IBookService bookService, IGenreService genreService,ILanguageService languageService)
         {
             _bookService = bookService;
             _genreService = genreService;
+            _languageService= languageService;
         }
 
         [HttpPost]
@@ -35,7 +37,26 @@ namespace LibraryManager.Controllers
                 }
                 return RedirectToAction("Open", "Library", new { id = book.Id });
             }
+            else if (model.SearchCategory == "Language")
+            {
+                var book = _bookService.GetAll().Where(y => y.Languages.Where(z => z.LanguageName.ToLower().Contains(model.SearchValue.ToLower())).Count()>0).ToList();
 
+                if (book == null)
+                {
+                    return RedirectToAction("Index", "Library");
+                }
+                return View(book);
+            }
+            else if (model.SearchCategory == "Year")
+            {
+                var book = _bookService.GetAll().Where(x => x.Year.ToString()==model.SearchValue).ToList();
+
+                if (book == null)
+                {
+                    return RedirectToAction("Index", "Library");
+                }
+                return View(book);
+            }
             var books = _bookService.GetAll().Where(x => model.SearchValue.ToLower().Contains(x.Author.LastName.ToLower()));
 
             if (!books.Any())

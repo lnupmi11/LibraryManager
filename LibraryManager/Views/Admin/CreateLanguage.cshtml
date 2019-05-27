@@ -1,0 +1,84 @@
+﻿@using LibraryManager.DAL.Entities
+@using Microsoft.AspNetCore.Identity
+
+@{
+    ViewBag.Title = "title";
+}
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@if (User.IsInRole("Admin"))
+{
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    Layout = "~/Views/Shared/_GuestLayout.cshtml";
+}
+@model LibraryManager.DTO.Models.LanguageDTO
+
+<div class="color">
+    <p></p>
+    <div class="jumbotron center">
+        <h2>Створити мову</h2>
+    </div>
+    <div class="center">
+        <form method="post" enctype="multipart/form-data" asp-controller="Admin">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div>
+                <label asp-for="LanguageName"></label><br />
+                <input type="text" asp-for="LanguageName" />
+                <span asp-validation-for="LanguageName"></span>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+<style type="text/css">
+
+    .center {
+        margin: auto;
+        width: 60%;
+    }
+
+    input[type=text], select {
+        width: 100%;
+        padding: 7px 15px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 100%;
+        background-color: #577284;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        input[type=submit]:hover {
+            background-color: #7390a3;
+        }
+</style>
+

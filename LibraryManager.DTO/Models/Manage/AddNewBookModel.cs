@@ -19,6 +19,8 @@ namespace LibraryManager.DTO.Models.Manage
 
         public SelectList Genres { get; set; }
 
+        public SelectList Languages { get; set; }
+
         [Required]
         public int NumberOfPages { get; set; }
 
@@ -27,6 +29,7 @@ namespace LibraryManager.DTO.Models.Manage
         public string Description { get; set; }
 
         public string SelectedGenre { get; set; }
+        public string SelectedLanguage { get; set; }
 
         public int Year { get; set; }
         public string Image { get; set; }
