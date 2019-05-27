@@ -115,6 +115,8 @@ namespace LibraryManager.BLL.Services
                 new Author() {FirstName = bookModel.AuthorName, LastName = bookModel.AuthorSurname};
             book.Genres = new List<BookGenre>() { new BookGenre() { BookId = book.Id, GenreId = bookDTO.Genres.FirstOrDefault().Id } };
 
+            book.Languages = new List<BookLanguage> { new BookLanguage() { BookId=book.Id,LanguageId=bookDTO.Languages.FirstOrDefault().Id} };
+
             _unitOfWork.BookRepository.Create(book);
             _unitOfWork.Save();
         }
@@ -153,7 +155,7 @@ namespace LibraryManager.BLL.Services
                 Title = addNewBookModel.Title,
                 Author = new AuthorDTO() { FirstName = addNewBookModel.AuthorName },
                 Genres = new List<GenreDTO>() { new GenreDTO() { Id = int.Parse((addNewBookModel.SelectedGenre)) } },
-                Languages = new List<LanguageDTO>(),
+                Languages = new List<LanguageDTO>() { new LanguageDTO() {Id=int.Parse((addNewBookModel.SelectedLanguage)) } },
                 Description = addNewBookModel.Description,
                 NumberOfPages = addNewBookModel.NumberOfPages,
                 Year = addNewBookModel.Year

@@ -7,8 +7,8 @@ namespace LibraryManager.DTO.Models
 {
     public class LanguageDTO
     {
-        public int Id;
+        public int Id { get; set; }
 
-        public string LanguageName;
+        public string LanguageName { get; set; }
     }
 }

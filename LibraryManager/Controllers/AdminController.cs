@@ -25,23 +25,42 @@ namespace LibraryManager.API.Controllers
         private readonly IGenreService _genreService;
         private readonly IAdminService _adminService;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly ILanguageService _languageService;
 
-        public AdminController(IBookService bookService, IGenreService genreService, IAdminService adminService, IHostingEnvironment host)
+        public AdminController(IBookService bookService, IGenreService genreService, IAdminService adminService, IHostingEnvironment host,ILanguageService languageService)
         {
             _bookService = bookService;
             _genreService = genreService;
             _adminService = adminService;
             _hostingEnvironment = host;
+            _languageService = languageService;
         }
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
-            AddNewBookModel addNewBookModel = new AddNewBookModel() { Genres = new SelectList(_genreService.GetAll(), "Id", "GenreName")};
-            ViewData["BookGenre"] = new SelectList(_genreService.GetAll(), "Id", "GenreName");
+            AddNewBookModel addNewBookModel = new AddNewBookModel()
+            {
+                Genres = new SelectList(_genreService.GetAll(), "Id", "GenreName"),
+                Languages =new SelectList(_languageService.GetAll(),"Id", "LanguageName")
+            };
             return View(addNewBookModel);
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Index(AddNewBookModel book)
+        {
+            if (ModelState.IsValid)
+            {
+                AddImage(book);
+                AddPdf(book);
+                _bookService.Create(book);
+            }
+            return RedirectToAction("Index", "Library");
+        }
+
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult CreateGenre()
@@ -60,18 +79,24 @@ namespace LibraryManager.API.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult CreateLanguage()
+        {
+            return View();
+        }
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult Index(AddNewBookModel book)
+        public IActionResult CreateLanguage(LanguageDTO language)
         {
             if (ModelState.IsValid)
             {
-                AddImage(book);
-                AddPdf(book);
-                _bookService.Create(book);
+                _languageService.Create(language);
             }
-            return RedirectToAction("Index", "Library");
+            return RedirectToAction("Index", "Admin");
         }
+
 
         [HttpGet]
         [Authorize(Roles = "Admin")]

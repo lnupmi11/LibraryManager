@@ -14,7 +14,6 @@ namespace LibraryManager.DAL.Entities
         [NotMapped]
         public int NumberOfBooks {
             get => Books?.Count ?? 0;
-            set => this.NumberOfBooks = value;
         }
 
         public ICollection<BookGenre> Books { get; set; }

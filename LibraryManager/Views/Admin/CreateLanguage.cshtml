@@ -24,20 +24,20 @@
 {
     Layout = "~/Views/Shared/_GuestLayout.cshtml";
 }
-@model LibraryManager.DTO.Models.GenreDTO
+@model LibraryManager.DTO.Models.LanguageDTO
 
 <div class="color">
     <p></p>
     <div class="jumbotron center">
-        <h2>Створити жанр</h2>
+        <h2>Створити мову</h2>
     </div>
     <div class="center">
         <form method="post" enctype="multipart/form-data" asp-controller="Admin">
             <div asp-validation-summary="ModelOnly"></div>
             <div>
-                <label asp-for="GenreName"></label><br />
-                <input type="text" asp-for="GenreName" />
-                <span asp-validation-for="GenreName"></span>
+                <label asp-for="LanguageName"></label><br />
+                <input type="text" asp-for="LanguageName" />
+                <span asp-validation-for="LanguageName"></span>
             </div>
             <div>
                 <button type="submit" class="btn btn-success">Create</button>
@@ -81,3 +81,4 @@
             background-color: #7390a3;
         }
 </style>
+

@@ -56,6 +56,12 @@
                 <p></p>
                 @Html.DropDownListFor(m => m.SelectedGenre, Model.Genres, "Select Genre")
             </div>
+            <input type="button" value="Create new Language" class="btn btn-success" onclick="@("window.location.href='" + @Url.Action("CreateLanguage", "Admin") + "'");" />
+            <div class="form-group">
+                <b>Languages</b>
+                <p></p>
+                @Html.DropDownListFor(m => m.SelectedLanguage, Model.Languages, "Select Language")
+            </div>
             <div class="row"></div>
             <div>
                 <label asp-for="Image">Image</label><br />
