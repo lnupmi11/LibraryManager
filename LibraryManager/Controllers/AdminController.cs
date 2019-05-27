@@ -42,6 +42,23 @@ namespace LibraryManager.API.Controllers
             ViewData["BookGenre"] = new SelectList(_genreService.GetAll(), "Id", "GenreName");
             return View(addNewBookModel);
         }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult CreateGenre()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult CreateGenre(GenreDTO genre)
+        {
+            if (ModelState.IsValid)
+            {
+                _genreService.Create(genre);
+            }
+            return RedirectToAction("Index", "Admin");
+        }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]

@@ -17,8 +17,8 @@
             <div asp-validation-summary="ModelOnly"></div>
             <div>
                 <label asp-for="PDF">PDF-File</label><br />
-                <input type="file" asp-for="PDF" name="pdffiles"/>
-                
+                <input type="file" asp-for="PDF" name="pdffiles" />
+
             </div>
             <div>
                 <label asp-for="Title"></label><br />
@@ -50,6 +50,7 @@
                 <input type="text" asp-for="AuthorSurname" />
                 <span asp-validation-for="AuthorSurname"></span>
             </div>
+            <input type="button" value="Create new Genre" class="btn btn-success" onclick="@("window.location.href='" + @Url.Action("CreateGenre", "Admin") + "'");" />
             <div class="form-group">
                 <b>Genres</b>
                 <p></p>
@@ -58,8 +59,8 @@
             <div class="row"></div>
             <div>
                 <label asp-for="Image">Image</label><br />
-                <input type="file" asp-for="Image" name="files"/>
-                
+                <input type="file" asp-for="Image" name="files" />
+
             </div>
             <br />
             <div>
