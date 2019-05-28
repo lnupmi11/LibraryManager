@@ -102,5 +102,14 @@ namespace LibraryManager.Tests.Controllers
 
             Assert.NotNull(result);
         }
+
+        [Fact]
+        public void GetWrongReportTest()
+        {
+            var title = "Wrong";
+            var result = libraryController.GetReport(title);
+
+            Assert.NotNull(result);
+        }
     }
 }
