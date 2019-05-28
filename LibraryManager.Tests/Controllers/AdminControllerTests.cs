@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace LibraryManager.Tests.Controllers
+namespace LibraryManager.Tests
 {
     public class AdminControllerTests
     {
@@ -113,5 +113,43 @@ namespace LibraryManager.Tests.Controllers
             mockAdminService.Verify(x => x.GetUsersList(), Times.Exactly(1));
             Assert.NotNull(result);
         }
+
+        [Fact]
+        public void BanUserTest()
+        {
+
+            string email = "checkEmail@gmail.com";
+
+            var result = adminController.BanUser(email);
+
+            mockAdminService.Verify(x => x.BanUser(email), Times.Exactly(1));
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void UnbanUserTest()
+        {
+            string email = "checkEmail@gmail.com";
+
+            var result = adminController.UnbanUser(email);
+
+            mockAdminService.Verify(x => x.UnbanUser(email), Times.Exactly(1));
+
+            Assert.NotNull(result);
+        }
+
+        //[Fact]
+        //public void GetDetailedUserInfoTest()
+        //{
+        //    string userName = "eladmino";
+
+        //    var result = adminController.GetDetailedUserInfo(userName);
+
+        //    mockAdminService.Verify(x => x.GetDetailedUserInfoAsync(userName), Times.Exactly(1));
+
+        //    Assert.NotNull(result);
+
+        //}
     }
 }
