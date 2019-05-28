@@ -138,7 +138,7 @@ namespace LibraryManagerControllers
             var doesUserReadsBook = false;
             var isBookRated = false;
 
-            if (User.Identity.IsAuthenticated)
+            if (User != null && User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 book.IsFinished = _bookService.IsBookFinished(userId, id);
@@ -174,7 +174,7 @@ namespace LibraryManagerControllers
         {
             var book = _bookService.GetRandom();
             var isBookAlreadyInWishList = false;
-            if (User.Identity.IsAuthenticated)
+            if (User != null && User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
@@ -229,7 +229,7 @@ namespace LibraryManagerControllers
             string ReportURL = "wwwroot\\images\\" + title + ".pdf";
             if (!System.IO.File.Exists(ReportURL))
             {
-                byte[] FileBytesDefault = System.IO.File.ReadAllBytes("wwwroot\\images\\ROZKLAD.pdf");
+                byte[] FileBytesDefault = System.IO.File.ReadAllBytes("wwwroot\\images\\Rozklad.pdf");
                 return File(FileBytesDefault, "application/pdf");
             }
             byte[] FileBytes = System.IO.File.ReadAllBytes(ReportURL);
@@ -295,11 +295,14 @@ namespace LibraryManagerControllers
 
         private void InitializeTempData()
         {
-            if (TempData["wasInitialized"] == null || ((bool?)TempData["wasInitialized"]).Value != true)
+            if (TempData != null)
             {
-                TempData["genreIndex"] = new int?(0);
-                TempData["displayedGenres"] = new int?(4);
-                TempData["wasInitialized"] = new bool?(true);
+                if (TempData["wasInitialized"] == null || ((bool?)TempData["wasInitialized"]).Value != true)
+                {
+                    TempData["genreIndex"] = new int?(0);
+                    TempData["displayedGenres"] = new int?(4);
+                    TempData["wasInitialized"] = new bool?(true);
+                }
             }
         }
         #endregion
