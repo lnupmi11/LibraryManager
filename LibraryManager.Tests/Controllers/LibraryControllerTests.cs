@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using LibraryManager.Tests.CustomMocks;
 using Microsoft.Extensions.Logging;
 
-namespace LibraryManager.Tests.Controllers
+namespace LibraryManager.Tests
 {
     public class LibraryControllerTests
     {
