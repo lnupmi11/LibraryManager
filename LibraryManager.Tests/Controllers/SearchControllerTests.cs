@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace LibraryManager.Tests.Controllers
+namespace LibraryManager.Tests
 {
     public class SearchControllerTests
     {
@@ -16,12 +16,15 @@ namespace LibraryManager.Tests.Controllers
         private readonly SearchController searchController;
         private readonly Mock<IBookService> mockBookService;
         private readonly Mock<IGenreService> mockGenreService;
+        private readonly Mock<ILanguageService> mockLanguageService;
 
         public SearchControllerTests()
         {
             mockBookService = new Mock<IBookService>();
             mockGenreService = new Mock<IGenreService>();
-            searchController = new SearchController(mockBookService.Object, mockGenreService.Object);
+            mockLanguageService = new Mock<ILanguageService>();
+            searchController = new SearchController(mockBookService.Object, mockGenreService.Object, mockLanguageService.Object);
+
         }
 
         [Fact]
