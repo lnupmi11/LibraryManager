@@ -12,6 +12,7 @@ using LibraryManager.DTO.Models;
 using LibraryManager.DTO.Models.Manage;
 using LibraryManager.DAL;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryManager.Tests
 {
@@ -19,9 +20,11 @@ namespace LibraryManager.Tests
     {
         private readonly IBookService bookService;
         private readonly IUserService userService;
+        private readonly IAuthorService authorService;
         private UnitOfWork unitOfWork;
         private Mock<IRepository<Book, int>> bookRepositoryMock;
         private Mock<IRepository<User, string>> userRepositoryMock;
+        private Mock<IRepository<Author, int>> authorRepositoryMock;
         private Mock<IMapper> mapper;
 
         public LibraryManagerBllTests()
@@ -30,10 +33,13 @@ namespace LibraryManager.Tests
             mapper = new Mock<IMapper>();
             userRepositoryMock = new Mock<IRepository<User, string>>();
             bookRepositoryMock = new Mock<IRepository<Book, int>>();
+            authorRepositoryMock = new Mock<IRepository<Author, int>>();
             unitOfWork.BookRepository = bookRepositoryMock.Object;
             unitOfWork.UserRepository = userRepositoryMock.Object;
+            unitOfWork.AuthorRepository = authorRepositoryMock.Object;
             userService = new UserService(unitOfWork, mapper.Object);
             bookService = new BookService(unitOfWork, userService, mapper.Object);
+            authorService = new AuthorService(unitOfWork,userService,mapper.Object);
 
             InitializeMock();
         }
@@ -71,26 +77,88 @@ namespace LibraryManager.Tests
             Assert.Equal(testBook.Id, actualBook.Id);
         }
 
-        //[Fact]
-        //public void CreateBook()
-        //{
-        //    Book newBook = new Book { Id = 5 };
-        //    AddNewBookModel newBookDTO = new AddNewBookModel { Id = 5 };
-        //    List<Book> books = new List<Book>();
+        [Fact]
+        public void CreateBook()
+        {
+            Book newBook = new Book { Id = 5 };
+            AddNewBookModel newBookDTO = new AddNewBookModel() { };
+            List<Book> books = new List<Book>();
 
-        //    bookRepositoryMock.Setup(x => x.GetAll()).Returns(books);
-        //    bookRepositoryMock.Setup(x => x.Create(newBook)).Callback((Book book) => { books.Add(new Book()); });
-        //    mapper.Setup(x => x.Map<Book>(newBookDTO)).Returns(newBook);
+            bookRepositoryMock.Setup(x => x.GetAll()).Returns(books);
+            bookRepositoryMock.Setup(x => x.Create(newBook)).Callback((Book book) => { books.Add(new Book()); });
+            mapper.Setup(x => x.Map<Book>(newBookDTO)).Returns(newBook);
 
-        //    bookService.Create(newBookDTO);
+            bookService.Create(newBookDTO);
 
-        //    var expectedNumberOfBooks = 1;
+            var expectedNumberOfBooks = 1;
 
-        //    var actualBookCollection = bookService.GetAll();
+            var actualBookCollection = bookService.GetAll();
+
+            Assert.Equal(expectedNumberOfBooks, actualBookCollection.Count());
+        }
+
+        [Fact]
+        public void AuthorGetAllTest()
+        {
+            var testCollection = GetAuthorCollection();
+
+            var actualAuthorCollection = authorService.GetAll();
+
+            Assert.Equal(testCollection.Count(), actualAuthorCollection.Count());
+        }
+
+
+        [Fact]
+        public void CreateAuthor()
+        {
+            Author newAuthor = new Author { Id = 5 };
+            AuthorDTO newAuthorDTO = new AuthorDTO() {Id = 5};
+            List<Author> authors = new List<Author>();
+
+            authorRepositoryMock.Setup(x => x.GetAll()).Returns(authors);
+            authorRepositoryMock.Setup(x => x.Create(newAuthor)).Callback((Author author) => { authors.Add(new Author()); });
+            mapper.Setup(x => x.Map<Author>(newAuthorDTO)).Returns(newAuthor);
+
+            authorService.Create(newAuthorDTO);
+
+            var expectedNumberOfAuthors = 1;
+
+            var actualAuthorCollection = authorService.GetAll();
+
+            Assert.Equal(expectedNumberOfAuthors, actualAuthorCollection.Count());
+        }
+        [Fact]
+        public void UpdateAuthor()
+        {
+            Author updateAuthor = new Author { Id = 5 };
+            AuthorDTO updateAuthorDTO = new AuthorDTO() { Id = 5 };
+
+            mapper.Setup(x => x.Map<Author>(updateAuthorDTO)).Returns(updateAuthor);
             
-        //    Assert.Equal(expectedNumberOfBooks, actualBookCollection.Count());
-        //}
+            authorService.Update(updateAuthorDTO);
+            authorRepositoryMock.Verify(x => x.Update(updateAuthor), Times.Once);
+        }
 
+        [Fact]
+        public void DeleteAuthor()
+        {
+            Author newAuthor = new Author { Id = 5 };
+            AuthorDTO newAuthorDTO = new AuthorDTO() { Id = 5 };
+            List<Author> authors = new List<Author>();
+            authors.Add(newAuthor);
+
+            authorRepositoryMock.Setup(x => x.GetAll()).Returns(authors);
+            authorRepositoryMock.Setup(x => x.Delete(newAuthor.Id)).Callback( () => authors.Remove(newAuthor));
+            mapper.Setup(x => x.Map<Author>(newAuthorDTO)).Returns(newAuthor);
+
+            authorService.Delete(newAuthorDTO.Id);
+
+            var expectedNumberOfAuthors = 0;
+
+            var actualAuthorCollection = authorService.GetAll();
+
+            Assert.Equal(expectedNumberOfAuthors, actualAuthorCollection.Count());
+        }
         private void InitializeMock()
         {
             mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[0])).Returns(GetBookDTOCollection().ToList()[0]);
@@ -98,6 +166,12 @@ namespace LibraryManager.Tests
             mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[2])).Returns(GetBookDTOCollection().ToList()[2]);
             mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[3])).Returns(GetBookDTOCollection().ToList()[3]);
             mapper.Setup(x => x.Map<BookDTO>(GetBookCollection().ToList()[4])).Returns(GetBookDTOCollection().ToList()[4]);
+
+            mapper.Setup(x => x.Map<AuthorDTO>(GetAuthorCollection().ToList()[0])).Returns(GetAuthorDTOCollection().ToList()[0]);
+            mapper.Setup(x => x.Map<AuthorDTO>(GetAuthorCollection().ToList()[1])).Returns(GetAuthorDTOCollection().ToList()[1]);
+            mapper.Setup(x => x.Map<AuthorDTO>(GetAuthorCollection().ToList()[2])).Returns(GetAuthorDTOCollection().ToList()[2]);
+            mapper.Setup(x => x.Map<AuthorDTO>(GetAuthorCollection().ToList()[3])).Returns(GetAuthorDTOCollection().ToList()[3]);
+            mapper.Setup(x => x.Map<AuthorDTO>(GetAuthorCollection().ToList()[4])).Returns(GetAuthorDTOCollection().ToList()[4]);
 
             mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[0])).Returns(GetUserDTOCollection().ToList()[0]);
             mapper.Setup(x => x.Map<UserDTO>(GetUserCollection().ToList()[1])).Returns(GetUserDTOCollection().ToList()[1]);
@@ -107,6 +181,7 @@ namespace LibraryManager.Tests
 
             bookRepositoryMock.Setup(x => x.GetAll()).Returns(GetBookCollection());
             userRepositoryMock.Setup(x => x.GetAll()).Returns(GetUserCollection());
+            authorRepositoryMock.Setup(x => x.GetAll()).Returns(GetAuthorCollection);
         }
 
         private IEnumerable<Book> GetBookCollection()
@@ -156,6 +231,28 @@ namespace LibraryManager.Tests
                 new UserDTO{FirstName = "f"},
             };
         }
+        private IEnumerable<Author> GetAuthorCollection()
+        {
+            return new[]
+            {
+                new Author{Id = 0},
+                new Author{Id = 1},
+                new Author{Id = 2},
+                new Author{Id = 3},
+                new Author{Id = 4},
+            };
+        }
 
+        private IEnumerable<AuthorDTO> GetAuthorDTOCollection()
+        {
+            return new[]
+            {
+                new AuthorDTO{Id = 0},
+                new AuthorDTO{Id = 1},
+                new AuthorDTO{Id = 2},
+                new AuthorDTO{Id = 3},
+                new AuthorDTO{Id = 4},
+            };
+        }
     }
 }

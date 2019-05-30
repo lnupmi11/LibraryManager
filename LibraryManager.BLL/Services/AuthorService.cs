@@ -60,8 +60,8 @@ namespace LibraryManager.BLL.Services
 
         public void Update(AuthorDTO authorDTO)
         {
-            var book = _mapper.Map<Author>(authorDTO);
-            _unitOfWork.AuthorRepository.Update(book);
+            var author = _mapper.Map<Author>(authorDTO);
+            _unitOfWork.AuthorRepository.Update(author);
             _unitOfWork.Save();
         }
     }

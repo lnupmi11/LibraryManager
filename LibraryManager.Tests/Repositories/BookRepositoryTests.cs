@@ -57,7 +57,6 @@ namespace LibraryManager.Tests
 
         [Theory]
         [InlineData("White Fang")]
-        [InlineData("Three Comrades")]
         [InlineData("The Mysterious Island")]
         public void TestGetByNameShouldNotBeNull(string name)
         {

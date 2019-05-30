@@ -5,7 +5,7 @@ using LibraryManager.DTO.Models;
 
 namespace LibraryManager.BLL.Interfaces
 {
-    interface IAuthorService
+    public interface IAuthorService
     {
         void Create(AuthorDTO authorDTO);
         void Delete(int id);
