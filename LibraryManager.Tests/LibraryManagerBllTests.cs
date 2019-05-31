@@ -81,11 +81,20 @@ namespace LibraryManager.Tests
         public void CreateBook()
         {
             Book newBook = new Book { Id = 5 };
-            AddNewBookModel newBookDTO = new AddNewBookModel() { };
+            AddNewBookModel newBookDTO = new AddNewBookModel() {
+                Title = "test",
+                AuthorName="test",
+                AuthorSurname = "test",
+                SelectedGenre = "0",
+                SelectedLanguage = "0",
+                Description = "test",
+                Year = 0,
+            };
             List<Book> books = new List<Book>();
 
             bookRepositoryMock.Setup(x => x.GetAll()).Returns(books);
             bookRepositoryMock.Setup(x => x.Create(newBook)).Callback((Book book) => { books.Add(new Book()); });
+            authorRepositoryMock.Setup(x => x.GetAll()).Returns(GetAuthorCollection());
             mapper.Setup(x => x.Map<Book>(newBookDTO)).Returns(newBook);
 
             bookService.Create(newBookDTO);
@@ -235,11 +244,11 @@ namespace LibraryManager.Tests
         {
             return new[]
             {
-                new Author{Id = 0},
-                new Author{Id = 1},
-                new Author{Id = 2},
-                new Author{Id = 3},
-                new Author{Id = 4},
+                new Author{Id = 0, FirstName = "test", LastName = "test"},
+                new Author{Id = 1, FirstName = "test1", LastName = "test1"},
+                new Author{Id = 2, FirstName = "test2", LastName = "test2"},
+                new Author{Id = 3, FirstName = "test3", LastName = "test3"},
+                new Author{Id = 4, FirstName = "test4", LastName = "test4"},
             };
         }
 

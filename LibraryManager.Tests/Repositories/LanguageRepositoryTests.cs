@@ -50,7 +50,7 @@ namespace LibraryManager.Tests
             var languageRepository = new LanguageRepository(_dbContext);
 
             //Act
-            var expected = languageRepository.Get(LanguageId);
+            var expected = languageRepository.Get(LanguageId).LanguageName;
 
             //Assert
             Assert.NotNull(expected);
@@ -68,6 +68,7 @@ namespace LibraryManager.Tests
 
             //Act
             languageRepository.Create(language);
+            _dbContext.SaveChanges();
 
             //Assert
             Assert.Contains(language, languageRepository.GetAll());
@@ -83,6 +84,7 @@ namespace LibraryManager.Tests
 
             //Act
             LanguageRepository.Delete(LanguageId);
+            _dbContext.SaveChanges();
 
             //Assert
             Assert.Null(LanguageRepository.Get(LanguageId));

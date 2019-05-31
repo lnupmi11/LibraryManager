@@ -87,6 +87,7 @@ namespace LibraryManager.Tests
 
             //Act
             sut.Create(test);
+            _dbContext.SaveChanges();
 
             //Assert
             Assert.Contains(test, sut.GetAll());
@@ -106,7 +107,7 @@ namespace LibraryManager.Tests
         //}
 
         [Theory]
-        [InlineData(6)]
+        [InlineData(5)]
         public void TestBookShouldBeDeleted(int bookId)
         {
             //Arrange
@@ -114,7 +115,7 @@ namespace LibraryManager.Tests
 
             //Act
             sut.Delete(bookId);
-
+            _dbContext.SaveChangesAsync();
 
             //Assert
             Assert.Null(sut.Get(bookId));

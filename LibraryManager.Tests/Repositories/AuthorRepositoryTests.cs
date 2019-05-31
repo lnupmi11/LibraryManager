@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Xunit;
 using Moq;
+using System.Threading;
 
 namespace LibraryManager.Tests
 {
@@ -43,7 +44,6 @@ namespace LibraryManager.Tests
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        [InlineData(3)]
         public void TestGetAuthorShouldNotBeNull(int authorId)
         {
             //Arrange
@@ -70,6 +70,7 @@ namespace LibraryManager.Tests
 
             //Act
             authorRepository.Create(author);
+            _dbContext.SaveChanges();
 
             //Assert
             Assert.Contains(author, authorRepository.GetAll());
@@ -85,7 +86,8 @@ namespace LibraryManager.Tests
 
             //Act
             authorRepository.Delete(AuthorId);
-            
+            _dbContext.SaveChanges();
+
             //Assert
             Assert.Null(authorRepository.Get(AuthorId));
         }

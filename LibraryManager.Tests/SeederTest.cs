@@ -24,6 +24,7 @@ namespace LibraryManager.Tests
         public void TestSeedAll()
         {
             Seeder.SeedAll(_dbContext);
+            _dbContext.SaveChanges();
 
             Assert.True(_dbContext.Books.ToList().All(shouldItem => Seeder.GetBookSeedItems(_dbContext).Any(isItem => isItem.Title == shouldItem.Title)));
             Assert.True(_dbContext.Genres.ToList().All(shouldItem => Seeder.GetGenreSeedItems().Any(isItem => isItem.GenreName == shouldItem.GenreName)));
