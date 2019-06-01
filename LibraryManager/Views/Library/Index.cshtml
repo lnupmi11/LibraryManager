@@ -1,126 +1,131 @@
 ﻿@using LibraryManager.DTO.Models.Manage
-@using Microsoft.AspNetCore.Identity
-@using LibraryManager.DAL.Entities
+    @using Microsoft.AspNetCore.Identity
+    @using LibraryManager.DAL.Entities
 
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
+    @inject SignInManager<User> SignInManager
+    @inject UserManager<User> UserManager
 
-@model LibraryIndexViewModel
-<script src="~/js/site.js"></script>
-@{
-    ViewData["Title"] = "Index";
-}
-@{
-    var numberOfGenres = Model.GenreDTOs.Count() <= 0 ? 1 : Model.GenreDTOs.Count();
-    var genreIndex = ((int?)TempData["genreIndex"]).Value < 0
-        ? numberOfGenres + ((int?)TempData["genreIndex"]).Value % numberOfGenres
-        : ((int?)TempData["genreIndex"]).Value;
+    @model LibraryIndexViewModel
+    <script src="~/js/site.js"></script>
+    @{
+        ViewData["Title"] = "Index";
+    }
+    @{
+        var numberOfGenres = Model.GenreDTOs.Count() <= 0 ? 1 : Model.GenreDTOs.Count();
+        var genreIndex = ((int?)TempData["genreIndex"]).Value < 0
+            ? numberOfGenres + ((int?)TempData["genreIndex"]).Value % numberOfGenres
+            : ((int?)TempData["genreIndex"]).Value;
 
-    var displayedGenres = ((int?)TempData["displayedGenres"]).Value >= numberOfGenres
-        ? numberOfGenres
-        : 4;
-    //((int?)TempData["displayedGenres"]).Value;
+        var displayedGenres = ((int?)TempData["displayedGenres"]).Value >= numberOfGenres
+            ? numberOfGenres
+            : 4;
+        //((int?)TempData["displayedGenres"]).Value;
 
-    TempData.Keep();
-}
+        TempData.Keep();
+    }
 
-@if (SignInManager.IsSignedIn(User))
-{
+    @if (SignInManager.IsSignedIn(User))
+    {
 
-    Layout = "~/Views/Shared/_Layout.cshtml";
+        Layout = "~/Views/Shared/_Layout.cshtml";
 
-}
-@if (User.IsInRole("Admin"))
-{
+    }
+    @if (User.IsInRole("Admin"))
+    {
 
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
 
-}
-@if (!User.Identity.IsAuthenticated)
-{
-    Layout = "~/Views/Shared/_GuestLayout.cshtml";
-}
+    }
+    @if (!User.Identity.IsAuthenticated)
+    {
+        Layout = "~/Views/Shared/_GuestLayout.cshtml";
+    }
 
-<hr />
+    <hr />
 
-<form method="post" asp-controller="Search" asp-action="SearchBook">
-    <section class="search-sec">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2">
-                            <div class="input-group">
-                                <div class="input-group-btn search-panel">
+    <form method="post" asp-controller="Search" asp-action="SearchBook">
+        <section class="search-sec">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="input-group">
+                                    <div class="input-group-btn search-panel">
 
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" asp-for="SearchCategory">
-                                        <span a id="search_concept">Filter by</span> <span class="caret"></span>
-                                    </button>
-                                    
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#contains" value="Title">Title</a></li>
-                                        <li><a href="#its_equal" value="Author">Author</a></li>
-                                        <li><a href="#its_language" value="Language">Language</a></li>
-                                        <li><a href="#its_year" value="Year">Year</a></li>
-                                    </ul>
-                                    <input asp-for="SearchCategory" type="hidden" id="cater"/>
-                                    <input type="hidden" name="search_param" id="search_param">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" asp-for="SearchCategory">
+                                            <span a id="search_concept">Filter by</span> <span class="caret"></span>
+                                        </button>
+
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#contains" value="Title">Title</a></li>
+                                            <li><a href="#its_equal" value="Author">Author</a></li>
+                                            <li><a href="#its_language" value="Language">Language</a></li>
+                                            <li><a href="#its_year" value="Year">Year</a></li>
+                                        </ul>
+                                        <input asp-for="SearchCategory" type="hidden" id="cater" />
+                                        <input type="hidden" name="search_param" id="search_param">
+                                    </div>
+
+                                    <input type="text" asp-for="SearchValue" class="form-control" placeholder="Search book...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                                    </span>
                                 </div>
-                                
-                                <input type="text" asp-for="SearchValue" class="form-control" placeholder="Search book...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</form>
+        </section>
+    </form>
 
-<div class="content">
-    <div id="genreSection" class="container text-center">
-        <div class="col-sm-2 alert alert-dark">
-            <a asp-controller="Library" asp-action="DecreaseValue" class="btn a-item">&#8249;</a>
+    <div class="content">
+        <div id="genreSection" class="container text-center">
+            <div class="col-sm-2 alert alert-dark">
+                <a asp-controller="Library" asp-action="DecreaseValue" class="btn a-item">&#8249;</a>
+            </div>
+            <div class="col-sm-8">
+                @for (var i = genreIndex % numberOfGenres; i != (genreIndex + displayedGenres) % (numberOfGenres); i = (i + 1) % numberOfGenres)
+                {
+                    <a asp-controller="Library" asp-action="OpenByGenre" asp-route-id="@Model.GenreDTOs.ElementAt(i).Id" class="a-item">
+                        <div class="col-sm-3 a-item">
+                            <img src="~/images/@Model.GenreDTOs.ElementAt(i).ImageName" width="100" , height="100" class="img-rounded mx-auto d-block" alt="@Model.GenreDTOs.ElementAt(i).GenreName">
+                            <h5>@Model.GenreDTOs.ElementAt(i).GenreName</h5>
+                            <h6>@Model.GenreDTOs.ElementAt(i).NumberOfBooks</h6>
+                        </div>
+                    </a>
+                }
+            </div>
+            <div class="col-sm-2 alert alert-dark">
+                <a asp-controller="Library" asp-action="IncreaseValue" class="btn a-item">&#8250;</a>
+            </div>
         </div>
-        <div class="col-sm-8">
-            @for (var i = genreIndex % numberOfGenres; i != (genreIndex + displayedGenres) % (numberOfGenres); i = (i + 1) % numberOfGenres)
+
+        <div id="itemsSection" class="container">
+            @foreach (var book in Model.BookDTOs)
             {
-                <a asp-controller="Library" asp-action="OpenByGenre" asp-route-id="@Model.GenreDTOs.ElementAt(i).Id" class="a-item">
-                    <div class="col-sm-3 a-item">
-                        <img src="~/images/@Model.GenreDTOs.ElementAt(i).ImageName" width="100" , height="100" class="img-rounded mx-auto d-block" alt="@Model.GenreDTOs.ElementAt(i).GenreName">
-                        <h5>@Model.GenreDTOs.ElementAt(i).GenreName</h5>
-                        <h6>@Model.GenreDTOs.ElementAt(i).NumberOfBooks</h6>
+                <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id">
+                    <div class="col-sm-4 text-center a-item book">
+                        @if (book.Title.Length <= 25)
+                        {
+                            <h2>@book.Title</h2>
+                            <br />
+                            <h5>@book.Author.FirstName  @book.Author.LastName</h5>
+                            <img src="~/images/@book.ImageName" width="200" height="300" class="img-rounded mx-auto d-block" alt="@book.Title" />
+                        }
+                        else
+                        {
+                            <h2>@book.Title</h2>
+                            <h5>@book.Author.FirstName  @book.Author.LastName</h5>
+                            <img src="~/images/@book.ImageName" width="200" height="300" class="img-rounded mx-auto d-block" alt="@book.Title" />
+                        }
                     </div>
                 </a>
             }
         </div>
-        <div class="col-sm-2 alert alert-dark">
-            <a asp-controller="Library" asp-action="IncreaseValue" class="btn a-item">&#8250;</a>
-        </div>
     </div>
 
-    <div id="itemsSection" class="container">
-        @foreach (var book in Model.BookDTOs)
-        {
-            <a asp-controller="Library" asp-action="Open" asp-route-id="@book.Id">
-                <div class="col-sm-4 text-center a-item book">
-                    @if (book.Title.Length <= 25)
-                    {
-                        <h2>@book.Title</h2>
-                        <br />
-                        <h5>@book.Author.FirstName  @book.Author.LastName</h5>
-                        <img src="~/images/@book.ImageName" width="200" height="300" class="img-rounded mx-auto d-block" alt="@book.Title" />
-                    }
-                    else {
-                    <h2>@book.Title</h2>
-                    <h5>@book.Author.FirstName  @book.Author.LastName</h5>
-                    <img src="~/images/@book.ImageName" width="200" height="300" class="img-rounded mx-auto d-block" alt="@book.Title" />
-                    }
-                </div>
-            </a>
-        }
-    </div>
-</div>
+
+
+ 

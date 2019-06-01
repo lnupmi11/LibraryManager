@@ -161,10 +161,7 @@ namespace LibraryManager.API.Controllers
             }
             var extendedUserDTO =  _adminService.GetDetailedUserInfoAsync(userName).Result;
 
-            if(extendedUserDTO.BooksInWishList==0)
-            {
-                return RedirectToAction("Index", "Library");
-            }
+            
             return View(extendedUserDTO);
 
         }

@@ -27,7 +27,7 @@
     <div id="imageSection" class="alert col-sm-4">
         <img src="~/images/@Model.BookDTO.ImageName" width="300" height="450" class="img img-rounded mx-auto d-block" alt="@Model.BookDTO.Title" />
         <h4 style="padding:20px">
-            @if (User.Identity.IsAuthenticated && User.IsInRole("User") && (Model.DoesUserReadsBook))
+            @if (User.Identity.IsAuthenticated && User.IsInRole("User") && User.IsInRole("Admin")!=true && (Model.DoesUserReadsBook))
             {
                 if (Model.IsBookRated)
                 {
@@ -58,10 +58,10 @@
             }
             Rating: @Model.BookDTO.Rating
         </h4>
-                @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                @if (User.Identity.IsAuthenticated && User.IsInRole("User") && User.IsInRole("Admin") != true )
                 {
                     if (Model.IsBookInWishList ==true)
-                         {
+                    {
                              @Html.ActionLink("Delete from wish list", "DeleteBookFromWishList", "Library",
                                                new
                                                {
@@ -87,7 +87,7 @@
                                                })
                          }
 
-                  @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                  @if (User.Identity.IsAuthenticated && User.IsInRole("User") && User.IsInRole("Admin") != true)
                   {
                       if (Model.DoesUserReadsBook == true)
                       {
@@ -146,6 +146,10 @@
                 </h4>
             </a>
         }
+        </br>
+        
+        <h2> Description: </h2>
+    
         <div class="border">
             @if (string.IsNullOrWhiteSpace(Model.BookDTO.Description))
             {
