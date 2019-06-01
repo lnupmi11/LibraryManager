@@ -36,13 +36,13 @@ namespace LibraryManager.BLL.Services
                     UserId = userId,
                     BookId = bookId,
                     IsAlreadyFinished = false,
-                    IsInWishList = false,
+                    IsInWishList = true,
                     IsReading = false
                 };
                 _unitOfWork.UserBookRepository.Create(item);
                 _unitOfWork.Save();
             }
-            else if (item.IsReading != true && item.IsAlreadyFinished != true)
+            else //if (item.IsReading != true && item.IsAlreadyFinished != true)
             {
                 item.IsInWishList = true;
                 _unitOfWork.UserBookRepository.Update(item);
@@ -277,10 +277,10 @@ namespace LibraryManager.BLL.Services
 
                 _unitOfWork.UserBookRepository.Create(itemToCreate);
             }
-            else if(userBook.IsAlreadyFinished!=true)
+            else //if(userBook.IsAlreadyFinished!=true)
             {
                 userBook.IsReading = true;
-                userBook.IsInWishList = false;
+              
                 _unitOfWork.UserBookRepository.Update(userBook);
                 _unitOfWork.Save();
             }
@@ -340,8 +340,7 @@ namespace LibraryManager.BLL.Services
             {
                if(isBookAlreadyInUserWishList(userId,book.Id))
                     {
-                    book.IsFinished = false;
-                    wishedBooks.Add(book);
+                        wishedBooks.Add(book);
                     }
             }
             return wishedBooks;

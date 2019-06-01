@@ -278,7 +278,7 @@ namespace LibraryManagerControllers
             //TODO:create pop up notifying whether book was added or not.
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             _bookService.DeleteBookFromWishList(userId, bookId);
-            return RedirectToAction("Open", "Library", new { id = bookId });
+            return RedirectToAction("GetUserWishList", "Library");
         }
         [HttpGet]
         [Authorize(Roles = "User")]

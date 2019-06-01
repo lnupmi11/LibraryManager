@@ -38,30 +38,43 @@
             <th>Rating </th>
             <th>Number of pages</th>
             <th></th>
+
         </tr>
     </thead>
     <tbody>
         @{
             foreach (var book in Model)
             {
-                 <tr class="info">
-                     <td><a href="~/Library/Open/@book.Id">@book.Title </a></td>
-                     <td>@book.Author.FirstName @book.Author.LastName</td>
-                     <td>@book.Rating</td>
-                     <td>@book.NumberOfPages</td>
-                     <td>
-                         @Html.ActionLink("Read", "StartReadingBook", "Library",
-                          new
-                          {
-                              bookId = @book.Id
-                          },
-                            htmlAttributes: new
-                            {
-                                @class = "btn btn-success btn-block",
-                                @role = "button"
-                            })
-                     </td>
-                 </tr>
+        <tr class="info">
+            <td><a href="~/Library/Open/@book.Id">@book.Title </a></td>
+            <td>@book.Author.FirstName @book.Author.LastName</td>
+            <td>@book.Rating</td>
+            <td>@book.NumberOfPages</td>
+            <td>
+                @Html.ActionLink("Read", "StartReadingBook", "Library",
+                 new
+                 {
+                     bookId = @book.Id
+                 },
+                   htmlAttributes: new
+                   {
+                       @class = "btn btn-success btn-block",
+                       @role = "button"
+                   })
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "DeleteBookFromWishList", "Library",
+                 new
+                 {
+                     bookId = @book.Id
+                 },
+                   htmlAttributes: new
+                   {
+                       @class = "btn btn-warning btn-block",
+                       @role = "button"
+                   })
+            </td>
+        </tr>
                 }
 
 
