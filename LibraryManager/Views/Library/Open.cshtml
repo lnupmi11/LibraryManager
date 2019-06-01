@@ -173,25 +173,41 @@
                 <input type="text" asp-for="BookId" value="@Model.BookDTO.Id" />
             </div>
             <div>
-                <label asp-for="newComment"></label><br />
+                <h1 style="text-align:center"> Write a comment</h1>
                 <textarea rows="5" type="text" asp-for="newComment" class="form-control"></textarea>
                 <span asp-validation-for="newComment"></span>
             </div>
             <br />
             <div>
-                <button type="submit" class="btn btn-success">Create comment</button>
+                <button type="submit" class="btn btn-success">Add comment</button>
             </div>
         </form>
 
-        <h1 style="text-align:center">Comments</h1>
+        <h1 style="text-align:center">Comments for the @Model.BookDTO.Title</h1>
         @foreach (var comment in Model.CommentDTO)
         {
-                <h4>
-                    <strong>@comment.Name </strong>
-                </h4>
+        <div class="boxed">
+
+            <h4>
+                <strong>@comment.Name</strong>
+                <span>@comment.Date</span>
+            </h4>
+            <h6>Comment by @comment.User.LastName</h6>
+        </div>
+        <br />
         }
 
 
     </div>
 </div>
+ 
 
+<style>
+    .boxed {
+        border: 1px solid green;
+    }
+    h4 {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
