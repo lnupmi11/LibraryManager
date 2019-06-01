@@ -24,6 +24,7 @@ namespace LibraryManager.AutoMapperProfiles
             CreateMap<Language, LanguageDTO>().ReverseMap();
             CreateMap<Genre, GenreDTO>()/*.ReverseMap()*/;
             CreateMap<GenreDTO, Genre>();
+            CreateMap<Comment, CommentDTO>().ReverseMap();
         }
     }
 }

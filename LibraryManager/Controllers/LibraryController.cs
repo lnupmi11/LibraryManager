@@ -19,6 +19,7 @@ namespace LibraryManagerControllers
         private readonly IBookService _bookService;
         private readonly IUserService _userService;
         private readonly IGenreService _genreService;
+        private readonly ICommentService _commentService;
 
 
         //Temporary
@@ -29,7 +30,7 @@ namespace LibraryManagerControllers
         private readonly SignInManager<User> _signinManager;
 
         public LibraryController(IBookService bookService, IUserService userService, IGenreService genreService, RoleManager<IdentityRole> roleManager,UserManager<User> userManager,
-            SignInManager<User>signInManager, IAdminService adminService)
+            SignInManager<User>signInManager, IAdminService adminService,ICommentService commentService)
         {
             _bookService = bookService;
             _userService = userService;
@@ -41,7 +42,7 @@ namespace LibraryManagerControllers
             _roleManager = roleManager;
             _signinManager = signInManager;
             _userManager = userManager;
-
+            _commentService = commentService;
         }
 
         public async Task<ActionResult> Index()
@@ -126,8 +127,10 @@ namespace LibraryManagerControllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public IActionResult Open(int id)
         {
+            var comment = _commentService.GetByBook(id);
             var book = _bookService.Find(id);
             if (book == null)
             {
@@ -150,6 +153,7 @@ namespace LibraryManagerControllers
             var libraryOpenViewModel = new LibraryOpenViewModel
             {
                 BookDTO = book,
+                CommentDTO = comment,
                 IsBookInWishList = isBookInWishList,
                 DoesUserReadsBook = doesUserReadsBook,
                 IsBookRated = isBookRated
@@ -157,7 +161,27 @@ namespace LibraryManagerControllers
             return View(libraryOpenViewModel);
         }
 
-        public IActionResult OpenByGenre(int id)
+        [HttpPost]
+        public IActionResult Open(LibraryOpenViewModel libraryOpenViewModel)
+        {
+            if (ModelState.IsValid && !string.IsNullOrEmpty(libraryOpenViewModel.newComment))
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                CommentDTO commentDTO = new CommentDTO
+                {
+                    Name = libraryOpenViewModel.newComment,
+                    Date = DateTime.Now,
+                    User = _userService.GetUser(userId),
+                    BookId = libraryOpenViewModel.BookId
+                };
+
+                _commentService.Create(commentDTO);
+
+            }
+            return RedirectToAction("Open");
+        }
+
+            public IActionResult OpenByGenre(int id)
         {
             var genre = _genreService.Find(id);
             if (genre == null)

@@ -18,7 +18,9 @@ namespace LibraryManager.DAL.Interfaces
         IRepository<Language, int> LanguageRepository { get; set; }
 
         IRepository<Genre, int> GenreRepository { get; set; }
-        
+
+        IRepository<Comment,int> CommentRepository { get; set; }
+
         IManyToManyRepository<UserBook,string, int> UserBookRepository { get; set; }
 
         IManyToManyRepository<BookGenre, int, int> BookGenreRepository { get; set; }

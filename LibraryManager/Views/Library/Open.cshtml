@@ -127,7 +127,9 @@
 
 
     </div>
+
     <div id="descriptionSection" class="alert col-sm-8">
+
         <div class="row">
             <div class="col-md-8">
                 <a href="@Url.Action("GetReport", "Library", new{title = Model.BookDTO.Title})" target="_blank"><h2>@Model.BookDTO.Title</h2></a>
@@ -162,6 +164,34 @@
                 <p>@Model.BookDTO.Description</p>
             }
         </div>
+        <br />
+        <br />
+        <br />
+        <form method="post" enctype="multipart/form-data" asp-controller="Library">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div style="display:none">
+                <input type="text" asp-for="BookId" value="@Model.BookDTO.Id" />
+            </div>
+            <div>
+                <label asp-for="newComment"></label><br />
+                <textarea rows="5" type="text" asp-for="newComment" class="form-control"></textarea>
+                <span asp-validation-for="newComment"></span>
+            </div>
+            <br />
+            <div>
+                <button type="submit" class="btn btn-success">Create comment</button>
+            </div>
+        </form>
+
+        <h1 style="text-align:center">Comments</h1>
+        @foreach (var comment in Model.CommentDTO)
+        {
+                <h4>
+                    <strong>@comment.Name </strong>
+                </h4>
+        }
+
+
     </div>
 </div>
 
