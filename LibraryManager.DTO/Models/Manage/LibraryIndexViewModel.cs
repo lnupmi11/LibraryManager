@@ -12,6 +12,8 @@ namespace LibraryManager.DTO.Models.Manage
 
         public IEnumerable<LanguageDTO> LanguageDTOs { get; set; }
 
+        public PaginationViewModel PaginationViewModel { get; set; }
+
         public string SearchCategory { get; set; }
         public string SearchValue { get; set; }
     }

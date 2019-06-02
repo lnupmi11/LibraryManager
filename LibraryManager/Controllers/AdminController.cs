@@ -40,6 +40,7 @@ namespace LibraryManager.API.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
+            
             AddNewBookModel addNewBookModel = new AddNewBookModel()
             {
                 Genres = new SelectList(_genreService.GetAll(), "Id", "GenreName"),

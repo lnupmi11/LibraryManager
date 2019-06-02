@@ -44,17 +44,25 @@ namespace LibraryManagerControllers
 
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int page = 1, int pageSize = 3)
         {
-            var books = _bookService.GetAll();
+            var books = _bookService.GetAll().ToList();
             var genres = _genreService.GetAll();
 
             InitializeTempData();
 
+            
+            var count = books.Count;
+           
+            var pagination = new PaginationViewModel(count, page, pageSize);
+
+            var bookItems = books.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
             var libraryIndexViewModel = new LibraryIndexViewModel
             {
-                BookDTOs = books,
+                BookDTOs = bookItems,
                 GenreDTOs = genres,
+                PaginationViewModel = pagination
             };
 
 
