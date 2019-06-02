@@ -26,9 +26,11 @@ namespace LibraryManager.API.Controllers
         private readonly IAdminService _adminService;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ILanguageService _languageService;
+        private readonly IAuthorService _authorService;
 
-        public AdminController(IBookService bookService, IGenreService genreService, IAdminService adminService, IHostingEnvironment host,ILanguageService languageService)
+        public AdminController(IBookService bookService, IGenreService genreService, IAdminService adminService, IHostingEnvironment host,ILanguageService languageService,IAuthorService authorService)
         {
+            _authorService = authorService;
             _bookService = bookService;
             _genreService = genreService;
             _adminService = adminService;
@@ -57,6 +59,24 @@ namespace LibraryManager.API.Controllers
                 AddImage(book);
                 AddPdf(book);
                 _bookService.Create(book);
+            }
+            return RedirectToAction("Index", "Library");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult CreateAuthor()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult CreateAuthor(AuthorDTO author)
+        {
+            if (ModelState.IsValid)
+            {
+                _authorService.Create(author);
             }
             return RedirectToAction("Index", "Library");
         }

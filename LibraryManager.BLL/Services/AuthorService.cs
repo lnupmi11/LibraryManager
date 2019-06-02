@@ -7,6 +7,7 @@ using LibraryManager.BLL.Interfaces;
 using LibraryManager.DAL.Interfaces;
 using LibraryManager.DAL.Entities;
 using LibraryManager.DTO.Models;
+using System.Linq;
 
 namespace LibraryManager.BLL.Services
 {
@@ -26,9 +27,15 @@ namespace LibraryManager.BLL.Services
 
         public void Create(AuthorDTO authorDTO)
         {
+            var authors = GetAll().ToList();
+            var filteredAuthors=authors.Where(n => n.FirstName == authorDTO.FirstName && n.LastName == authorDTO.LastName);
+
+            if (filteredAuthors == null )
+            { 
             var author = _mapper.Map<Author>(authorDTO);
             _unitOfWork.AuthorRepository.Create(author);
             _unitOfWork.Save();
+            }
         }
 
         public void Delete(int id)
