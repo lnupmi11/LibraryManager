@@ -28,8 +28,8 @@ namespace LibraryManagerControllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signinManager;
 
-        public LibraryController(IBookService bookService, IUserService userService, IGenreService genreService, RoleManager<IdentityRole> roleManager,UserManager<User> userManager,
-            SignInManager<User>signInManager, IAdminService adminService)
+        public LibraryController(IBookService bookService, IUserService userService, IGenreService genreService, RoleManager<IdentityRole> roleManager, UserManager<User> userManager,
+            SignInManager<User> signInManager, IAdminService adminService)
         {
             _bookService = bookService;
             _userService = userService;
@@ -44,10 +44,53 @@ namespace LibraryManagerControllers
 
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string orderBy)
         {
             var books = _bookService.GetAll();
             var genres = _genreService.GetAll();
+
+            if (!String.IsNullOrEmpty(orderBy))
+            {
+                switch (orderBy)
+                {
+                    case "dateDesc":
+                        books = books
+                        .OrderByDescending(x => x.Year).ToList();
+                        break;
+
+                    case "dateAsc":
+                        books = books
+                       .OrderByDescending(x => x.Year)
+                       .Reverse()
+                       .ToList();
+                        break;
+
+                    case "rateDesc":
+                        books = books
+                        .OrderByDescending(x => x.Rating)
+                        .ToList();
+                        break;
+
+                    case "rateAsc":
+                        books = books
+                        .OrderByDescending(x => x.Rating)
+                        .Reverse()
+                        .ToList();
+                        break;
+                    case "pagesDesc":
+                        books = books
+                        .OrderByDescending(x => x.NumberOfPages)
+                        .ToList();
+                        break;
+
+                    case "pagesAsc":
+                        books = books
+                        .OrderByDescending(x => x.NumberOfPages)
+                        .Reverse()
+                        .ToList();
+                        break;
+                }
+            }
 
             InitializeTempData();
 
@@ -58,7 +101,7 @@ namespace LibraryManagerControllers
             };
 
 
-
+            #region dontOpen
             //TEMPORARY CODE. 
             await _roleManager.CreateAsync(new IdentityRole("Admin"));
             await  _roleManager.CreateAsync(new IdentityRole("User"));
@@ -109,9 +152,11 @@ namespace LibraryManagerControllers
             var res2 = await _userManager.CreateAsync(admin, adminPassword);
             var res3 = await _userManager.AddToRoleAsync(admin, "Admin");
             var res4 = await _userManager.AddToRoleAsync(admin, "User");
-
+            #endregion
             return View(libraryIndexViewModel);
         }
+
+          
 
         public IActionResult IncreaseValue()
         {

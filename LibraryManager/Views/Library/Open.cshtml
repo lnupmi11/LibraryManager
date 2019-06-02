@@ -137,29 +137,33 @@
         <h4>by @Model.BookDTO.Author.FirstName @Model.BookDTO.Author.LastName</h4>
         <h4>Published in @Model.BookDTO.Year</h4>
         <br />
-        <h4>Genres:</h4>
-        @foreach (var genre in Model.BookDTO.Genres)
-        {
-            <a sp-controller="Library" asp-action="OpenByGenre" asp-route-id="@genre.Id" class="a-item">
-                <h4>
-                    <strong>@genre.GenreName </strong>
-                </h4>
-            </a>
-        }
-        </br>
-        
-        <h2> Description: </h2>
-    
-        <div class="border">
-            @if (string.IsNullOrWhiteSpace(Model.BookDTO.Description))
+        <h4>Number of pages: @Model.BookDTO.NumberOfPages</h4>
+        <h4>
+            Genres:
+
+            @foreach (var genre in Model.BookDTO.Genres)
             {
-                <p>Sorry, there is no description for this book.</p>
+                <a sp-controller="Library" asp-action="OpenByGenre" asp-route-id="@genre.Id" class="a-item">
+                    
+                        <strong>@genre.GenreName </strong>
+                    
+                </a>
             }
-            else
-            {
-                <p>@Model.BookDTO.Description</p>
-            }
-        </div>
-    </div>
+        </h4>
+            </br>
+
+            <h2> Description: </h2>
+
+            <div class="border">
+                @if (string.IsNullOrWhiteSpace(Model.BookDTO.Description))
+                {
+                    <p>Sorry, there is no description for this book.</p>
+                }
+                else
+                {
+                    <p>@Model.BookDTO.Description</p>
+                }
+            </div>
+</div>
 </div>
 
