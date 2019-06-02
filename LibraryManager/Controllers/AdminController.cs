@@ -45,6 +45,8 @@ namespace LibraryManager.API.Controllers
                 Genres = new SelectList(_genreService.GetAll(), "Id", "GenreName"),
                 Languages =new SelectList(_languageService.GetAll(),"Id", "LanguageName")
             };
+            //var genres = _genreService.GetAll().ToList();
+            //ViewBag.Genres = new MultiSelectList(genres, "Id", "GenreName");
             return View(addNewBookModel);
         }
 
@@ -58,6 +60,7 @@ namespace LibraryManager.API.Controllers
                 AddPdf(book);
                 _bookService.Create(book);
             }
+
             return RedirectToAction("Index", "Library");
         }
 

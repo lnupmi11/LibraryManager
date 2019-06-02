@@ -150,11 +150,24 @@ namespace LibraryManager.BLL.Services
 
         public BookDTO CreateBookModelToDTO(AddNewBookModel addNewBookModel)
         {
+            List<GenreDTO> genres = new List<GenreDTO>();
+            foreach (var genre in addNewBookModel.SelectedGenre)
+            {
+                genres.Add(new GenreDTO() { Id = int.Parse((genre)) });
+            }
+
             BookDTO bookDTO = new BookDTO
             {
                 Title = addNewBookModel.Title,
                 Author = new AuthorDTO() { FirstName = addNewBookModel.AuthorName },
-                Genres = new List<GenreDTO>() { new GenreDTO() { Id = int.Parse((addNewBookModel.SelectedGenre)) } },
+                Genres=genres,
+                //Genres = new List<GenreDTO>()
+                //{
+                //    new GenreDTO()
+                //    {
+                //        Id = int.Parse((addNewBookModel.SelectedGenre[0]))
+                //    }
+                //},
                 Languages = new List<LanguageDTO>() { new LanguageDTO() {Id=int.Parse((addNewBookModel.SelectedLanguage)) } },
                 Description = addNewBookModel.Description,
                 NumberOfPages = addNewBookModel.NumberOfPages,
