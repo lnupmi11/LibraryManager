@@ -197,12 +197,20 @@ namespace LibraryManagerControllers
         public IActionResult OpenRandom()
         {
             var book = _bookService.GetRandom();
+            var comment = _commentService.GetByBook(book.Id);
             var isBookAlreadyInWishList = false;
+            var isBookInWishList = false;
+            var doesUserReadsBook = false;
+            var isBookRated = false;
+
             if (User != null && User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
                 isBookAlreadyInWishList = _bookService.isBookAlreadyInUserWishList(userId, book.Id);
+                isBookInWishList = _bookService.isBookAlreadyInUserWishList(userId, book.Id);
+                doesUserReadsBook = _bookService.DoesUserReadsBook(userId, book.Id);
+                isBookRated = _bookService.IsBookRated(userId, book.Id);
             }
 
             if (book == null)
@@ -213,7 +221,11 @@ namespace LibraryManagerControllers
             var LibraryOpenViewModel = new LibraryOpenViewModel
             {
                 BookDTO = book,
-                IsBookInWishList = isBookAlreadyInWishList
+                CommentDTO = comment,
+                IsBookInWishList = isBookAlreadyInWishList,
+                DoesUserReadsBook = doesUserReadsBook,
+                IsBookRated = isBookRated,
+
             };
 
             return View("Open", LibraryOpenViewModel);
