@@ -18,6 +18,7 @@ namespace LibraryManager.DTO.Models.Manage
         public string AuthorSurname { get; set; }
 
         public MultiSelectList Genres { get; set; }
+       
 
         public SelectList Languages { get; set; }
 
