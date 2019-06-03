@@ -120,12 +120,6 @@
 
 
 
-        <input type="button" value="Add to Your lists" class="btn btn-success" onclick="@("window.location.href='" + @Url.Action("AddToList", "Library") + "'");" />
-        <div class="form-group">
-            <b>Genres</b>
-            <p></p>
-            @Html.DropDownListFor(m => m.SelectedList, Model.Lists, "Select Genre", new { multiple = "multiple" })
-        </div>
     </div>
     <div id="descriptionSection" class="alert col-sm-8">
         <div class="row">
@@ -153,9 +147,9 @@
             </a>
         }
         </br>
-        
+
         <h2> Description: </h2>
-    
+
         <div class="border">
             @if (string.IsNullOrWhiteSpace(Model.BookDTO.Description))
             {
@@ -169,3 +163,21 @@
     </div>
 </div>
 
+
+<br />
+<form method="post" asp-controller="Library" asp-action="AddBookToList">
+    <div style="display:none">
+        <input type="text" asp-for="BookId" value="@Model.BookDTO.Id" />
+    </div>
+
+    <div class="form-group">
+        <b>Genres</b>
+        <p></p>
+        @Html.DropDownListFor(m => m.SelectedList, Model.Lists, "", new { multiple = "multiple" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" class="btn btn-success" value="Send" />
+    </div>
+
+</form>

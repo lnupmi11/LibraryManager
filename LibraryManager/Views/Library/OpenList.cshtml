@@ -35,7 +35,7 @@
      {
          foreach (var book in Model.Books)
          {
-         <h3>@book.BookId </h3>
+            <h3>@Html.ActionLink("@book.BookId", "Open", "Library", new { id = book.BookId }, null) </h3>
          }
      }
      }

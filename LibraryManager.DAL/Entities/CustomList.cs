@@ -18,5 +18,7 @@ namespace LibraryManager.DAL.Entities
         public User User { get; set; }
 
         public ICollection<ListBook> Books { get; set; }
+
+        public ICollection<Book> BooksDTO { get; set; }
     }
 }

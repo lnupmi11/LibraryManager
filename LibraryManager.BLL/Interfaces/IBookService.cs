@@ -37,8 +37,8 @@ namespace LibraryManager.BLL.Interfaces
         void AddBookToCustomList(int customListId, int bookId);
         void DeleteBookFromCustomList(int customListId, int bookId);
 
-        List<CustomList> GetUserCustomLists(string userId);
-
+        IEnumerable<CustomList> GetUserCustomLists(string userId);
+        CustomList OpenCustomList(int id);
 
     }
 }

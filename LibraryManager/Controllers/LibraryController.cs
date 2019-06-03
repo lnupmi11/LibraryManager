@@ -10,6 +10,7 @@ using LibraryManager.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using LibraryManager.DTO.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LibraryManagerControllers
 {
@@ -137,8 +138,12 @@ namespace LibraryManagerControllers
             var isBookInWishList = false;
             var doesUserReadsBook = false;
             var isBookRated = false;
-            var list = new List<CustomList>();
-            IEnumerable<object> lol;
+
+
+
+            var userId1 = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            IEnumerable<CustomList> list = _bookService.GetUserCustomLists(userId1);
+
             if (User != null && User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -146,7 +151,7 @@ namespace LibraryManagerControllers
                 isBookInWishList = _bookService.isBookAlreadyInUserWishList(userId, id);
                 doesUserReadsBook = _bookService.DoesUserReadsBook(userId, id);
                 isBookRated = _bookService.IsBookRated(userId, id);
-                list = _bookService.GetUserCustomLists(userId);
+              
             }
            
             var libraryOpenViewModel = new LibraryOpenViewModel
@@ -155,11 +160,23 @@ namespace LibraryManagerControllers
                 IsBookInWishList = isBookInWishList,
                 DoesUserReadsBook = doesUserReadsBook,
                 IsBookRated = isBookRated,
-                Lists = list
+                Lists = new SelectList(list, "Id", "Name"),
             };
             return View(libraryOpenViewModel);
         }
 
+
+        public IActionResult AddBookToList(LibraryOpenViewModel Model)
+        {
+            foreach(var listId in Model.SelectedList)
+            {
+                _bookService.AddBookToCustomList(int.Parse(listId), Model.BookId);
+
+            }
+            return RedirectToAction("ManageLists", "Library");
+        }
+
+        
         public IActionResult OpenByGenre(int id)
         {
             var genre = _genreService.Find(id);
@@ -342,13 +359,11 @@ namespace LibraryManagerControllers
         [Authorize(Roles = "User")]
         public IActionResult OpenList(int id)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var item = _bookService.OpenCustomList(id);
 
 
-            var lists = _bookService.GetUserCustomLists(userId).ToList();
-            var item = lists.
-                FirstOrDefault(x => x.Id == id);
-
+            
             return View(item);
         }
 
