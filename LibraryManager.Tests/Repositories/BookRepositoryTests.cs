@@ -41,15 +41,16 @@ namespace LibraryManager.Tests
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        public void TestGetBookShouldNotBeNull(int bookId)
+        [InlineData("White Fang")]
+        [InlineData("Sherlock Holmes")]
+        [InlineData("The Lorelei")]
+        public void TestGetBookShouldNotBeNull(string book)
         {
             //Arrange
             var sut = new BookRepository(_dbContext);
 
             //Act
-            var expected = sut.Get(bookId);
+            var expected = sut.GetAll().FirstOrDefault(x => x.Title == book);
 
             //Assert
             Assert.NotNull(expected);

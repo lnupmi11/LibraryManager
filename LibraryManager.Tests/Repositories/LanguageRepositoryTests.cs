@@ -21,7 +21,7 @@ namespace LibraryManager.Tests
         public LanguageRepositoryTests()
         {
             var options = new DbContextOptionsBuilder<LibraryManagerContext>()
-                .UseInMemoryDatabase(databaseName: "Library").Options;
+                .UseInMemoryDatabase(databaseName: "LibraryLanguageTest").Options;
             _dbContext = new LibraryManagerContext(options);
             Seeder.SeedAll(_dbContext);
             testItems = Seeder.GetLanguageSeedItems();
@@ -41,16 +41,15 @@ namespace LibraryManager.Tests
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public void TestGetLanguageShouldNotBeNull(int LanguageId)
+        [InlineData("German")]
+        [InlineData("Ukrainian")]
+        public void TestGetLanguageShouldNotBeNull(string LanguageName)
         {
             //Arrange
             var languageRepository = new LanguageRepository(_dbContext);
 
             //Act
-            var expected = languageRepository.Get(LanguageId).LanguageName;
+            var expected = languageRepository.GetAll().FirstOrDefault(x => x.LanguageName == LanguageName);
 
             //Assert
             Assert.NotNull(expected);
