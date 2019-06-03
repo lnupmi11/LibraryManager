@@ -21,28 +21,111 @@ namespace LibraryManager.Tests
         private readonly IBookService bookService;
         private readonly IUserService userService;
         private readonly IAuthorService authorService;
+        private readonly IGenreService genreService;
+
         private UnitOfWork unitOfWork;
+
         private Mock<IRepository<Book, int>> bookRepositoryMock;
         private Mock<IRepository<User, string>> userRepositoryMock;
         private Mock<IRepository<Author, int>> authorRepositoryMock;
+        private Mock<IRepository<Genre, int>> genreRepositoryMock;
+
         private Mock<IMapper> mapper;
 
         public LibraryManagerBllTests()
         {
             unitOfWork = new UnitOfWork(null);
+
             mapper = new Mock<IMapper>();
+
             userRepositoryMock = new Mock<IRepository<User, string>>();
             bookRepositoryMock = new Mock<IRepository<Book, int>>();
             authorRepositoryMock = new Mock<IRepository<Author, int>>();
+            genreRepositoryMock = new Mock<IRepository<Genre, int>>();
+
             unitOfWork.BookRepository = bookRepositoryMock.Object;
             unitOfWork.UserRepository = userRepositoryMock.Object;
             unitOfWork.AuthorRepository = authorRepositoryMock.Object;
+            unitOfWork.GenreRepository = genreRepositoryMock.Object;
+
             userService = new UserService(unitOfWork, mapper.Object);
             bookService = new BookService(unitOfWork, userService, mapper.Object);
-            authorService = new AuthorService(unitOfWork,userService,mapper.Object);
+            authorService = new AuthorService(unitOfWork, userService, mapper.Object);
+            genreService = new GenreService(unitOfWork, userService, mapper.Object);
 
             InitializeMock();
         }
+
+        [Fact]
+        public void CreateGenreTest()
+        {
+            var item = new Genre() {Id = 1,GenreName="Poem"};
+
+            var itemDTO = new GenreDTO(){Id = 1};
+
+            List<Genre> genres = new List<Genre>();
+
+            genreRepositoryMock.Setup(x => x.Create(It.IsAny<Genre>())).Callback((Genre genre) => { genres.Add(item); });
+
+            genreService.Create(itemDTO);
+
+
+            Assert.Equal(item, genres[0]);
+        }
+
+        [Fact]
+        public void DeleteGenreTest()
+        {
+            int id = 1;
+            var list = GetGenreCollection().ToList();
+            genreRepositoryMock.Setup(x => x.Delete(id)).Callback(() => list.RemoveAt(id));
+
+            genreRepositoryMock.Object.Delete(id);
+            var lists = GetGenreCollection().ToList();
+
+            Assert.Equal(lists.Count-1,list.Count);
+        }
+
+        //[Fact]
+        //public void FindGenreTest()
+        //{
+        //    var item = new Genre() { Id = 0, GenreName = "Poem" };
+
+        //    var genres = GetGenreCollection().ToList();
+
+        //    genreRepositoryMock.Setup(x => x.Get(item.Id)).Callback(() => genres.Find(x=>x.Id==item.Id));
+
+        //    genreRepositoryMock.Object.Get(item.Id);
+
+        //    Assert.Equal(item,genres[0]);
+
+        //}
+
+        // [Fact]
+        // public void GenreGetAllTest()
+        //{
+        //    IEnumerable<Genre> testCollection = GetGenreCollection();
+        //    List<Genre> genres = new List<Genre>()
+        //    {
+        //        new Genre { Id = 0, GenreName = "Poem" },
+        //        new Genre { Id = 1, GenreName = "Adventure" },
+        //        new Genre { Id = 2, GenreName = "Detective" },
+        //        new Genre { Id = 3, GenreName = "Novel" },
+        //        new Genre { Id = 4, GenreName = "lalala" }
+        //    };
+
+
+
+        //    genreRepositoryMock.Setup(x => x.GetAll()).Callback(() => genres.Take(5));
+
+
+
+        //    Assert.Equal(testCollection,genres);
+
+        //}
+
+
+
 
         [Fact]
         public void BookGetAllTest()
@@ -191,6 +274,18 @@ namespace LibraryManager.Tests
             bookRepositoryMock.Setup(x => x.GetAll()).Returns(GetBookCollection());
             userRepositoryMock.Setup(x => x.GetAll()).Returns(GetUserCollection());
             authorRepositoryMock.Setup(x => x.GetAll()).Returns(GetAuthorCollection);
+        }
+
+        public IEnumerable<Genre> GetGenreCollection()
+        {
+            return new[]
+            {
+                new Genre{Id=0 ,GenreName="Poem"},
+                new Genre{Id=1,GenreName="Adventure" },
+                new Genre{Id=2 ,GenreName="Detective"},
+                new Genre{Id=3,GenreName="Novel" },
+                new Genre{Id=4 ,GenreName="lalala"}
+            };
         }
 
         private IEnumerable<Book> GetBookCollection()
