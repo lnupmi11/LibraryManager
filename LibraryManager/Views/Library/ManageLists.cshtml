@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Open";
+    if (User.IsInRole("Admin"))
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    }
+    else if (User.IsInRole("User"))
+    {
+
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_GuestLayout.cshtml";
+    }
+}
+
+@using LibraryManager.DAL.Entities;
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+@model IEnumerable<CustomList>
+
+
+
+<h3>TEST</h3>
+<div>
+    @Html.ActionLink("Create custom list", "CreateList", "Library", null)
+    <br>
+    
+</div>
+<div>
+    <h2>All users data:</h2>
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>ListName</th>
+                <th>Open</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        @{
+            foreach (var list in Model)
+            {
+            <tr>
+                <td>
+                  @list.Name
+                </td>
+                <td>
+                    @Html.ActionLink("Open", "OpenList", "Library", new { id = list.Id  }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteList", "Library", new { id = list.Id }, null)
+                </td>
+            </tr>
+                }
+            }
+      
+    </table>
+    </div>

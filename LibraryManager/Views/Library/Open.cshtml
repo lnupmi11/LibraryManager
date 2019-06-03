@@ -27,7 +27,7 @@
     <div id="imageSection" class="alert col-sm-4">
         <img src="~/images/@Model.BookDTO.ImageName" width="300" height="450" class="img img-rounded mx-auto d-block" alt="@Model.BookDTO.Title" />
         <h4 style="padding:20px">
-            @if (User.Identity.IsAuthenticated && User.IsInRole("User") && User.IsInRole("Admin")!=true && (Model.DoesUserReadsBook))
+            @if (User.Identity.IsAuthenticated && User.IsInRole("User") && User.IsInRole("Admin") != true && (Model.DoesUserReadsBook))
             {
                 if (Model.IsBookRated)
                 {
@@ -58,11 +58,40 @@
             }
             Rating: @Model.BookDTO.Rating
         </h4>
-                @if (User.Identity.IsAuthenticated && User.IsInRole("User") && User.IsInRole("Admin") != true )
+        @if (User.Identity.IsAuthenticated && User.IsInRole("User") && User.IsInRole("Admin") != true)
+        {
+            if (Model.IsBookInWishList == true)
+            {
+                @Html.ActionLink("Delete from wish list", "DeleteBookFromWishList", "Library",
+                                  new
+                                  {
+                                      bookId = Model.BookDTO.Id
+                                  },
+                                  htmlAttributes: new
+                                  {
+                                      @class = "btn btn-danger btn-lg",
+                                      @role = "button"
+                                  })
+            }
+            else if (Model.IsBookInWishList == false)
+            {
+                @Html.ActionLink("Add to wish list", "AddBookToWishList", "Library",
+                                  new
+                                  {
+                                      bookId = Model.BookDTO.Id
+                                  },
+                                  htmlAttributes: new
+                                  {
+                                      @class = "btn btn-success btn-lg",
+                                      @role = "button"
+                                  })
+            }
+
+            @if (User.Identity.IsAuthenticated && User.IsInRole("User") && User.IsInRole("Admin") != true)
+            {
+                if (Model.DoesUserReadsBook == true)
                 {
-                    if (Model.IsBookInWishList ==true)
-                    {
-                             @Html.ActionLink("Delete from wish list", "DeleteBookFromWishList", "Library",
+                    @Html.ActionLink("Stop reading", "StopReadingBook", "Library",
                                                new
                                                {
                                                    bookId = Model.BookDTO.Id
@@ -72,10 +101,10 @@
                                                    @class = "btn btn-danger btn-lg",
                                                    @role = "button"
                                                })
-                         }
-                    else if(Model.IsBookInWishList == false)
-                         {
-                             @Html.ActionLink("Add to wish list", "AddBookToWishList", "Library",
+                }
+                else if (Model.DoesUserReadsBook == false)
+                {
+                    @Html.ActionLink("Read Book", "StartReadingBook", "Library",
                                                new
                                                {
                                                    bookId = Model.BookDTO.Id
@@ -85,41 +114,18 @@
                                                    @class = "btn btn-success btn-lg",
                                                    @role = "button"
                                                })
-                         }
-
-                  @if (User.Identity.IsAuthenticated && User.IsInRole("User") && User.IsInRole("Admin") != true)
-                  {
-                      if (Model.DoesUserReadsBook == true)
-                      {
-                          @Html.ActionLink("Stop reading", "StopReadingBook", "Library",
-                                                     new
-                                                     {
-                                                         bookId = Model.BookDTO.Id
-                                                     },
-                                                     htmlAttributes: new
-                                                     {
-                                                         @class = "btn btn-danger btn-lg",
-                                                         @role = "button"
-                                                     })
-                      }
-                      else if(Model.DoesUserReadsBook==false)
-                      {
-                          @Html.ActionLink("Read Book", "StartReadingBook", "Library",
-                                                     new
-                                                     {
-                                                         bookId = Model.BookDTO.Id
-                                                     },
-                                                     htmlAttributes: new
-                                                     {
-                                                         @class = "btn btn-success btn-lg",
-                                                         @role = "button"
-                                                     })
-                      }
-                  }
                 }
-        
+            }
+        }
 
 
+
+        <input type="button" value="Add to Your lists" class="btn btn-success" onclick="@("window.location.href='" + @Url.Action("AddToList", "Library") + "'");" />
+        <div class="form-group">
+            <b>Genres</b>
+            <p></p>
+            @Html.DropDownListFor(m => m.SelectedList, Model.Lists, "Select Genre", new { multiple = "multiple" })
+        </div>
     </div>
     <div id="descriptionSection" class="alert col-sm-8">
         <div class="row">
