@@ -10,6 +10,7 @@ using LibraryManager.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using LibraryManager.DTO.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LibraryManagerControllers
 {
@@ -104,13 +105,13 @@ namespace LibraryManagerControllers
             #region dontOpen
             //TEMPORARY CODE. 
             await _roleManager.CreateAsync(new IdentityRole("Admin"));
-            await  _roleManager.CreateAsync(new IdentityRole("User"));
+            await _roleManager.CreateAsync(new IdentityRole("User"));
 
             var tempUser = new User {
                 FirstName = "John",
                 LastName = "Doe",
                 Email = "john@gmail.com",
-                UserName = "john", 
+                UserName = "john",
                 IsBanned = true
             };
             var Password = "1";//"MyNameIsJohnDoe1_%";
@@ -142,7 +143,7 @@ namespace LibraryManagerControllers
             };
             var adminPassword = "1"; //"MyNameIsElAdmino1_%";
 
-            var res =  await _userManager.CreateAsync(tempUser, Password);
+            var res = await _userManager.CreateAsync(tempUser, Password);
             var res1 = await _userManager.AddToRoleAsync(tempUser, "User");
             var res5 = await _userManager.CreateAsync(tempUser1, Password);
             var res6 = await _userManager.AddToRoleAsync(tempUser1, "User");
@@ -160,14 +161,14 @@ namespace LibraryManagerControllers
 
         public IActionResult IncreaseValue()
         {
-            TempData["genreIndex"] = new int? (((int?)TempData["genreIndex"]).Value + 1);
+            TempData["genreIndex"] = new int?(((int?)TempData["genreIndex"]).Value + 1);
             return RedirectToAction("Index");
         }
 
         public IActionResult DecreaseValue()
         {
             var value = ((int?)TempData["genreIndex"]).Value - 1;
-            TempData["genreIndex"] = new int? (value);
+            TempData["genreIndex"] = new int?(value);
             return RedirectToAction("Index");
         }
 
@@ -183,6 +184,11 @@ namespace LibraryManagerControllers
             var doesUserReadsBook = false;
             var isBookRated = false;
 
+
+
+            var userId1 = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            IEnumerable<CustomList> list = _bookService.GetUserCustomLists(userId1);
+
             if (User != null && User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -190,18 +196,32 @@ namespace LibraryManagerControllers
                 isBookInWishList = _bookService.isBookAlreadyInUserWishList(userId, id);
                 doesUserReadsBook = _bookService.DoesUserReadsBook(userId, id);
                 isBookRated = _bookService.IsBookRated(userId, id);
+              
             }
-
+           
             var libraryOpenViewModel = new LibraryOpenViewModel
             {
                 BookDTO = book,
                 IsBookInWishList = isBookInWishList,
                 DoesUserReadsBook = doesUserReadsBook,
-                IsBookRated = isBookRated
+                IsBookRated = isBookRated,
+                Lists = new SelectList(list, "Id", "Name"),
             };
             return View(libraryOpenViewModel);
         }
 
+
+        public IActionResult AddBookToList(LibraryOpenViewModel Model)
+        {
+            foreach(var listId in Model.SelectedList)
+            {
+                _bookService.AddBookToCustomList(int.Parse(listId), Model.BookId);
+
+            }
+            return RedirectToAction("ManageLists", "Library");
+        }
+
+        
         public IActionResult OpenByGenre(int id)
         {
             var genre = _genreService.Find(id);
@@ -253,11 +273,11 @@ namespace LibraryManagerControllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var books = _bookService.BooksFromUserLibrary(userId).ToList();
-            var percent = _bookService.GetAlreadyReadBooksPercentage(userId)*100;
+            var percent = _bookService.GetAlreadyReadBooksPercentage(userId) * 100;
             var model = new GetBooksThatUserIsReadingNow()
             {
                 CurrentlyReadingBooks = books,
-                AlreadyReadBooksPercent = (int)percent  
+                AlreadyReadBooksPercent = (int)percent
             };
             return View(model);
         }
@@ -266,7 +286,7 @@ namespace LibraryManagerControllers
         public IActionResult FinishReadingBook(int bookId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            _bookService.FinishReadingBook(userId,bookId);
+            _bookService.FinishReadingBook(userId, bookId);
             return RedirectToAction("UserLibrary", "Library");
         }
         public FileResult GetReport(string title)
@@ -285,7 +305,7 @@ namespace LibraryManagerControllers
         #region Actions
         [Authorize(Roles = "User")]
         public IActionResult StartReadingBook(int bookId)
-        { 
+        {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             _bookService.StartReadingBook(userId, bookId);
             return RedirectToAction("Open", "Library", new { id = bookId });
@@ -294,7 +314,7 @@ namespace LibraryManagerControllers
         [Authorize(Roles = "User")]
         public IActionResult StopReadingBook(int bookId)
         {
-     
+
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             _bookService.StopReadingBook(userId, bookId);
             return RedirectToAction("Open", "Library", new { id = bookId });
@@ -314,7 +334,7 @@ namespace LibraryManagerControllers
         {
             //TODO:create pop up notifying whether book was added or not.
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            _bookService.AddBookToWishList(userId,bookId);
+            _bookService.AddBookToWishList(userId, bookId);
             return RedirectToAction("Open", "Library", new { id = bookId });
         }
         [Authorize(Roles = "User")]
@@ -323,8 +343,9 @@ namespace LibraryManagerControllers
             //TODO:create pop up notifying whether book was added or not.
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             _bookService.DeleteBookFromWishList(userId, bookId);
-            return RedirectToAction("GetUserWishList", "Library");
+            return RedirectToAction("Open", "Library", new { id = bookId });
         }
+
         [HttpGet]
         [Authorize(Roles = "User")]
         public IActionResult GetUserStatistic()
@@ -336,6 +357,59 @@ namespace LibraryManagerControllers
                 ReadBooksByGenreCount = readBooksByGenreCount
             };
             return View(model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "User")]
+        public IActionResult ManageLists()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var lists = _bookService.GetUserCustomLists(userId);
+            return View(lists);
+        }
+
+
+
+        [HttpGet]
+        [Authorize(Roles = "User")]
+        public IActionResult CreateList()
+        {
+            return View();
+        } 
+
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        public IActionResult CreateList(CustomList customList)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            _bookService.CreateCustomListForUser(userId, customList.Name);
+
+            return RedirectToAction("ManageLists", "Library");
+        }
+
+ 
+        [Authorize(Roles = "User")]
+        public IActionResult DeleteList(int id)
+        {
+
+
+            _bookService.DeleteCustomList(id);
+
+            return RedirectToAction("ManageLists", "Library");
+        }
+
+
+
+        [Authorize(Roles = "User")]
+        public IActionResult OpenList(int id)
+        {
+
+            var item = _bookService.OpenCustomList(id);
+
+
+            
+            return View(item);
         }
 
         private void InitializeTempData()

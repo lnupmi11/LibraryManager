@@ -16,7 +16,7 @@ namespace LibraryManager.Tests
         public SeederTest()
         {
             var options = new DbContextOptionsBuilder<LibraryManagerContext>()
-                .UseInMemoryDatabase(databaseName: "Library").Options;
+                .UseInMemoryDatabase(databaseName: "LibrarySeed").Options;
             _dbContext = new LibraryManagerContext(options);
         }
 

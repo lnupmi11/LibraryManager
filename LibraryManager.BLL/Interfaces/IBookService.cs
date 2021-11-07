@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using LibraryManager.DAL.Entities;
 using LibraryManager.DTO.Models;
 using LibraryManager.DTO.Models.Manage;
 
@@ -29,5 +30,15 @@ namespace LibraryManager.BLL.Interfaces
         Dictionary<string, int> GetUserBooksByGenreStatistics(string userId);
         void RateBook(string userId, int bookId);
         bool IsBookRated(string userId, int bookId);
+
+        void CreateCustomListForUser(string userId,string customListName);
+        void DeleteCustomList(int id);
+
+        void AddBookToCustomList(int customListId, int bookId);
+        void DeleteBookFromCustomList(int customListId, int bookId);
+
+        IEnumerable<CustomList> GetUserCustomLists(string userId);
+        CustomList OpenCustomList(int id);
+
     }
 }

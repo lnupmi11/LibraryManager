@@ -22,7 +22,7 @@ namespace LibraryManager.Tests
         public AuthorRepositoryTests()
         {
             var options = new DbContextOptionsBuilder<LibraryManagerContext>()
-                .UseInMemoryDatabase(databaseName: "Library").Options;
+                .UseInMemoryDatabase(databaseName: "LibraryAuthorTests").Options;
             _dbContext = new LibraryManagerContext(options);
             Seeder.SeedAll(_dbContext);
             testItems = Seeder.GetAuthorSeedItems();
@@ -42,15 +42,15 @@ namespace LibraryManager.Tests
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        public void TestGetAuthorShouldNotBeNull(int authorId)
+        [InlineData("Verne")]
+        [InlineData("London")]
+        public void TestGetAuthorShouldNotBeNull(string authorLastName)
         {
             //Arrange
             var authorRepository = new AuthorRepository(_dbContext);
 
             //Act
-            var expected = authorRepository.Get(authorId);
+            var expected = authorRepository.GetAll().FirstOrDefault(x => x.LastName == authorLastName);
 
             //Assert
             Assert.NotNull(expected);

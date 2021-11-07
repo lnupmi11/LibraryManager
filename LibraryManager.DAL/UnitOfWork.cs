@@ -16,6 +16,9 @@ namespace LibraryManager.DAL
         private IRepository<Book, int> bookRepository;
         private IRepository<Language, int> languageRepository;
         private IRepository<Genre, int> genreRepository;
+        private IRepository<CustomList, int> customListRepository;
+
+        private IManyToManyRepository<Entities.ListBook, int, int> listBookRepository;
         private IManyToManyRepository<UserBook, string,int> userBookRepository;
         private IManyToManyRepository<BookGenre, int, int> bookGenreRepository { get; set; }
 
@@ -109,6 +112,25 @@ namespace LibraryManager.DAL
             }
         }
 
+
+        public IRepository<CustomList, int> CustomListRepository
+        {
+            get
+            {
+                if (this.customListRepository == null)
+                {
+                    this.customListRepository = new CustomListRepository(context);
+                }
+
+                return customListRepository;
+
+            }
+            set
+            {
+                this.customListRepository = value ?? new CustomListRepository(context);
+            }
+        }
+
         public IManyToManyRepository<UserBook, string, int> UserBookRepository
         {
             get
@@ -142,6 +164,24 @@ namespace LibraryManager.DAL
             set
             {
                 this.bookGenreRepository = value ?? new BookGenreRepository(context);
+            }
+        }
+
+        public IManyToManyRepository<ListBook, int, int> ListBookRepository
+        {
+            get
+            {
+                if (this.listBookRepository == null)
+                {
+                    this.listBookRepository = new ListBookRepository(context);
+                }
+
+                return listBookRepository;
+
+            }
+            set
+            {
+                this.listBookRepository = value ?? new ListBookRepository(context);
             }
         }
 

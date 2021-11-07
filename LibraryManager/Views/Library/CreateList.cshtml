@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Open";
+    if (User.IsInRole("Admin"))
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    }
+    else if (User.IsInRole("User"))
+    {
+
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_GuestLayout.cshtml";
+    }
+}
+
+@using LibraryManager.DAL.Entities;
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+@model CustomList
+
+<h1>Create your list </h1>
+    <br />
+    <br />
+    <form method="post" asp-controller="Library" asp-action="CreateList">
+        <div asp-validation-summary="ModelOnly"></div>
+
+
+        <div class="form-group">
+            <span asp-validation-for="Name" class="input-group-text"></span>
+            <input asp-for="Name" class="form-control" placeholder="Name" id="name" />
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" value="Create" />
+        </div>
+
+    </form>

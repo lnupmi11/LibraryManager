@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Open";
+    if (User.IsInRole("Admin"))
+    {
+
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    }
+    else if (User.IsInRole("User"))
+    {
+
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_GuestLayout.cshtml";
+    }
+}
+
+@using LibraryManager.DAL.Entities;
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+@model CustomList
+
+<h1>@Model.Name </h1>
+<br />
+<br />
+ @{ 
+     if (Model.Books == null)
+     {
+            <h1>No books in this list</h1>
+     }
+     else
+     {
+         foreach (var book in Model.Books)
+         {
+            <h3>@Html.ActionLink("@book.BookId", "Open", "Library", new { id = book.BookId }, null) </h3>
+         }
+     }
+     }

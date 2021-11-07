@@ -95,7 +95,7 @@ namespace LibraryManager.Tests
             bookRepositoryMock.Setup(x => x.GetAll()).Returns(books);
             bookRepositoryMock.Setup(x => x.Create(newBook)).Callback((Book book) => { books.Add(new Book()); });
             authorRepositoryMock.Setup(x => x.GetAll()).Returns(GetAuthorCollection());
-            mapper.Setup(x => x.Map<Book>(newBookDTO)).Returns(newBook);
+            mapper.Setup(x => x.Map<Book>(It.IsAny<BookDTO>())).Returns(newBook);
 
             bookService.Create(newBookDTO);
 

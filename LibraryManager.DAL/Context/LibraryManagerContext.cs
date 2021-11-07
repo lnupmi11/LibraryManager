@@ -16,6 +16,9 @@ namespace LibraryManager.DAL.Context
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<UserBook> UserBooks { get; set; }
+        public DbSet<CustomList> CustomList { get; set; }
+        public DbSet<ListBook> ListBook { get; set; }
+
 
 
         public LibraryManagerContext() { }
@@ -23,7 +26,7 @@ namespace LibraryManager.DAL.Context
         public LibraryManagerContext(DbContextOptions<LibraryManagerContext> options)
             : base(options)
         {
-             Database.EnsureCreated();   
+            Database.EnsureCreated();   
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -31,7 +34,7 @@ namespace LibraryManager.DAL.Context
             ConfigureBookGenreRelations(builder);
             ConfigureBookLanguageRelations(builder);
             ConfigureUserBookRelations(builder);
-
+            ConfigureListBookRelations(builder);
             //new AuthorConfiguration().Initialize(builder, builder.Entity<Author>());
             //new BookConfiguration().Initialize(builder, builder.Entity<Book>());
             //new UserConfiguration().Initialize(builder, builder.Entity<User>());
@@ -58,6 +61,13 @@ namespace LibraryManager.DAL.Context
             modelBuilder.Entity<UserBook>().HasKey(ub => new { ub.UserId, ub.BookId });
             modelBuilder.Entity<UserBook>().HasOne(ub => ub.User).WithMany(u => u.WishList).HasForeignKey(ub => ub.UserId);
             modelBuilder.Entity<UserBook>().HasOne(ub => ub.Book).WithMany(b => b.Users).HasForeignKey(ub => ub.BookId);
+        }
+
+        private void ConfigureListBookRelations(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ListBook>().HasKey(lb => new {lb.BookId, lb.CustomListId});
+            modelBuilder.Entity<ListBook>().HasOne(lb => lb.Book).WithMany(u => u.Lists).HasForeignKey(ub => ub.BookId);
+            modelBuilder.Entity<ListBook>().HasOne(lb => lb.CustomList).WithMany(b=>b.Books).HasForeignKey(ub => ub.CustomListId);
         }
 
     }
