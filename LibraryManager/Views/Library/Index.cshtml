@@ -102,6 +102,37 @@
             </div>
         </div>
 
+        <div style="float:right;display:flex;">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                   Order by
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li>
+                        @Html.ActionLink("Date(Older > Newer)", "Index", "Library", new { orderBy = "dateAsc" }, null)
+                    </li>
+                    <li>
+                        @Html.ActionLink("Date(Older < Newer)", "Index", "Library", new { orderBy = "dateDesc" }, null)
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        @Html.ActionLink("Rate(Bigger > Smaller)", "Index", "Library", new { orderBy = "rateDesc" }, null)
+                    </li>
+                    <li>
+                        @Html.ActionLink("Rate(Bigger < Smaller)", "Index", "Library", new { orderBy = "rateAsc" }, null)
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        @Html.ActionLink("Count of pages(More > Less)", "Index", "Library", new { orderBy = "pagesDesc" }, null)
+                    </li>
+                    <li>
+                        @Html.ActionLink("Count of pages(More < Less)", "Index", "Library", new { orderBy = "pagesAsc" }, null)
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr />
         <div id="itemsSection" class="container">
             @foreach (var book in Model.BookDTOs)
             {
