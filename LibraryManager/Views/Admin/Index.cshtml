@@ -54,7 +54,7 @@
             <div class="form-group">
                 <b>Genres</b>
                 <p></p>
-                @Html.DropDownListFor(m => m.SelectedGenre, Model.Genres, "Select Genre")
+                @Html.DropDownListFor(m => m.SelectedGenre, Model.Genres, "Select Genre", new { multiple = "multiple" })
             </div>
             <input type="button" value="Create new Language" class="btn btn-success" onclick="@("window.location.href='" + @Url.Action("CreateLanguage", "Admin") + "'");" />
             <div class="form-group">

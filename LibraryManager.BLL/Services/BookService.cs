@@ -108,15 +108,26 @@ namespace LibraryManager.BLL.Services
 
         public void Create(AddNewBookModel bookModel)
         {
+
             var bookDTO = CreateBookModelToDTO(bookModel);
             var book = _mapper.Map<Book>(bookDTO);
             book.Author =
                 _unitOfWork.AuthorRepository.GetAll().FirstOrDefault(a => a.FirstName == bookModel.AuthorName && a.LastName == bookModel.AuthorSurname) ??
                 new Author() {FirstName = bookModel.AuthorName, LastName = bookModel.AuthorSurname};
-            book.Genres = new List<BookGenre>() { new BookGenre() { BookId = book.Id, GenreId = bookDTO.Genres.FirstOrDefault().Id } };
-
+           
             book.Languages = new List<BookLanguage> { new BookLanguage() { BookId=book.Id,LanguageId=bookDTO.Languages.FirstOrDefault().Id} };
 
+
+            book.Genres = new List<BookGenre>();
+            foreach (var genre in bookModel.SelectedGenre)
+            {
+                book.Genres.Add(new BookGenre()
+                {
+                    BookId = book.Id,
+                    GenreId = int.Parse(genre)
+                });
+
+            }
             _unitOfWork.BookRepository.Create(book);
             _unitOfWork.Save();
         }
@@ -150,11 +161,24 @@ namespace LibraryManager.BLL.Services
 
         public BookDTO CreateBookModelToDTO(AddNewBookModel addNewBookModel)
         {
+            List<GenreDTO> genres = new List<GenreDTO>();
+            foreach (var genre in addNewBookModel.SelectedGenre)
+            {
+                genres.Add(new GenreDTO() { Id = int.Parse((genre)) });
+            }
+
             BookDTO bookDTO = new BookDTO
             {
                 Title = addNewBookModel.Title,
                 Author = new AuthorDTO() { FirstName = addNewBookModel.AuthorName },
-                Genres = new List<GenreDTO>() { new GenreDTO() { Id = int.Parse((addNewBookModel.SelectedGenre)) } },
+                Genres=genres,
+                ////////////Genres = new List<GenreDTO>()
+                ////////////{
+                ////////////    new GenreDTO()
+                ////////////    {
+                ////////////        Id = int.Parse((addNewBookModel.SelectedGenre[0]))
+                ////////////    }
+                ////////////},
                 Languages = new List<LanguageDTO>() { new LanguageDTO() {Id=int.Parse((addNewBookModel.SelectedLanguage)) } },
                 Description = addNewBookModel.Description,
                 NumberOfPages = addNewBookModel.NumberOfPages,

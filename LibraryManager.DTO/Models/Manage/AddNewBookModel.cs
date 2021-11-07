@@ -17,7 +17,8 @@ namespace LibraryManager.DTO.Models.Manage
         [Required]
         public string AuthorSurname { get; set; }
 
-        public SelectList Genres { get; set; }
+        public MultiSelectList Genres { get; set; }
+       
 
         public SelectList Languages { get; set; }
 
@@ -28,7 +29,7 @@ namespace LibraryManager.DTO.Models.Manage
         [Required]
         public string Description { get; set; }
 
-        public string SelectedGenre { get; set; }
+        public string[] SelectedGenre { get; set; }
         public string SelectedLanguage { get; set; }
 
         public int Year { get; set; }

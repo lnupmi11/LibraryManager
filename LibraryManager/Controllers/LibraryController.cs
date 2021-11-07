@@ -230,8 +230,11 @@ namespace LibraryManagerControllers
                 Response.StatusCode = 404;
             }
 
-            var books = _bookService.GetAll().Where(x => x.Genres.All(y => y.GenreName == genre.GenreName));
-
+            //var books = _bookService.GetAll().Where(x => x.Genres.Contains(y=>y.Id == id));
+            var books = _bookService.GetAll()
+                .Where(x => x.Genres
+                .Any(y => y.Id == id));
+                
             return View(books);
         }
 
