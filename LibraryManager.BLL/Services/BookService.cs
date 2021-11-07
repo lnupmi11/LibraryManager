@@ -422,5 +422,67 @@ namespace LibraryManager.BLL.Services
             newUserBook = _unitOfWork.UserBookRepository.Get(userId, bookId);
             return newUserBook;
         }
+
+
+
+
+
+
+        public void CreateCustomListForUser(string userId, string customListName)
+        {
+            var item = new CustomList()
+            {
+                Name = customListName,
+                UserId = userId
+            };
+            _unitOfWork.CustomListRepository.Create(item);
+            _unitOfWork.Save();
+        }
+
+        public void DeleteCustomList(int id)
+        {
+            _unitOfWork.CustomListRepository.Delete(id);
+            _unitOfWork.Save();
+        }
+
+        public void AddBookToCustomList(int customListId, int bookId)
+        {
+            var item = _unitOfWork.BookRepository.Get(bookId);
+            var listBook = new ListBook()
+            {
+                BookId = bookId,
+                CustomListId = customListId
+            };
+            _unitOfWork.ListBookRepository.Create(listBook);
+            _unitOfWork.Save();
+        }
+
+        public void DeleteBookFromCustomList(int customListId, int bookId)
+        {
+            _unitOfWork.ListBookRepository.Delete(customListId,bookId);
+        }
+
+        public IEnumerable<CustomList> GetUserCustomLists(string userId)
+        {
+            var all = _unitOfWork.CustomListRepository.GetAll()
+                .Where(x => x.UserId == userId);
+            return all;
+        }
+
+        public  CustomList  OpenCustomList(int id)
+        {
+            var all = _unitOfWork.ListBookRepository.GetAll()
+                .Where(x => x.CustomListId == id).ToList();
+
+            var bookIds = new List<int>();
+            foreach (var listbook in all)
+            {
+                bookIds.Add(listbook.BookId);
+            }
+            var item = _unitOfWork.CustomListRepository.Get(id);
+
+           
+          return item;
+        }
     }
 }

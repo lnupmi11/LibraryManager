@@ -19,6 +19,7 @@ namespace LibraryManager.DAL.Entities
         // there with userId instead of expanding user entity?
 
         public IEnumerable<UserBook> WishList { get; set; }
+        public IEnumerable<CustomList> CustomLists { get; set; }
 
         public User() { }
     }

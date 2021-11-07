@@ -18,7 +18,10 @@ namespace LibraryManager.DAL.Entities
         public ICollection<BookLanguage> Languages { get; set; }
 
         public ICollection<UserBook> Users { get; set; }
-        
+
+        public ICollection<ListBook> Lists { get; set; }
+
+
         public double Rating { get; set; }
         
         public int NumberOfPages { get; set; }
