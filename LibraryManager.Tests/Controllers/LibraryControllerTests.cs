@@ -94,22 +94,22 @@ namespace LibraryManager.Tests
             Assert.NotNull(result);
         }
 
-        [Fact]
-        public void GetReportTest()
-        {
-            var title = "Freeman";
-            var result = libraryController.GetReport(title);
+        //[Fact]
+        //public void GetReportTest()
+        //{
+        //    var title = "Freeman";
+        //    var result = libraryController.GetReport(title);
 
-            Assert.NotNull(result);
-        }
+        //    Assert.NotNull(result);
+        //}
 
-        [Fact]
-        public void GetWrongReportTest()
-        {
-            var title = "Wrong";
-            var result = libraryController.GetReport(title);
+        //[Fact]
+        //public void GetWrongReportTest()
+        //{
+        //    var title = "Wrong";
+        //    var result = libraryController.GetReport(title);
 
-            Assert.NotNull(result);
-        }
+        //    Assert.NotNull(result);
+        //}
     }
 }
