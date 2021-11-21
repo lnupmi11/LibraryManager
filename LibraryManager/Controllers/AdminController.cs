@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using LibraryManager.BLL.Interfaces;
-using LibraryManager.BLL.Services;
-using LibraryManager.DAL.Context;
-using LibraryManager.DAL.Entities;
-using LibraryManager.DAL.Repositories;
 using LibraryManager.DTO.Models.Manage;
 using LibraryManager.DTO.Models;
 using Microsoft.AspNetCore.Authorization;

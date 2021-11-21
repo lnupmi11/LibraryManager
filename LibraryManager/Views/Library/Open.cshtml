@@ -147,8 +147,6 @@
                 </h4>
             </a>
         }
-        </br>
-
         <h2> Description: </h2>
 
         <div class="border">
@@ -158,27 +156,10 @@
             }
             else
             {
-                <a sp-controller="Library" asp-action="OpenByGenre" asp-route-id="@genre.Id" class="a-item">
-                    
-                        <strong>@genre.GenreName </strong>
-                    
-                </a>
+                <p> @Model.BookDTO.Description </p>
             }
-        </h4>
-            </br>
-
-            <h2> Description: </h2>
-
-            <div class="border">
-                @if (string.IsNullOrWhiteSpace(Model.BookDTO.Description))
-                {
-                    <p>Sorry, there is no description for this book.</p>
-                }
-                else
-                {
-                    <p>@Model.BookDTO.Description</p>
-                }
-            </div>
+       
+        </div>
 </div>
 </div>
 
@@ -189,14 +170,14 @@
         <input type="text" asp-for="BookId" value="@Model.BookDTO.Id" />
     </div>
 
-    <div class="form-group">
+    @*<div class="form-group">
         <b>Genres</b>
         <p></p>
         @Html.DropDownListFor(m => m.SelectedList, Model.Lists, "", new { multiple = "multiple" })
-    </div>
+    </div>*@
 
     <div class="form-group">
-        <input type="submit" class="btn btn-success" value="Send" />
+        <input type="submit" class="btn btn-success" value="Save book" />
     </div>
 
 </form>

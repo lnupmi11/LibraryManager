@@ -30,26 +30,32 @@ namespace LibraryManager.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var doesEmailExists = await _accountService.DoesEmailExists(model.Email);
-                var doesUsernameExists = await _accountService.DoesUsernameExsists(model.UserName);
-                if (!doesEmailExists && !doesUsernameExists)
+                if (ModelState.IsValid)
                 {
-                    var result = await _accountService.RegisterNewUser(model);
-                    if (result)
+                    var doesEmailExists = await _accountService.DoesEmailExists(model.Email);
+                    var doesUsernameExists = await _accountService.DoesUsernameExsists(model.UserName);
+                    if (!doesEmailExists && !doesUsernameExists)
                     {
-                        return RedirectToAction("Index", "Library");
+                        var result = await _accountService.RegisterNewUser(model);
+                        if (result)
+                        {
+                            return RedirectToAction("Index", "Library");
+                        }
+                    }
+                    else if (doesEmailExists)
+                    {
+                        ModelState.AddModelError("", "This email already exists");
+                    }
+                    else if (doesUsernameExists)
+                    {
+                        ModelState.AddModelError("", "This username already exists");
                     }
                 }
-                else if(doesEmailExists)
-                {
-                    ModelState.AddModelError("", "This email already exists");
-                }
-                else if(doesUsernameExists)
-                {
-                    ModelState.AddModelError("", "This username already exists");
-                }
+            }
+            catch(Exception e)
+            {
             }
             return View(model);
         }
@@ -64,26 +70,33 @@ namespace LibraryManager.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid) 
+            try
             {
-                var isUserBanned = await _accountService.IsUserBanned(model);
-                if (!isUserBanned)
+                if (ModelState.IsValid)
                 {
-                    var result = await _accountService.Login(model);
-
-                    if (result)
+                    var isUserBanned = await _accountService.IsUserBanned(model);
+                    if (!isUserBanned)
                     {
-                        return RedirectToAction("Index", "Library");
+                        var result = await _accountService.Login(model);
+
+                        if (result)
+                        {
+                            return RedirectToAction("Index", "Library");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Wrong login or(and) password");
+                        }
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Wrong login or(and) password");
+                        ModelState.AddModelError("", "You are banned and can not use this website");
                     }
                 }
-                else
-                {
-                    ModelState.AddModelError("", "You are banned and can not use this website");
-                }
+            }
+            catch(Exception e)
+            {
+
             }
             return View(model);
         }
